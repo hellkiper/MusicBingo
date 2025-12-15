@@ -8,7 +8,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: white;
     background: #1a1a2e;
-    background-image: url('фон.jpg');
+    background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -21,7 +21,7 @@ body::before {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('фон.jpg');
+    background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -37,7 +37,7 @@ body::after {
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('фон.jpg');
+    background-image: url('background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
