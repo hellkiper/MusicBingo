@@ -1,0 +1,14 @@
+# Игнорируемые файлы
+.DS_Store
+Thumbs.db
+*.log
+node_modules/
+.vscode/
+.idea/
+*.tmp
+*.swp
+*.swo
+.env
+.env.local
+dist/
+build/

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Музыкальное бинго в Тамбове</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-overlay"></div>
+
+    <div id="bingoAnimation" class="bingo-animation hidden">
+        <div class="bingo-text">БИНГО</div>
+    </div>
+
+    <section id="page1" class="page page-hero">
+        <div class="song-background-effects">
+            <div class="floating-particles"></div>
+            <div class="sparkles-container"></div>
+            <div class="glow-orbits"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title-3d">МУЗЫКАЛЬНОЕ БИНГО</h1>
+            <p class="hero-city">Тамбов</p>
+            <div class="hero-cta">
+                <button id="startGame" class="primary-btn-3d"><span>Начать игру</span></button>
+            </div>
+        </div>
+    </section>
+
+    <section id="page2" class="page page-grid hidden">
+        <div class="top-bar">
+            <h1 class="page2-title">МУЗЫКАЛЬНОЕ БИНГО</h1>
+            <p class="page2-progress">Сыграно бочонков: <span id="selectedCount">0</span>/99</p>
+        </div>
+        <div id="barrelGrid" class="barrel-grid"></div>
+    </section>
+
+    <section id="page3" class="page page-song hidden">
+        <div class="song-background-effects">
+            <div class="floating-particles"></div>
+            <div class="sparkles-container"></div>
+            <div class="glow-orbits"></div>
+            <div class="music-notes"></div>
+        </div>
+        <div class="song-card">
+            <div class="cover-wrap">
+                <img id="songCover" src="" alt="Обложка трека" />
+            </div>
+            <div class="song-meta">
+                <div class="song-number" id="songNumber">Бочонок</div>
+                <h2 id="songTitle">Название песни</h2>
+                <p id="songArtist">Автор</p>
+            </div>
+            <div class="audio-player">
+                <audio id="songAudio" autoplay></audio>
+                <div class="audio-controls-minimal">
+                    <div class="progress-container">
+                        <div class="progress-line">
+                            <div class="progress-fill-minimal" id="progressFill"></div>
+                            <input type="range" class="progress-slider-minimal" id="progressSlider" min="0" max="100" value="0">
+                        </div>
+                        <div class="audio-time-minimal">
+                            <span class="current-time" id="currentTime">0:00</span>
+                        </div>
+                    </div>
+                    <button class="play-pause-btn-minimal" id="playPauseBtn">
+                        <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="audio-visualizer">
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                    <span class="eq-bar"></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
