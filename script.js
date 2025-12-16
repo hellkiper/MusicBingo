@@ -1,18 +1,4 @@
-const page1 = document.getElementById('page1');
-const page2 = document.getElementById('page2');
-const page3 = document.getElementById('page3');
-const startBtn = document.getElementById('startGame');
-const barrelGrid = document.getElementById('barrelGrid');
-const selectedCount = document.getElementById('selectedCount');
-const songCover = document.getElementById('songCover');
-const songTitle = document.getElementById('songTitle');
-const songArtist = document.getElementById('songArtist');
-const songNumber = document.getElementById('songNumber');
-const songAudio = document.getElementById('songAudio');
-const playPauseBtn = document.getElementById('playPauseBtn');
-const currentTimeEl = document.getElementById('currentTime');
-const progressFill = document.getElementById('progressFill');
-const progressSlider = document.getElementById('progressSlider');
+// Переменные будут определены в DOMContentLoaded
 
 const TOTAL_BARRELS = 99;
 const selectedSet = new Set();
@@ -113,7 +99,7 @@ const tracks = [
     { number: 93, title: "Новогодняя", artist: "Дилижанс", cover: "images/cover-93.jpg", src: "audio/93.mp3" },
     { number: 94, title: "Фиеста", artist: "Aarne, Yanix", cover: "images/cover-94.jpg", src: "audio/94.mp3" },
     { number: 95, title: "Hoodak MP3", artist: "Bid Baby Tape, Aarne", cover: "images/cover-95.jpg", src: "audio/95.mp3" },
-    { number: 96, title: "Холостяк", artist: "ЛСП, Feduk, Егор Крид", cover: "images/cover-96.jpg", src: "audio/96.mp3" },
+    { number: 96, title: "Холостяк", artist: "ЛСП, Feduk,  Егор Крид", cover: "images/cover-96.jpg", src: "audio/96.mp3" },
     { number: 97, title: "Mamacita", artist: "Yanix", cover: "images/cover-97.jpg", src: "audio/97.mp3" },
     { number: 98, title: "Тает Лед", artist: "Грибы", cover: "images/cover-98.jpg", src: "audio/98.mp3" },
     { number: 99, title: "Патимэйкер", artist: "Пика", cover: "images/cover-99.jpg", src: "audio/99.mp3" }
@@ -178,8 +164,7 @@ function handleBarrelClick(track) {
     clone.style.height = rect.height + 'px';
     document.body.appendChild(clone);
     
-    // Скрываем оригинальный бочонок
-    button.style.opacity = '0';
+    // Бочонок остается видимым (непрозрачным)
     
     // Вычисляем размер для 120% экрана (увеличили размер вылета)
     const screenSize = Math.min(window.innerWidth, window.innerHeight);
@@ -218,8 +203,7 @@ function handleBarrelClick(track) {
     
     moveAnimation.onfinish = () => {
         clone.remove();
-        button.style.opacity = '';
-    openSongPage(track);
+        openSongPage(track);
     };
 }
 
@@ -236,6 +220,7 @@ let songNotesInterval = null;
 
 function openSongPage(track) {
     page2.classList.add('hidden');
+    stopPage2Effects(); // Останавливаем эффекты page2
     page3.classList.remove('hidden');
     document.body.classList.add('song-open');
 
@@ -264,10 +249,9 @@ let songLinesInterval = null;
 function startSongParticles() {
     const particlesContainer = page3.querySelector('.floating-particles');
     const sparklesContainer = page3.querySelector('.sparkles-container');
-    const linesContainer = page3.querySelector('.floating-lines');
     const notesContainer = page3.querySelector('.music-notes');
-    
-    if (!particlesContainer || !sparklesContainer || !linesContainer || !notesContainer) return;
+
+    if (!particlesContainer || !sparklesContainer || !notesContainer) return;
     
     // Очищаем предыдущие эффекты
     if (songParticlesInterval) {
@@ -278,9 +262,6 @@ function startSongParticles() {
     }
     if (songSparklesInterval) {
         clearInterval(songSparklesInterval);
-    }
-    if (songLinesInterval) {
-        clearInterval(songLinesInterval);
     }
     
     // Создаем частицы каждые 1.5 секунды (чаще)
@@ -304,11 +285,6 @@ function startSongParticles() {
         }
     }, 1100);
     
-    // Создаем плавающие линии каждые 3 секунды
-    songLinesInterval = setInterval(() => {
-        createFloatingLine(linesContainer);
-    }, 3000);
-    
     // Создаем начальные эффекты
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
@@ -322,10 +298,6 @@ function startSongParticles() {
     for (let i = 0; i < 6; i++) {
         setTimeout(() => createMusicNote(notesContainer), 200 + i * 180);
     }
-    
-    // Создаем начальные линии
-    setTimeout(() => createFloatingLine(linesContainer), 500);
-    setTimeout(() => createFloatingLine(linesContainer), 2000);
 }
 
 function createSongParticle(container) {
@@ -473,6 +445,7 @@ function closeSongPage() {
     page2.classList.remove('hidden');
     document.body.classList.remove('song-open');
     page2.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    startPage2Effects(); // Возобновляем эффекты page2
     // requestAnimationFrame(applyCheckerboardLayout);
     
     // Останавливаем все эффекты
@@ -488,28 +461,91 @@ function closeSongPage() {
         clearInterval(songSparklesInterval);
         songSparklesInterval = null;
     }
-    if (songLinesInterval) {
-        clearInterval(songLinesInterval);
-        songLinesInterval = null;
-    }
     
     // Очищаем контейнеры
     const particlesContainer = page3.querySelector('.floating-particles');
     const sparklesContainer = page3.querySelector('.sparkles-container');
-    const linesContainer = page3.querySelector('.floating-lines');
     const notesContainer = page3.querySelector('.music-notes');
-    
+
     if (particlesContainer) particlesContainer.innerHTML = '';
     if (sparklesContainer) sparklesContainer.innerHTML = '';
-    if (linesContainer) {
-        const dynamicLines = linesContainer.querySelectorAll('.dynamic-line');
-        dynamicLines.forEach(line => line.remove());
-    }
     if (notesContainer) notesContainer.innerHTML = '';
 }
 
 let heroParticlesInterval = null;
 let heroSparklesInterval = null;
+let page2ParticlesInterval = null;
+let page2SparklesInterval = null;
+let page2RainInterval = null;
+let bingoRainInterval = null;
+
+function stopHeroEffects() {
+    if (heroParticlesInterval) {
+        clearInterval(heroParticlesInterval);
+        heroParticlesInterval = null;
+    }
+    if (heroSparklesInterval) {
+        clearInterval(heroSparklesInterval);
+        heroSparklesInterval = null;
+    }
+    const particlesContainer = document.querySelector('#page1 .floating-particles');
+    const sparklesContainer = document.querySelector('#page1 .sparkles-container');
+    if (particlesContainer) particlesContainer.innerHTML = '';
+    if (sparklesContainer) sparklesContainer.innerHTML = '';
+}
+
+function startPage2Effects() {
+    const particlesContainer = document.querySelector('#page2 .floating-particles');
+    const sparklesContainer = document.querySelector('#page2 .sparkles-container');
+    
+    if (!particlesContainer) return;
+    
+    stopPage2Effects();
+
+    // Золотой дождь только при анимации БИНГО, не при обычном переходе
+
+    page2ParticlesInterval = setInterval(() => {
+        createSongParticle(particlesContainer);
+        if (Math.random() > 0.5) {
+            createSongParticle(particlesContainer);
+        }
+    }, 1500);
+    
+    page2SparklesInterval = setInterval(() => {
+        createSparkleEffect(sparklesContainer);
+    }, 800);
+    
+    // Начальные эффекты
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => {
+            createSongParticle(particlesContainer);
+            if (i % 2 === 0) createSparkleEffect(sparklesContainer);
+        }, i * 300);
+    }
+}
+
+function stopPage2Effects() {
+    if (page2ParticlesInterval) {
+        clearInterval(page2ParticlesInterval);
+        page2ParticlesInterval = null;
+    }
+    if (page2SparklesInterval) {
+        clearInterval(page2SparklesInterval);
+        page2SparklesInterval = null;
+    }
+    if (page2RainInterval) {
+        clearInterval(page2RainInterval);
+        page2RainInterval = null;
+    }
+    
+    const particlesContainer = document.querySelector('#page2 .floating-particles');
+    const sparklesContainer = document.querySelector('#page2 .sparkles-container');
+    const rainContainer = document.querySelector('#page2 .golden-rain-container');
+    
+    if (particlesContainer) particlesContainer.innerHTML = '';
+    if (sparklesContainer) sparklesContainer.innerHTML = '';
+    if (rainContainer) rainContainer.remove(); // Удаляем контейнер дождя
+}
 
 // Запускаем эффекты на первой странице при загрузке
 function startHeroEffects() {
@@ -549,14 +585,12 @@ function startHeroEffects() {
             }
         }, i * 300);
     }
-    
-    // Создаем начальные линии
-    setTimeout(() => createFloatingLine(linesContainer), 500);
-    setTimeout(() => createFloatingLine(linesContainer), 2000);
+
+    // Создаем начальные линии (удалено - нет контейнера на первой странице)
 }
 
-let page2RainInterval = null;
-const MAX_RAIN_DROPS = 150; // Увеличили максимальное количество капель (было 80)
+// page2RainInterval уже объявлен выше
+const MAX_RAIN_DROPS = 300; // Еще больше капель
 
 function startPage2GoldenRain() {
     const page2Container = document.querySelector('#page2');
@@ -581,69 +615,26 @@ function startPage2GoldenRain() {
         page2Container.appendChild(rainContainer);
     }
     
-    // Создаем капли постоянно во время анимации (чаще)
+    // Создаем капли постоянно
     page2RainInterval = setInterval(() => {
-        if (!isBingoActive) {
-            clearInterval(page2RainInterval);
-            page2RainInterval = null;
-            return;
-        }
-        
-        // Проверяем количество капель на экране
         const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
-        
-        // Создаем новые капли только если их меньше максимума
         if (currentDrops < MAX_RAIN_DROPS) {
-            const dropsToCreate = Math.min(5, MAX_RAIN_DROPS - currentDrops);
+            const dropsToCreate = Math.min(8, MAX_RAIN_DROPS - currentDrops);
             for (let i = 0; i < dropsToCreate; i++) {
                 createGoldenRain(rainContainer);
             }
         }
-    }, 100); // Вернули интервал 100мс (было 200мс)
+    }, 50);
     
-    // Создаем начальные капли сразу (больше)
-    for (let i = 0; i < 15; i++) {
+    // Начальные капли
+    for (let i = 0; i < 30; i++) {
         setTimeout(() => {
             createGoldenRain(rainContainer);
-        }, i * 50);
+        }, i * 30);
     }
 }
 
-startBtn.addEventListener('click', () => {
-    // Показываем анимацию БИНГО (только надпись, без фоновых)
-    const bingoAnimation = document.getElementById('bingoAnimation');
-    
-    bingoAnimation.classList.remove('hidden');
-    
-    // Переход на вторую страницу после анимации (3 секунды)
-    setTimeout(() => {
-        bingoAnimation.classList.add('hidden');
-        
-        // Анимация перехода
-        page1.style.opacity = '0';
-        page1.style.transform = 'scale(0.9)';
-        page1.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        
-        setTimeout(() => {
-    page1.classList.add('hidden');
-            page1.style.opacity = '';
-            page1.style.transform = '';
-            page1.style.transition = '';
-            
-    page2.classList.remove('hidden');
-            page2.style.opacity = '0';
-            page2.style.transform = 'scale(1.1)';
-            page2.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            
-            setTimeout(() => {
-                page2.style.opacity = '1';
-                page2.style.transform = 'scale(1)';
-    page2.scrollIntoView({ behavior: 'smooth' });
-                requestAnimationFrame(applyCheckerboardLayout);
-            }, 50);
-        }, 500);
-    }, 3000);
-});
+// Старый обработчик удален - теперь в DOMContentLoaded
 
 // Пересчитываем "шахматку" при ресайзе
 let checkerRaf = 0;
@@ -819,29 +810,74 @@ function toggleBingoAnimation() {
         isBingoActive = false;
         bingoAnimation.classList.add('hidden');
         
-        stopBingoSounds(); // Останавливаем звуки
+        // stopBingoSounds(); // Звуки убраны
         
-        // Останавливаем дождь
+        // Останавливаем дождь в контейнере анимации
+        const rainContainer = bingoAnimation.querySelector('.golden-rain-container');
+        if (rainContainer) {
+            rainContainer.remove();
+        }
         if (page2RainInterval) {
             clearInterval(page2RainInterval);
             page2RainInterval = null;
-        }
-        const rainContainer = document.querySelector('#page2 .golden-rain-container');
-        if (rainContainer) {
-            rainContainer.innerHTML = '';
         }
     } else {
         // Включаем анимацию
         isBingoActive = true;
         bingoAnimation.classList.remove('hidden');
         
-        // Запускаем звуки
-        startBingoSounds();
+        // startBingoSounds(); // Звуки убраны
         
-        // Запускаем золотой дождь только если мы на второй странице
-        if (!page2.classList.contains('hidden')) {
-            startPage2GoldenRain();
+        // Запускаем золотой дождь внутри анимации БИНГО
+        startBingoRain(bingoAnimation);
+    }
+}
+
+function startBingoRain(container) {
+    // Очищаем предыдущий интервал если был
+    if (page2RainInterval) {
+        clearInterval(page2RainInterval);
+    }
+    
+    // Создаем контейнер для дождя
+    let rainContainer = document.createElement('div');
+    rainContainer.className = 'golden-rain-container';
+    rainContainer.style.position = 'absolute';
+    rainContainer.style.inset = '0';
+    rainContainer.style.pointerEvents = 'none';
+    rainContainer.style.zIndex = '-1'; // На задний план за текст
+    rainContainer.style.overflow = 'hidden';
+    container.appendChild(rainContainer);
+    
+    // Создаем капли постоянно
+    page2RainInterval = setInterval(() => {
+        if (!isBingoActive) {
+            clearInterval(page2RainInterval);
+            page2RainInterval = null;
+            return;
         }
+        
+        // Создаем новые капли без строгой проверки максимума, чтобы поток был непрерывным
+        // Но все же держим разумный предел
+        const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
+        if (currentDrops < MAX_RAIN_DROPS) {
+            // Создаем стабильное количество капель за такт
+            for (let i = 0; i < 8; i++) {
+                createGoldenRain(rainContainer);
+            }
+        }
+    }, 30); // Интервал 30мс
+    
+    // Начальные капли - создаем много и на разной высоте для мгновенного заполнения
+    for (let i = 0; i < 100; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'golden-rain';
+        // ... (код создания капли будет в createGoldenRain, но нам нужно распределить их по высоте)
+        // Поэтому просто вызываем создание, а внутри createGoldenRain добавим логику
+        // Или просто создадим их с задержкой как раньше, но быстрее
+        setTimeout(() => {
+            createGoldenRain(rainContainer, true); // true флаг для начального заполнения (случайная высота)
+        }, i * 5);
     }
 }
 
@@ -998,7 +1034,7 @@ function createSparkle(container, colors) {
     }
 }
 
-function createGoldenRain(container) {
+function createGoldenRain(container, randomHeight = false) {
     if (!container) return;
     
     // Проверяем количество капель перед созданием
@@ -1006,76 +1042,72 @@ function createGoldenRain(container) {
     if (currentDrops >= MAX_RAIN_DROPS) return;
     
     const startX = Math.random() * window.innerWidth;
-    // Увеличили количество капель за раз: 8-15 капель
-    const dropCount = 8 + Math.floor(Math.random() * 8);
     const colors = ['#ffd700', '#ffa500', '#ff8c00', '#f9ca24', '#ffeb3b'];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const size = 1.5 + Math.random() * 2;
+    const speed = 1.0 + Math.random() * 1.5; // Скорость падения (чем больше, тем медленнее в animate duration)
+    // Исправим логику скорости: animate duration = base * speed. Если speed > 1, то медленнее. 
+    // Сделаем наоборот: duration = base / speed
+    const durationBase = 1500 + Math.random() * 1000;
+    const duration = durationBase / speed;
     
-    // Ограничиваем количество создаваемых капель
-    const dropsToCreate = Math.min(dropCount, MAX_RAIN_DROPS - currentDrops);
+    const drop = document.createElement('div');
+    drop.className = 'golden-rain';
     
-    for (let i = 0; i < dropsToCreate; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'golden-rain';
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        const size = 1.5 + Math.random() * 2; // Размер капли: 1.5-3.5px
-        const delay = Math.random() * 0.2;
-        const speed = 1.5 + Math.random() * 1;
-        const spread = (Math.random() - 0.5) * 250;
-        
-        drop.style.position = 'absolute';
-        drop.style.left = (startX + spread) + 'px';
-        drop.style.top = '-20px';
-        drop.style.width = size + 'px';
-        drop.style.height = size * 6 + 'px'; // Длинные капли: в 6 раз длиннее ширины
-        drop.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
-        drop.style.borderRadius = '50%';
-        drop.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
-        drop.style.opacity = '0';
-        drop.style.willChange = 'transform, opacity'; // Оптимизация для браузера
-        
-        container.appendChild(drop);
-        
-        const duration = (2000 + Math.random() * 1000) * speed;
-        
-        const animation = drop.animate([
-            { 
-                opacity: 0, 
-                transform: 'translateY(0) scale(0.5)' 
-            },
-            { 
-                opacity: 0.9, 
-                transform: 'translateY(0) scale(1)',
-                offset: 0.1
-            },
-            { 
-                opacity: 0.8, 
-                transform: `translateY(${window.innerHeight + 100}px) scale(1)`,
-                offset: 0.9
-            },
-            { 
-                opacity: 0, 
-                transform: `translateY(${window.innerHeight + 100}px) scale(0.5)`
-            }
-        ], {
-            duration: duration,
-            delay: delay * 1000,
-            easing: 'linear'
-        });
-        
-        // Удаляем элемент после анимации
-        animation.onfinish = () => {
-            if (drop.parentElement) {
-                drop.remove();
-            }
-        };
-        
-        // Защита: удаляем элемент если анимация не завершилась через 5 секунд
-        setTimeout(() => {
-            if (drop.parentElement) {
-                drop.remove();
-            }
-        }, duration + delay * 1000 + 5000);
+    drop.style.position = 'absolute';
+    drop.style.left = startX + 'px';
+    drop.style.width = size + 'px';
+    drop.style.height = size * 8 + 'px';
+    drop.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
+    drop.style.borderRadius = '50%';
+    drop.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
+    drop.style.opacity = '0';
+    drop.style.willChange = 'transform, opacity';
+    
+    // Начальная позиция
+    let startY = -50;
+    if (randomHeight) {
+        startY = Math.random() * window.innerHeight;
+        drop.style.opacity = '0.8'; // Сразу видимы
     }
+    drop.style.top = startY + 'px';
+    
+    container.appendChild(drop);
+    
+    // Вычисляем дистанцию падения
+    const endY = window.innerHeight + 100;
+    const distance = endY - startY;
+    
+    // Корректируем длительность для начальных капель (меньше расстояние)
+    const actualDuration = randomHeight ? (duration * (distance / (window.innerHeight + 150))) : duration;
+
+    const animation = drop.animate([
+        { 
+            opacity: randomHeight ? 0.8 : 0, 
+            transform: 'translateY(0) scale(1)' 
+        },
+        { 
+            opacity: 0.9, 
+            transform: randomHeight ? `translateY(${distance * 0.1}px) scale(1)` : 'translateY(50px) scale(1)',
+            offset: 0.1
+        },
+        { 
+            opacity: 0.8, 
+            transform: `translateY(${distance}px) scale(1)`,
+            offset: 0.9
+        },
+        { 
+            opacity: 0, 
+            transform: `translateY(${distance + 50}px) scale(0.5)`
+        }
+    ], {
+        duration: actualDuration,
+        easing: 'linear'
+    });
+    
+    animation.onfinish = () => {
+        drop.remove();
+    };
 }
 
 
@@ -1149,11 +1181,92 @@ if (progressSlider) {
     });
 }
 
-renderBarrels();
+// Оборачиваем всю инициализацию в DOMContentLoaded для гарантии загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Переопределяем переменные после загрузки DOM
+    const page1Element = document.getElementById('page1');
+    const page2Element = document.getElementById('page2');
+    const page3Element = document.getElementById('page3');
+    const startBtnElement = document.getElementById('startGame');
+    const barrelGridElement = document.getElementById('barrelGrid');
+    const selectedCountElement = document.getElementById('selectedCount');
+    const songCoverElement = document.getElementById('songCover');
+    const songTitleElement = document.getElementById('songTitle');
+    const songArtistElement = document.getElementById('songArtist');
+    const songNumberElement = document.getElementById('songNumber');
+    const songAudioElement = document.getElementById('songAudio');
+    const playPauseBtnElement = document.getElementById('playPauseBtn');
+    const currentTimeElElement = document.getElementById('currentTime');
+    const progressFillElement = document.getElementById('progressFill');
+    const progressSliderElement = document.getElementById('progressSlider');
 
-// Запускаем эффекты на первой странице
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', startHeroEffects);
-} else {
+    // Переприсваиваем глобальные переменные
+    Object.assign(window, {
+        page1: page1Element,
+        page2: page2Element,
+        page3: page3Element,
+        startBtn: startBtnElement,
+        barrelGrid: barrelGridElement,
+        selectedCount: selectedCountElement,
+        songCover: songCoverElement,
+        songTitle: songTitleElement,
+        songArtist: songArtistElement,
+        songNumber: songNumberElement,
+        songAudio: songAudioElement,
+        playPauseBtn: playPauseBtnElement,
+        currentTimeEl: currentTimeElElement,
+        progressFill: progressFillElement,
+        progressSlider: progressSliderElement
+    });
+
+    renderBarrels();
+
+    // Запускаем эффекты на первой странице
     startHeroEffects();
-}
+
+    // Добавляем обработчик кнопки
+    if (startBtnElement) {
+        startBtnElement.addEventListener('click', () => {
+            // Показываем анимацию БИНГО (только надпись, без фоновых)
+            const bingoAnimation = document.getElementById('bingoAnimation');
+
+            if (bingoAnimation) {
+                bingoAnimation.classList.remove('hidden');
+
+                // Переход на вторую страницу после анимации (3 секунды)
+                setTimeout(() => {
+                    bingoAnimation.classList.add('hidden');
+
+                    // Останавливаем эффекты первой страницы
+                    stopHeroEffects();
+
+                    // Анимация перехода
+                    page1Element.style.opacity = '0';
+                    page1Element.style.transform = 'scale(0.9)';
+                    page1Element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                    setTimeout(() => {
+                        page1Element.classList.add('hidden');
+                        page1Element.style.opacity = '';
+                        page1Element.style.transform = '';
+                        page1Element.style.transition = '';
+
+                        page2Element.classList.remove('hidden');
+                        page2Element.style.opacity = '0';
+                        page2Element.style.transform = 'scale(1.1)';
+                        page2Element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+
+                        setTimeout(() => {
+                            page2Element.style.opacity = '1';
+                            page2Element.style.transform = 'scale(1)';
+                            page2Element.scrollIntoView({ behavior: 'smooth' });
+                            // Запускаем эффекты второй страницы
+                            startPage2Effects();
+                            // requestAnimationFrame(applyCheckerboardLayout); // Функция пустая
+                        }, 50);
+                    }, 500);
+                }, 3000);
+            }
+        });
+    }
+});
