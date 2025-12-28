@@ -1,11 +1,11 @@
 :root {
-    --primary-red: #c0392b;
+    --primary-red: #ff0000;
     --dark-red: #8e1c1c;
     --gold: #ffd700;
     --gold-shadow: #b8860b;
     --snow-white: #ffffff;
-    --tree-green: #2ecc71;
-    --dark-green: #27ae60;
+    --tree-green: #00ff00;
+    --dark-green: #006400;
     --glass-bg: rgba(255, 255, 255, 0.15);
     --glass-border: rgba(255, 215, 0, 0.3);
 }
@@ -19,24 +19,28 @@
 body {
     font-family: 'Comfortaa', cursive, sans-serif;
     color: var(--snow-white);
-    background: url('background.jpg') no-repeat center center fixed;
-    background-size: cover;
+    background-color: #051405; 
     height: 100vh;
     overflow: hidden;
     position: relative;
 }
 
-/* Background Overlay for better text readability */
 body::before {
     content: '';
     position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+    inset: -30px; 
+    background: #051405 url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    filter: blur(0px) brightness(0.5); 
+    transition: filter 0.8s ease; 
     z-index: -2;
     pointer-events: none;
 }
 
-/* Festive Vignette */
+body.blurred-bg::before {
+    filter: blur(15px) brightness(0.5);
+}
+
 body::after {
     content: '';
     position: fixed;
@@ -47,7 +51,7 @@ body::after {
 }
 
 .bg-overlay {
-    display: none; /* Removed old overlay */
+    display: none; 
 }
 
 .hidden {
@@ -66,7 +70,6 @@ body::after {
     scrollbar-color: var(--gold) rgba(0,0,0,0.2);
 }
 
-/* Scrollbar */
 .page::-webkit-scrollbar {
     width: 8px;
 }
@@ -80,7 +83,6 @@ body::after {
     border: 2px solid #8e1c1c;
 }
 
-/* HERO SECTION */
 .page-hero {
     display: flex;
     justify-content: center;
@@ -92,7 +94,6 @@ body::after {
 .hero-content {
     position: relative;
     z-index: 2;
-    animation: fadeInUp 1s ease-out;
 }
 
 .hero-title-wrapper {
@@ -103,52 +104,27 @@ body::after {
 }
 
 .hero-title-3d {
-    font-family: 'Lobster', cursive;
+    font-family: 'Rubik Gemstones', cursive;
     font-size: 8rem;
     line-height: 1.1;
-    color: #d32f2f; /* Festive Red */
+    color: var(--primary-red); 
     text-transform: uppercase;
-    
-    /* White outline to separate text from glow */
-    -webkit-text-stroke: 2px #fff;
-    
-    /* Gentle Multi-colored Contour Glow */
-    filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
-    animation: contourGlow 4s linear infinite;
-            
     position: relative;
     z-index: 2;
+    filter: drop-shadow(0 0 15px #ffd700);
+    animation: contourGlow 4s linear infinite;
 }
 
 @keyframes contourGlow {
-    0% {
-        filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 15px #ff0000);
-    }
-    25% {
-        filter: drop-shadow(0 0 8px #ffd700) drop-shadow(0 0 15px #ffd700);
-    }
-    50% {
-        filter: drop-shadow(0 0 8px #00ff00) drop-shadow(0 0 15px #00ff00);
-    }
-    75% {
-        filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 15px #00ffff);
-    }
-    100% {
-        filter: drop-shadow(0 0 8px #ff0000) drop-shadow(0 0 15px #ff0000);
-    }
+    0% { filter: drop-shadow(0 0 8px #ffd700) drop-shadow(0 0 15px #ffd700); }
+    33% { filter: drop-shadow(0 0 8px #00ff00) drop-shadow(0 0 15px #00ff00); }
+    66% { filter: drop-shadow(0 0 8px #00ffff) drop-shadow(0 0 15px #00ffff); }
+    100% { filter: drop-shadow(0 0 8px #ffd700) drop-shadow(0 0 15px #ffd700); }
 }
 
-
-/* Remove unused keyframes to keep css clean */
-/* @keyframes gentleGlow removed */
-
-
-/* Cleanup old garland styles */
 .christmas-garland, .garland-lights {
     display: none;
 }
-
-
 
 @keyframes flashBulb {
     0% { opacity: 0.6; box-shadow: 0 0 5px var(--bulb-color); }
@@ -160,68 +136,20 @@ body::after {
     .hero-title-wrapper { padding-top: 30px; }
 }
 
-.hero-city {
-    font-family: 'Lobster', cursive;
-    font-size: 2.5rem;
-    color: var(--snow-white);
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-    background: var(--glass-bg);
-    padding: 10px 30px;
-    border-radius: 50px;
-    border: 2px solid var(--gold);
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-    margin-bottom: 3rem;
-    display: inline-block;
-}
-
 .primary-btn-3d {
-    font-family: 'Lobster', cursive; /* Match title font */
+    font-family: 'Rubik Gemstones', cursive; 
     font-size: 2.5rem;
     padding: 1rem 3rem;
-    color: #d32f2f; /* Red text */
-    background: #fff; /* White background */
-    border: 4px solid #d32f2f;
+    color: var(--primary-red); 
+    background: #fff; 
+    border: 4px solid #fff;
     border-radius: 50px;
     cursor: pointer;
-    
-    /* Initial Shadow */
-    box-shadow: 0 8px 0 #b71c1c;
-    
+    box-shadow: 0 8px 0 #ccc;
     transition: all 0.2s;
     text-transform: none; 
     position: relative;
     overflow: hidden;
-    
-    /* Combined Pulse and Multi-colored Glow */
-    animation: buttonContourPulse 4s linear infinite;
-}
-
-@keyframes buttonContourPulse {
-    0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 5px #ff0000);
-        box-shadow: 0 8px 0 #b71c1c;
-    }
-    25% {
-        transform: scale(1.02);
-        filter: drop-shadow(0 0 10px #ffd700);
-        box-shadow: 0 8px 0 #b71c1c;
-    }
-    50% {
-        transform: scale(1.05);
-        filter: drop-shadow(0 0 10px #00ff00);
-        box-shadow: 0 8px 0 #b71c1c;
-    }
-    75% {
-        transform: scale(1.02);
-        filter: drop-shadow(0 0 10px #00ffff);
-        box-shadow: 0 8px 0 #b71c1c;
-    }
-    100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 5px #ff0000);
-        box-shadow: 0 8px 0 #b71c1c;
-    }
 }
 
 .primary-btn-3d::after {
@@ -243,11 +171,9 @@ body::after {
 }
 
 .primary-btn-3d:hover {
-    transform: translateY(4px) scale(1.05) !important; /* Keep scale on hover */
-    box-shadow: 0 4px 0 #b71c1c !important;
+    transform: translateY(4px) scale(1.05) !important; 
+    box-shadow: 0 4px 0 #ccc !important;
     background: #f0f0f0;
-    animation: none; /* Stop animation on hover to prevent glitches */
-    filter: drop-shadow(0 0 15px #ffd700); /* Golden glow on hover */
 }
 
 .primary-btn-3d:active {
@@ -255,96 +181,97 @@ body::after {
     box-shadow: inset 0 4px 10px rgba(0,0,0,0.2) !important;
 }
 
-/* Remove old buttonPulse keyframes if unused */
-/* @keyframes buttonPulse removed */
-
-
-
-/* PAGE 2 - GRID */
 .top-bar {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 20px;
-    border: 1px solid var(--gold);
-    margin-bottom: 2rem;
+    gap: 4rem; 
+    margin: 0 auto 2rem;
+    width: 100%;
+}
+
+.page2-title, .page2-progress {
+    background: rgba(5, 30, 10, 0.75); 
+    padding: 0.8rem 3rem;
+    border-radius: 50px;
     backdrop-filter: blur(10px);
+    white-space: nowrap;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.4);
 }
 
 .page2-title {
     font-family: 'Rubik Gemstones', cursive;
-    color: var(--gold);
-    font-size: 2.5rem;
-    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.4);
+    font-size: 2.2rem;
+    color: var(--primary-red);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .page2-progress {
-    font-size: 1.5rem;
-    font-family: 'Lobster', cursive;
+    font-size: 1.6rem;
+    font-family: 'Rubik Gemstones', cursive;
+    color: var(--primary-red);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 #selectedCount {
-    color: var(--gold);
-    font-size: 2rem;
+    color: #fff; 
+    font-size: 2.2rem;
     margin: 0 5px;
+    text-shadow: 0 0 5px var(--primary-red);
 }
 
 .barrel-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(11, 1fr); 
     gap: 15px;
-    max-width: 1200px;
+    max-width: 1000px; 
     margin: 0 auto;
-    padding-bottom: 50px;
+    padding: 2.5rem;
+    padding-bottom: 60px;
+    background: rgba(5, 30, 10, 0.75); 
+    border-radius: 40px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    position: relative;
+    z-index: 1;
 }
 
-/* Christmas Ball Styling for Barrels */
 .barrel {
-    width: calc((100% - 150px) / 10) !important; /* ~10 in a row */
+    width: 100% !important;
     aspect-ratio: 1;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+    background: url('bochki.jpg') no-repeat center center;
+    background-size: 140%; 
+    border-radius: 50%; 
+    overflow: hidden; 
     border: none;
-    box-shadow:
-        inset 0 0 20px rgba(0,0,0,0.5),
-        0 10px 15px rgba(0,0,0,0.3);
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     justify-content: center;
     align-items: center;
+        box-shadow:
+        inset -8px -8px 15px rgba(0,0,0,0.6), 
+        inset 8px 8px 15px rgba(255,255,255,0.2),
+        0 10px 20px rgba(26, 13, 10, 0.9);
 }
 
 .barrel:hover {
-    transform: scale(1.1);
+    transform: translateY(-15px) scale(1.1); 
+        box-shadow:
+        inset -5px -5px 10px rgba(0,0,0,0.4),
+        inset 5px 5px 10px rgba(255,255,255,0.3),
+        0 30px 50px rgba(26, 13, 10, 0.8), 
+        0 0 30px rgba(255, 215, 0, 0.5); 
     z-index: 10;
 }
 
-/* The hanger part of the ornament */
-.barrel::after {
-    content: '';
-    position: absolute;
-    top: -10px;
-    width: 20px;
-    height: 15px;
-    background: #c0c0c0;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+.barrel.used {
+    filter: grayscale(0.8) brightness(0.5) drop-shadow(0 2px 4px rgba(0,0,0,0.5));
 }
 
-.barrel::before {
-    content: '';
-    position: absolute;
-    top: -18px;
-    width: 12px;
-    height: 12px;
-    border: 3px solid #c0c0c0;
-    border-radius: 50%;
-    z-index: -1;
+.barrel::after, .barrel::before {
+    display: none;
 }
 
 .barrel-face {
@@ -353,22 +280,21 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
-    overflow: hidden; /* For shine effect */
+    position: relative;
 }
 
-/* Shine effect on ball */
 .barrel-face::after {
     content: '';
     position: absolute;
-    top: 15%;
+    top: 10%;
     left: 15%;
-    width: 30%;
-    height: 20%;
-    background: rgba(255,255,255,0.6);
+    width: 40%;
+    height: 30%;
+    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 80%);
     border-radius: 50%;
-    filter: blur(2px);
-    transform: rotate(-45deg);
+    transform: rotate(-30deg);
+    pointer-events: none;
+    display: block;
 }
 
 .barrel-number {
@@ -379,18 +305,93 @@ body::after {
     z-index: 2;
 }
 
-/* Used state - changes to Red Ornament */
-.barrel.used {
-    background: radial-gradient(circle at 30% 30%, #e74c3c, #922b21);
-    box-shadow: inset 0 0 20px rgba(0,0,0,0.6);
-}
-
 .barrel.used .barrel-number {
     color: #fff;
     text-shadow: 0 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Responsive Grid */
+.side-tree {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 20vw;
+    z-index: -1; 
+    pointer-events: none;
+        opacity: 0.9;
+}
+
+.left-tree {
+    left: 0;
+}
+
+.right-tree {
+    right: 0;
+}
+
+.side-tree::before {
+    content: '🎄';
+    position: absolute;
+    top: 50%;
+    font-size: 100vh; 
+    line-height: 1;
+    filter: blur(10px) drop-shadow(0 0 20px rgba(0, 40, 0, 0.6));
+    opacity: 0.7;
+}
+
+.left-tree::before {
+    left: 0;
+    transform: translateY(-50%) translateX(-50%); 
+    transform-origin: center right;
+    animation: leftTreeSway 15s ease-in-out infinite alternate;
+}
+
+.right-tree::before {
+    right: 0;
+    transform: translateY(-50%) translateX(50%);
+    transform-origin: center left;
+    animation: rightTreeSway 15s ease-in-out infinite alternate;
+}
+
+@keyframes leftTreeSway {
+    0%, 100% { transform: translateY(-50%) translateX(-50%) rotate(0deg); }
+    50% { transform: translateY(-50%) translateX(-50%) rotate(1.5deg); }
+}
+
+@keyframes rightTreeSway {
+    0%, 100% { transform: translateY(-50%) translateX(50%) rotate(0deg); }
+    50% { transform: translateY(-50%) translateX(50%) rotate(-1.5deg); }
+}
+
+.left-tree::before {
+    left: 0;
+}
+
+.right-tree::before {
+    right: 0;
+}
+
+.background-forest {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bg-tree {
+    position: absolute;
+    bottom: -10px;
+    font-size: 5rem;
+    filter: blur(2px) opacity(0.5); 
+    transform-origin: bottom center;
+    animation: treeGentlySway 10s ease-in-out infinite alternate;
+}
+
+@keyframes treeGentlySway {
+    0%, 100% { transform: rotate(-2deg) scale(1); }
+    50% { transform: rotate(2deg) scale(1.05); }
+}
+
 @media (max-width: 1024px) {
     .barrel { width: calc((100% - 100px) / 8) !important; }
 }
@@ -403,7 +404,6 @@ body::after {
     .barrel { width: calc((100% - 60px) / 4) !important; }
 }
 
-/* PAGE 3 - SONG CARD */
 .page-song {
     display: flex;
     justify-content: center;
@@ -413,7 +413,6 @@ body::after {
 .song-card {
     background: rgba(142, 28, 28, 0.4);
     backdrop-filter: blur(20px);
-    border: 4px solid var(--gold);
     border-radius: 30px;
     padding: 3rem;
     text-align: center;
@@ -425,7 +424,6 @@ body::after {
     position: relative;
 }
 
-/* Garland decoration on top of card */
 .song-card::before {
     content: '🎄';
     position: absolute;
@@ -442,7 +440,6 @@ body::after {
     height: 280px;
     margin: 1rem auto 2rem;
     border-radius: 15px;
-    border: 5px solid var(--gold);
     box-shadow: 0 10px 30px rgba(0,0,0,0.5);
     overflow: hidden;
     position: relative;
@@ -464,27 +461,26 @@ body::after {
 }
 
 .song-number {
-    font-family: 'Lobster', cursive;
-    color: var(--gold);
-    font-size: 1.5rem;
+    font-family: 'Rubik Gemstones', cursive;
+    color: var(--primary-red);
+    font-size: 1.8rem;
     margin-bottom: 0.5rem;
 }
 
 #songTitle {
     font-family: 'Rubik Gemstones', cursive;
-    font-size: 2.2rem;
-    color: #fff;
+    font-size: 2.5rem;
+    color: var(--primary-red);
     margin-bottom: 0.5rem;
     text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 #songArtist {
     font-family: 'Comfortaa', sans-serif;
-    font-size: 1.2rem;
-    color: rgba(255,255,255,0.8);
+    font-size: 1.4rem;
+    color: var(--primary-red);
 }
 
-/* PLAYER CONTROLS */
 .audio-player {
     background: rgba(0,0,0,0.3);
     padding: 1.5rem;
@@ -502,9 +498,9 @@ body::after {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: var(--gold);
+    background: #fff;
     border: none;
-    color: #8e1c1c;
+    color: var(--primary-red);
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -538,13 +534,12 @@ body::after {
 
 .progress-fill-minimal {
     height: 100%;
-    background: var(--gold);
+    background: var(--primary-red);
     border-radius: 4px;
     width: 0%;
     position: absolute;
     top: 0;
     left: 0;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
 }
 
 .progress-slider-minimal {
@@ -563,7 +558,6 @@ body::after {
     color: rgba(255,255,255,0.7);
 }
 
-/* ANIMATIONS */
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -577,81 +571,62 @@ body::after {
     justify-content: center;
     align-items: center;
     perspective: 1000px;
-    overflow: hidden; /* Hide blurred edges */
+    overflow: hidden;
 }
 
-/* Super Blurred Background for Bingo Animation */
 .bingo-animation::before {
     content: '';
     position: absolute;
-    inset: -50px; /* Extend edges to prevent white borders from blur */
+    inset: -50px; 
     background: url('background.jpg') no-repeat center center/cover;
-    filter: blur(30px) brightness(0.4); /* Strong blur and darken */
+    filter: blur(30px) brightness(0.4); 
     z-index: -2;
 }
 
-
 .bingo-text {
-    font-family: 'Lobster', cursive;
-    font-size: 15vw; /* Reduced from 25vw */
+    font-family: 'Rubik Gemstones', cursive;
+    font-size: 15vw; 
     font-weight: bold;
-    color: #ffd700;
-    
-    /* Gold & Red Gradient Text */
-    background: linear-gradient(to bottom, #fff 0%, #ffd700 30%, #ff0000 70%, #8b0000 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    
-    /* Stroke */
-    -webkit-text-stroke: 3px #fff;
-    
-    /* Soft Glow */
-    filter: drop-shadow(0 0 15px rgba(255, 215, 0, 0.6));
-    
+    color: var(--primary-red);
     position: relative;
     z-index: 10;
-    
-    /* Instant aggressive pop followed by continuous party vibe */
-    animation: 
-        bingoInstantPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-        bingoPartyVibe 0.8s ease-in-out infinite 0.4s; /* Starts after pop */
+    will-change: transform, filter;
+    animation: bingoSoftVibe 2.5s ease-in-out infinite;
 }
 
-@keyframes bingoInstantPop {
-    0% { opacity: 0; transform: scale(0); }
-    60% { transform: scale(1.1); }
-    100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+.confetti {
+    position: absolute;
+    pointer-events: none;
+    z-index: 99;
 }
 
-@keyframes bingoPartyVibe {
-    0%, 100% {
-        transform: scale(1) rotate(0deg);
-        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
-    }
-    25% {
-        transform: scale(1.05) rotate(3deg);
-        filter: drop-shadow(0 0 30px rgba(255, 0, 0, 0.8));
-    }
-    50% {
-        transform: scale(1.02) rotate(-3deg);
-        filter: drop-shadow(0 0 40px rgba(255, 215, 0, 1));
-    }
-    75% {
-        transform: scale(1.05) rotate(2deg);
-        filter: drop-shadow(0 0 30px rgba(0, 255, 0, 0.8));
-    }
+.bingo-emoji {
+    position: absolute;
+    pointer-events: none;
+    z-index: 101;
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
 }
 
+@keyframes bingoSoftVibe {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255,215,0,0.4)); }
+    50% { transform: scale(1.08) rotate(1deg); filter: drop-shadow(0 0 30px rgba(255,215,0,0.8)); }
+}
 
-/* Confetti decorations around text (pseudo-elements) */
+.bingo-bg-tree {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.4;
+    filter: blur(2px); 
+    pointer-events: none;
+    z-index: 1;
+}
+
 .bingo-text::after {
     content: '🎉';
     position: absolute;
     top: -10%;
     right: -10%;
     font-size: 10rem;
-    -webkit-text-fill-color: initial;
-    -webkit-text-stroke: 0;
     animation: spinSlow 2s linear infinite;
 }
 
@@ -661,57 +636,12 @@ body::after {
     bottom: -10%;
     left: -10%;
     font-size: 10rem;
-    -webkit-text-fill-color: initial;
-    -webkit-text-stroke: 0;
     animation: spinSlow 3s linear infinite reverse;
 }
 
-@keyframes bingoExplosion {
-    0% {
-        opacity: 0;
-        transform: scale(0) rotate(-180deg);
-        filter: blur(50px);
-    }
-    20% {
-        opacity: 1;
-        transform: scale(1.2) rotate(10deg);
-        filter: blur(0) drop-shadow(0 0 50px gold);
-    }
-    40% {
-        transform: scale(0.9) rotate(-5deg);
-    }
-    60% {
-        transform: scale(1.05) rotate(3deg);
-    }
-    80% {
-        transform: scale(0.95) rotate(-1deg);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
-}
-
-@keyframes bingoColorCycle {
-    0% { filter: drop-shadow(0 0 20px gold); }
-    50% { filter: drop-shadow(0 0 40px red) drop-shadow(0 0 80px gold); }
-    100% { filter: drop-shadow(0 0 20px gold); }
-}
-
-
-@keyframes snowflakeSpin {
+@keyframes spinSlow {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
-}
-
-@keyframes sparkleTwinkle {
-    from { transform: scale(1) rotate(-10deg); opacity: 0.8; }
-    to { transform: scale(1.2) rotate(10deg); opacity: 1; }
-}
-
-@keyframes candyStripe {
-    from { background-position: 0 0; }
-    to { background-position: 40px 40px; }
 }
 
 .glow-orbits {
@@ -787,20 +717,77 @@ body::after {
 }
 
 .song-particle {
-    /* Snowflakes Appearance */
     position: absolute;
     background: radial-gradient(circle, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0.4) 100%);
     border-radius: 50%;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
     pointer-events: none;
     will-change: transform, opacity;
 }
 
 .sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1000;
     background: var(--gold);
+    animation: sparkleFade 0.8s ease-out forwards;
 }
 
-/* Audio Visualizer */
+.popper {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    z-index: 99;
+    opacity: 0;
+}
+
+.popper-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 2px;
+    z-index: 98;
+    animation: fireworkParticle 1s ease-out forwards;
+}
+
+@keyframes sparkleFade {
+    0% { transform: scale(0) translate(0, 0); opacity: 1; }
+    100% { transform: scale(1.5) translate(var(--tx), var(--ty)); opacity: 0; }
+}
+
+.firework {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    z-index: 99;
+    animation: fireworkFade 1.5s ease-out forwards;
+    will-change: transform, opacity;
+}
+
+.firework-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    z-index: 98;
+    animation: fireworkParticle 1.2s ease-out forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes fireworkFade {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(4); opacity: 0; }
+}
+
+@keyframes fireworkParticle {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+}
+
 .audio-visualizer {
     display: flex;
     align-items: flex-end;
@@ -823,3 +810,7 @@ body::after {
 
 .eq-bar:nth-child(odd) { animation-duration: 0.8s; }
 .eq-bar:nth-child(even) { animation-duration: 1.2s; }
+
+.popper, .popper-particle, .sparkle {
+    will-change: transform, opacity;
+}

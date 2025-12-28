@@ -1,5 +1,3 @@
-// Переменные будут определены в DOMContentLoaded
-
 const TOTAL_BARRELS = 99;
 const selectedSet = new Set();
 
@@ -11,7 +9,7 @@ const tracks = [
     { number: 5, title: "Улыбайся", artist: "IOWA", cover: "images/cover-05.jpg", src: "audio/05.mp3" },
     { number: 6, title: "Широка Река", artist: "Надежда Кадышева", cover: "images/cover-06.jpg", src: "audio/06.mp3" },
     { number: 7, title: "Люди меня люби", artist: "Гречка", cover: "images/cover-07.jpg", src: "audio/07.mp3" },
-    { number: 8, title: "Хали-Гали, паратрупер", artist: "Леприконсы", cover: "images/cover-08.jpg", src: "audio/08.mp3" },
+    { number: 8, title: "Хали-Гали, паратрупер", artist: "Леприконсы", cover: "images/cover-08.mp3", src: "audio/08.mp3" },
     { number: 9, title: "Горячая, гремучая", artist: "Салтан Лагучев", cover: "images/cover-09.jpg", src: "audio/09.mp3" },
     { number: 10, title: "Девочка-война", artist: "Hamali, Navai", cover: "images/cover-10.jpg", src: "audio/10.mp3" },
     { number: 11, title: "Я русский", artist: "Шаман", cover: "images/cover-11.jpg", src: "audio/11.mp3" },
@@ -140,14 +138,12 @@ function handleBarrelClick(track) {
     selectedSet.add(track.number);
     markBarrelUsed(track.number);
     
-
     const rect = button.getBoundingClientRect();
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
     const startX = rect.left + rect.width / 2;
     const startY = rect.top + rect.height / 2;
     
-   
     const clone = button.cloneNode(true);
     clone.classList.add('animating');
     clone.style.position = 'fixed';
@@ -158,15 +154,11 @@ function handleBarrelClick(track) {
     clone.style.height = rect.height + 'px';
     document.body.appendChild(clone);
     
-    // Бочонок остается видимым (непрозрачным)
-    
-    // Вычисляем размер для 120% экрана (увеличили размер вылета)
     const screenSize = Math.min(window.innerWidth, window.innerHeight);
     const targetSize = screenSize * 1.2;
     const initialSize = rect.width;
     const scaleToTarget = targetSize / initialSize;
     
-    // Анимация увеличения и центрирования с сильным затемнением
     const moveAnimation = clone.animate([
         {
             left: startX + 'px',
@@ -214,7 +206,7 @@ let songNotesInterval = null;
 
 function openSongPage(track) {
     page2.classList.add('hidden');
-    stopPage2Effects(); // Останавливаем эффекты page2
+    stopPage2Effects(); 
     page3.classList.remove('hidden');
     document.body.classList.add('song-open');
 
@@ -233,7 +225,6 @@ function openSongPage(track) {
     const tryPlay = () => songAudio.play().catch(() => {});
     setTimeout(tryPlay, 80);
     
-    // Запускаем анимацию частиц
     startSongParticles();
 }
 
@@ -247,7 +238,6 @@ function startSongParticles() {
 
     if (!particlesContainer || !sparklesContainer || !notesContainer) return;
     
-    // Очищаем предыдущие эффекты
     if (songParticlesInterval) {
         clearInterval(songParticlesInterval);
     }
@@ -258,7 +248,6 @@ function startSongParticles() {
         clearInterval(songSparklesInterval);
     }
     
-    // Создаем частицы каждые 1.5 секунды (чаще)
     songParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
         if (Math.random() > 0.5) {
@@ -266,12 +255,10 @@ function startSongParticles() {
         }
     }, 1500);
     
-    // Создаем искры каждые 800мс
     songSparklesInterval = setInterval(() => {
         createSparkleEffect(sparklesContainer);
     }, 800);
     
-    // Летающие музыкальные ноты
     songNotesInterval = setInterval(() => {
         createMusicNote(notesContainer);
         if (Math.random() > 0.6) {
@@ -279,7 +266,6 @@ function startSongParticles() {
         }
     }, 1100);
     
-    // Создаем начальные эффекты
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
@@ -298,10 +284,9 @@ function createSongParticle(container) {
     const particle = document.createElement('div');
     particle.className = 'song-particle';
     
-    // Настройки для реалистичности (объем и глубина)
-    const size = 6 + Math.random() * 14; // От 6 до 20px
-    const blur = Math.random() * 3; // Размытие от 0 до 3px
-    const opacity = 0.4 + Math.random() * 0.6; // Прозрачность
+    const size = 6 + Math.random() * 14; 
+    const blur = Math.random() * 3; 
+    const opacity = 0.4 + Math.random() * 0.6; 
     
     particle.style.position = 'absolute';
     particle.style.width = size + 'px';
@@ -312,38 +297,34 @@ function createSongParticle(container) {
     particle.style.opacity = '0';
     particle.style.boxShadow = `0 0 ${5 + Math.random() * 10}px rgba(255, 255, 255, 0.5)`;
     
-    // Начальная позиция
-    const startX = Math.random() * 100; // % ширины экрана
+    const startX = Math.random() * 100; 
     particle.style.left = startX + '%';
     particle.style.top = -20 + 'px';
     
     container.appendChild(particle);
     
-    // Параметры падения
-    const duration = 10000 + Math.random() * 15000; // 10-25 секунд (очень плавно)
+    const duration = 10000 + Math.random() * 15000; 
     const endY = window.innerHeight + 50;
     
-    // Генерация траектории покачивания (Sway)
     const keyframes = [];
     const steps = 10;
-    const swayAmplitude = 30 + Math.random() * 50; // Размах покачивания
+    const swayAmplitude = 30 + Math.random() * 50; 
     
     for (let i = 0; i <= steps; i++) {
         const progress = i / steps;
-        const y = -20 + progress * (endY + 20); // Линейное падение по Y
-        // Синусоидальное движение по X
+        const y = -20 + progress * (endY + 20); 
         const sway = Math.sin(progress * Math.PI * (2 + Math.random())) * swayAmplitude;
         
         keyframes.push({
-            transform: `translate(${sway}px, ${y}px) scale(${1 - progress * 0.2})`, // Чуть уменьшается к низу
-            opacity: i === 0 || i === steps ? 0 : opacity, // Появляется и исчезает
+            transform: `translate(${sway}px, ${y}px) scale(${1 - progress * 0.2})`, 
+            opacity: i === 0 || i === steps ? 0 : opacity, 
             offset: progress
         });
     }
     
     particle.animate(keyframes, {
         duration: duration,
-        easing: 'linear', // Линейное время, но путь волнистый
+        easing: 'linear', 
         fill: 'forwards'
     }).onfinish = () => {
         if (particle.parentElement) {
@@ -357,10 +338,9 @@ function createSparkleEffect(container) {
     
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
-    const colors = ['rgba(255, 215, 0, 1)', 'rgba(255, 223, 0, 1)', 'rgba(255, 250, 205, 1)']; // Gold and LemonChiffon
+    const colors = ['rgba(255, 215, 0, 1)', 'rgba(255, 223, 0, 1)', 'rgba(255, 250, 205, 1)']; 
     const color = colors[Math.floor(Math.random() * colors.length)];
     
-    // Создаем несколько искр
     for (let i = 0; i < 4; i++) {
         const sparkle = document.createElement('div');
         sparkle.style.position = 'absolute';
@@ -404,7 +384,7 @@ function createMusicNote(container) {
     
     const size = 14 + Math.random() * 10;
     note.style.fontSize = `${size}px`;
-    note.style.color = `hsl(50, 100%, ${50 + Math.random() * 20}%)`; // Gold variants
+    note.style.color = `hsl(50, 100%, ${50 + Math.random() * 20}%)`; 
     
     const startX = Math.random() * 100;
     const startY = 70 + Math.random() * 20;
@@ -438,10 +418,8 @@ function closeSongPage() {
     page2.classList.remove('hidden');
     document.body.classList.remove('song-open');
     page2.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    startPage2Effects(); // Возобновляем эффекты page2
-    // requestAnimationFrame(applyCheckerboardLayout);
+    startPage2Effects(); 
     
-    // Останавливаем все эффекты
     if (songParticlesInterval) {
         clearInterval(songParticlesInterval);
         songParticlesInterval = null;
@@ -455,7 +433,6 @@ function closeSongPage() {
         songSparklesInterval = null;
     }
     
-    // Очищаем контейнеры
     const particlesContainer = page3.querySelector('.floating-particles');
     const sparklesContainer = page3.querySelector('.sparkles-container');
     const notesContainer = page3.querySelector('.music-notes');
@@ -495,8 +472,6 @@ function startPage2Effects() {
     
     stopPage2Effects();
 
-    // Золотой дождь только при анимации БИНГО, не при обычном переходе
-
     page2ParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
         if (Math.random() > 0.5) {
@@ -508,7 +483,6 @@ function startPage2Effects() {
         createSparkleEffect(sparklesContainer);
     }, 800);
     
-    // Начальные эффекты
     for (let i = 0; i < 5; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
@@ -537,17 +511,48 @@ function stopPage2Effects() {
     
     if (particlesContainer) particlesContainer.innerHTML = '';
     if (sparklesContainer) sparklesContainer.innerHTML = '';
-    if (rainContainer) rainContainer.remove(); // Удаляем контейнер дождя
+    if (rainContainer) rainContainer.remove(); 
 }
 
-// Запускаем эффекты на первой странице при загрузке
+function createBackgroundTree(container, leftPosition) {
+    const tree = document.createElement('div');
+    tree.className = 'bg-tree';
+    tree.textContent = '🎄';
+    
+    tree.style.left = leftPosition + '%';
+    
+    const size = 4 + Math.random() * 5; 
+    tree.style.fontSize = size + 'rem';
+    
+    const bottomOffset = -5 - (Math.random() * 20);
+    tree.style.bottom = bottomOffset + 'px';
+    
+    tree.style.animationDelay = Math.random() * -10 + 's';
+    
+    const blurVal = 1 + Math.random() * 2;
+    const opacityVal = 0.3 + (size / 20); 
+    tree.style.filter = `blur(${blurVal}px)`;
+    tree.style.opacity = opacityVal;
+    
+    container.appendChild(tree);
+}
+
 function startHeroEffects() {
     const particlesContainer = document.querySelector('#page1 .floating-particles');
     const sparklesContainer = document.querySelector('#page1 .sparkles-container');
+    const forestContainer = document.querySelector('#page1 .background-forest');
     
     if (!particlesContainer) return;
-    
-    // Очищаем предыдущие эффекты
+
+    if (forestContainer && forestContainer.children.length === 0) {
+        const count = 35;
+        for (let i = 0; i < count; i++) {
+            const step = 100 / (count - 1);
+            const leftPos = (i * step) + (Math.random() * 2 - 1); 
+            createBackgroundTree(forestContainer, leftPos);
+        }
+    }
+
     if (heroParticlesInterval) {
         clearInterval(heroParticlesInterval);
     }
@@ -555,21 +560,18 @@ function startHeroEffects() {
         clearInterval(heroSparklesInterval);
     }
     
-    // Создаем частицы каждые 200мс (интенсивный снегопад)
     heroParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
-        if (Math.random() > 0.3) { // 70% шанс второй снежинки
+        if (Math.random() > 0.3) { 
             createSongParticle(particlesContainer);
         }
     }, 200);
     
-    // Создаем искры каждые 800мс
     heroSparklesInterval = setInterval(() => {
         createSparkleEffect(sparklesContainer);
     }, 800);
     
     
-    // Создаем начальные эффекты (много снега сразу)
     for (let i = 0; i < 50; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
@@ -579,22 +581,18 @@ function startHeroEffects() {
         }, i * 50);
     }
 
-    // Создаем начальные линии (удалено - нет контейнера на первой странице)
 }
 
-// page2RainInterval уже объявлен выше
-const MAX_RAIN_DROPS = 300; // Еще больше капель
+const MAX_RAIN_DROPS = 300; 
 
 function startPage2GoldenRain() {
     const page2Container = document.querySelector('#page2');
     if (!page2Container) return;
     
-    // Очищаем предыдущий интервал
     if (page2RainInterval) {
         clearInterval(page2RainInterval);
     }
     
-    // Создаем контейнер для дождя, если его нет
     let rainContainer = page2Container.querySelector('.golden-rain-container');
     if (!rainContainer) {
         rainContainer = document.createElement('div');
@@ -608,7 +606,6 @@ function startPage2GoldenRain() {
         page2Container.appendChild(rainContainer);
     }
     
-    // Создаем капли постоянно
     page2RainInterval = setInterval(() => {
         const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
         if (currentDrops < MAX_RAIN_DROPS) {
@@ -619,7 +616,6 @@ function startPage2GoldenRain() {
         }
     }, 50);
     
-    // Начальные капли
     for (let i = 0; i < 30; i++) {
         setTimeout(() => {
             createGoldenRain(rainContainer);
@@ -627,9 +623,7 @@ function startPage2GoldenRain() {
     }
 }
 
-// Старый обработчик удален - теперь в DOMContentLoaded
 
-// Пересчитываем "шахматку" при ресайзе
 let checkerRaf = 0;
 window.addEventListener('resize', () => {
     cancelAnimationFrame(checkerRaf);
@@ -646,11 +640,9 @@ document.addEventListener('keydown', (event) => {
     if (event.key === ' ' || event.code === 'Space') {
         event.preventDefault();
         
-        // На второй странице - анимация БИНГО
         if (!page2.classList.contains('hidden')) {
             toggleBingoAnimation();
         }
-        // На третьей странице - play/pause
         else if (!page3.classList.contains('hidden')) {
             if (songAudio.paused) {
                 songAudio.play();
@@ -662,12 +654,10 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Аудио контекст для звуков победы
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let bingoSoundInterval = null;
 
-// Создаем буфер белого шума для эффектов
-const bufferSize = audioContext.sampleRate * 2; // 2 секунды
+const bufferSize = audioContext.sampleRate * 2; 
 const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
 const output = noiseBuffer.getChannelData(0);
 for (let i = 0; i < bufferSize; i++) {
@@ -677,7 +667,6 @@ for (let i = 0; i < bufferSize; i++) {
 function playFireworkSound() {
     const t = audioContext.currentTime;
     
-    // Звук запуска (свист)
     const oscillator = audioContext.createOscillator();
     const oscGain = audioContext.createGain();
     
@@ -694,7 +683,6 @@ function playFireworkSound() {
     oscillator.start(t);
     oscillator.stop(t + 0.15);
 
-    // Звук взрыва (шум)
     const noise = audioContext.createBufferSource();
     noise.buffer = noiseBuffer;
     const noiseGain = audioContext.createGain();
@@ -703,7 +691,7 @@ function playFireworkSound() {
     noiseFilter.type = 'lowpass';
     noiseFilter.frequency.setValueAtTime(100, t + 0.1);
     noiseFilter.frequency.exponentialRampToValueAtTime(1000, t + 0.15);
-    noiseFilter.frequency.exponentialRampToValueAtTime(20, t + 1.5); // Затухание частоты
+    noiseFilter.frequency.exponentialRampToValueAtTime(20, t + 1.5); 
     
     noiseGain.gain.setValueAtTime(0, t + 0.1);
     noiseGain.gain.linearRampToValueAtTime(1, t + 0.15);
@@ -742,14 +730,13 @@ function playPopperSound() {
 
 function playFanfareSound() {
     const now = audioContext.currentTime;
-    // Мажорное трезвучие (C-E-G)
     const notes = [523.25, 659.25, 783.99, 1046.50]; 
     
     notes.forEach((freq, i) => {
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
         
-        osc.type = 'triangle'; // Более мягкий звук для фона
+        osc.type = 'triangle'; 
         osc.frequency.setValueAtTime(freq, now);
         
         gain.gain.setValueAtTime(0, now);
@@ -767,7 +754,6 @@ function playFanfareSound() {
 function startBingoSounds() {
     if (bingoSoundInterval) clearInterval(bingoSoundInterval);
     
-    // Сразу играем приветственный звук
     playFanfareSound();
     playFireworkSound();
     
@@ -777,15 +763,14 @@ function startBingoSounds() {
         const rand = Math.random();
         
         if (rand < 0.4) {
-            playFireworkSound(); // Взрыв фейерверка (40% шанс)
+            playFireworkSound(); 
         } else if (rand < 0.7) {
-            playPopperSound();   // Хлопушка (30% шанс)
+            playPopperSound();   
         } else {
-             // Иногда добавляем музыкальный акцент (30% шанс)
              if (Math.random() > 0.5) playFanfareSound();
         }
         
-    }, 400); // Звуки каждые 400мс
+    }, 400); 
 }
 
 function stopBingoSounds() {
@@ -799,13 +784,9 @@ function toggleBingoAnimation() {
     const bingoAnimation = document.getElementById('bingoAnimation');
     
     if (isBingoActive) {
-        // Выключаем анимацию
         isBingoActive = false;
         bingoAnimation.classList.add('hidden');
         
-        // stopBingoSounds(); // Звуки убраны
-        
-        // Останавливаем дождь в контейнере анимации
         const rainContainer = bingoAnimation.querySelector('.golden-rain-container');
         if (rainContainer) {
             rainContainer.remove();
@@ -815,34 +796,27 @@ function toggleBingoAnimation() {
             page2RainInterval = null;
         }
     } else {
-        // Включаем анимацию
         isBingoActive = true;
         bingoAnimation.classList.remove('hidden');
         
-        // startBingoSounds(); // Звуки убраны
-        
-        // Запускаем золотой дождь внутри анимации БИНГО
         startBingoRain(bingoAnimation);
     }
 }
 
 function startBingoRain(container) {
-    // Очищаем предыдущий интервал если был
     if (page2RainInterval) {
         clearInterval(page2RainInterval);
     }
     
-    // Создаем контейнер для дождя
     let rainContainer = document.createElement('div');
     rainContainer.className = 'golden-rain-container';
     rainContainer.style.position = 'absolute';
     rainContainer.style.inset = '0';
     rainContainer.style.pointerEvents = 'none';
-    rainContainer.style.zIndex = '-1'; // На задний план за текст
+    rainContainer.style.zIndex = '-1'; 
     rainContainer.style.overflow = 'hidden';
     container.appendChild(rainContainer);
     
-    // Создаем капли постоянно
     page2RainInterval = setInterval(() => {
         if (!isBingoActive) {
             clearInterval(page2RainInterval);
@@ -850,70 +824,57 @@ function startBingoRain(container) {
             return;
         }
         
-        // Создаем новые капли без строгой проверки максимума, чтобы поток был непрерывным
-        // Но все же держим разумный предел
         const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
         if (currentDrops < MAX_RAIN_DROPS) {
-            // Создаем стабильное количество капель за такт
-            for (let i = 0; i < 8; i++) {
+            for (let i = 0; i < 4; i++) {
                 createGoldenRain(rainContainer);
             }
         }
-    }, 30); // Интервал 30мс
+    }, 60); 
     
-    // Начальные капли - создаем много и на разной высоте для мгновенного заполнения
-    for (let i = 0; i < 100; i++) {
-        const drop = document.createElement('div');
-        drop.className = 'golden-rain';
-        // ... (код создания капли будет в createGoldenRain, но нам нужно распределить их по высоте)
-        // Поэтому просто вызываем создание, а внутри createGoldenRain добавим логику
-        // Или просто создадим их с задержкой как раньше, но быстрее
+    for (let i = 0; i < 60; i++) {
         setTimeout(() => {
-            createGoldenRain(rainContainer, true); // true флаг для начального заполнения (случайная высота)
-        }, i * 5);
+            createGoldenRain(rainContainer, true); 
+        }, i * 10);
     }
 }
 
 function startContinuousEffects(container) {
-    const colors = ['#ffffff', '#ff0000', '#00ff00', '#ffd700']; // Christmas colors
+    const colors = ['#ffffff', '#ff0000', '#00ff00', '#ffd700', '#ff00ff', '#00ffff'];
     
-    // Создаем эффекты каждые 100мс (чаще)
     animationInterval = setInterval(() => {
         if (!isBingoActive) return;
         
-        // Фейрверки - больше и чаще
-        if (Math.random() > 0.1) {
+        if (Math.random() > 0.3) {
             createFirework(container, colors);
-            if (Math.random() > 0.5) {
-                createFirework(container, colors);
-            }
         }
         
-        // Хлопушки
-        if (Math.random() > 0.4) {
+        if (Math.random() > 0.7) {
             createPopper(container, colors);
         }
         
-        // Огни
-        if (Math.random() > 0.5) {
+        if (Math.random() > 0.8) {
             createSparkle(container, colors);
         }
+
+        if (Math.random() > 0.6) {
+            createConfetti(container);
+        }
+
+        if (Math.random() > 0.85) {
+            createBingoEmoji(container);
+        }
         
-        // Золотой дождь - отключен
-        /* if (Math.random() > 0.6) {
-            createGoldenRain(container);
-        } */
-    }, 100);
+    }, 200);
     
-    // Первый взрыв сразу - больше фейрверков
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createFirework(container, colors);
-            if (i % 2 === 0) {
+            createConfetti(container);
+            if (i % 4 === 0) {
                 createPopper(container, colors);
             }
-            // if (i % 3 === 0) createGoldenRain(container);
-        }, i * 30);
+        }, i * 200);
     }
 }
 
@@ -922,20 +883,21 @@ function createFirework(container, colors) {
     const y = Math.random() * window.innerHeight;
     const color = colors[Math.floor(Math.random() * colors.length)];
     
-    // Создаем центральную точку взрыва - больше размер
+    const scale = 0.5 + Math.random() * 1.5; 
+    
     const center = document.createElement('div');
     center.className = 'firework';
     center.style.left = x + 'px';
     center.style.top = y + 'px';
     center.style.background = color;
-    center.style.boxShadow = `0 0 60px ${color}, 0 0 120px ${color}, 0 0 180px ${color}`;
+    center.style.transform = `scale(${scale})`;
+    center.style.boxShadow = `0 0 ${20 * scale}px ${color}`;
     container.appendChild(center);
     
-    // Создаем частицы - больше количество и размер
-    const particleCount = 60;
+    const particleCount = Math.floor(20 + Math.random() * 20);
     for (let i = 0; i < particleCount; i++) {
         const angle = (Math.PI * 2 * i) / particleCount;
-        const distance = 80 + Math.random() * 150;
+        const distance = (40 + Math.random() * 80) * scale;
         const tx = Math.cos(angle) * distance;
         const ty = Math.sin(angle) * distance;
         
@@ -944,19 +906,13 @@ function createFirework(container, colors) {
         particle.style.left = x + 'px';
         particle.style.top = y + 'px';
         particle.style.background = color;
-        particle.style.boxShadow = `0 0 30px ${color}, 0 0 60px ${color}`;
         particle.style.setProperty('--tx', tx + 'px');
         particle.style.setProperty('--ty', ty + 'px');
-        particle.style.animationDelay = Math.random() * 0.2 + 's';
         container.appendChild(particle);
     }
     
-    // Удаляем элементы после анимации
     setTimeout(() => {
-        center.remove();
-        container.querySelectorAll('.firework-particle').forEach(p => {
-            if (p.parentElement === container) p.remove();
-        });
+        if(center.parentElement) center.remove();
     }, 1500);
 }
 
@@ -964,28 +920,24 @@ function createPopper(container, colors) {
     const x = Math.random() * window.innerWidth;
     const y = Math.random() * window.innerHeight;
     
-    // Создаем хлопушку - несколько взрывов подряд
-    for (let pop = 0; pop < 3; pop++) {
+    for (let pop = 0; pop < 2; pop++) {
         setTimeout(() => {
             const color = colors[Math.floor(Math.random() * colors.length)];
             const center = document.createElement('div');
             center.className = 'popper';
-            center.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
-            center.style.top = (y + (Math.random() - 0.5) * 100) + 'px';
+            center.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
+            center.style.top = (y + (Math.random() - 0.5) * 60) + 'px';
             center.style.background = color;
-            center.style.boxShadow = `0 0 40px ${color}, 0 0 80px ${color}, 0 0 120px ${color}`;
             container.appendChild(center);
             
-            // Частицы хлопушки
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 12; i++) {
                 const angle = Math.random() * Math.PI * 2;
-                const distance = 30 + Math.random() * 80;
+                const distance = 20 + Math.random() * 50;
                 const particle = document.createElement('div');
                 particle.className = 'popper-particle';
                 particle.style.left = center.style.left;
                 particle.style.top = center.style.top;
                 particle.style.background = color;
-                particle.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
                 particle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
                 particle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
                 container.appendChild(particle);
@@ -993,11 +945,8 @@ function createPopper(container, colors) {
             
             setTimeout(() => {
                 center.remove();
-                container.querySelectorAll('.popper-particle').forEach(p => {
-                    if (p.parentElement === container && Math.random() > 0.5) p.remove();
-                });
             }, 1000);
-        }, pop * 100);
+        }, pop * 200);
     }
 }
 
@@ -1006,15 +955,14 @@ function createSparkle(container, colors) {
     const y = Math.random() * window.innerHeight;
     const color = colors[Math.floor(Math.random() * colors.length)];
     
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 5; i++) {
         const sparkle = document.createElement('div');
         sparkle.className = 'sparkle';
         sparkle.style.left = x + 'px';
         sparkle.style.top = y + 'px';
         sparkle.style.background = color;
-        sparkle.style.boxShadow = `0 0 30px ${color}, 0 0 60px ${color}, 0 0 90px ${color}`;
-        const angle = (Math.PI * 2 * i) / 8;
-        const distance = 20 + Math.random() * 40;
+        const angle = (Math.PI * 2 * i) / 5;
+        const distance = 15 + Math.random() * 25;
         sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
         sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
         container.appendChild(sparkle);
@@ -1025,10 +973,56 @@ function createSparkle(container, colors) {
     }
 }
 
+function createConfetti(container) {
+    const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+    const count = 10;
+    for (let i = 0; i < count; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-20px';
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = 10 + Math.random() * 10 + 'px';
+        confetti.style.height = 5 + Math.random() * 5 + 'px';
+        container.appendChild(confetti);
+
+        const duration = 2000 + Math.random() * 2000;
+        const drift = (Math.random() - 0.5) * 200;
+        const rotation = Math.random() * 720;
+
+        confetti.animate([
+            { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+            { transform: `translateY(${window.innerHeight + 50}px) translateX(${drift}px) rotate(${rotation}deg)`, opacity: 0 }
+        ], {
+            duration: duration,
+            easing: 'ease-in'
+        }).onfinish = () => confetti.remove();
+    }
+}
+
+function createBingoEmoji(container) {
+    const emojis = ['❄️', '🎁', '🎄', '🎅', '🔔', '🕯️', '🍪'];
+    const emoji = document.createElement('div');
+    emoji.className = 'bingo-emoji';
+    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    emoji.style.left = Math.random() * 100 + '%';
+    emoji.style.top = Math.random() * 100 + '%';
+    emoji.style.fontSize = 2 + Math.random() * 3 + 'rem';
+    container.appendChild(emoji);
+
+    emoji.animate([
+        { transform: 'scale(0) rotate(0deg)', opacity: 0 },
+        { transform: 'scale(1.5) rotate(20deg)', opacity: 0.8, offset: 0.5 },
+        { transform: 'scale(1) rotate(-20deg)', opacity: 0 }
+    ], {
+        duration: 3000,
+        easing: 'ease-out'
+    }).onfinish = () => emoji.remove();
+}
+
 function createGoldenRain(container, randomHeight = false) {
     if (!container) return;
     
-    // Проверяем количество капель перед созданием
     const currentDrops = container.querySelectorAll('.golden-rain').length;
     if (currentDrops >= MAX_RAIN_DROPS) return;
     
@@ -1036,9 +1030,7 @@ function createGoldenRain(container, randomHeight = false) {
     const colors = ['#ffffff', '#f0f8ff', '#e0ffff', '#b0e0e6', '#fffafa'];
     const color = colors[Math.floor(Math.random() * colors.length)];
     const size = 1.5 + Math.random() * 2;
-    const speed = 1.0 + Math.random() * 1.5; // Скорость падения (чем больше, тем медленнее в animate duration)
-    // Исправим логику скорости: animate duration = base * speed. Если speed > 1, то медленнее. 
-    // Сделаем наоборот: duration = base / speed
+    const speed = 1.0 + Math.random() * 1.5; 
     const durationBase = 1500 + Math.random() * 1000;
     const duration = durationBase / speed;
     
@@ -1051,25 +1043,20 @@ function createGoldenRain(container, randomHeight = false) {
     drop.style.height = size * 8 + 'px';
     drop.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
     drop.style.borderRadius = '50%';
-    drop.style.boxShadow = `0 0 10px ${color}, 0 0 20px ${color}`;
     drop.style.opacity = '0';
-    drop.style.willChange = 'transform, opacity';
     
-    // Начальная позиция
     let startY = -50;
     if (randomHeight) {
         startY = Math.random() * window.innerHeight;
-        drop.style.opacity = '0.8'; // Сразу видимы
+        drop.style.opacity = '0.8'; 
     }
     drop.style.top = startY + 'px';
     
     container.appendChild(drop);
     
-    // Вычисляем дистанцию падения
     const endY = window.innerHeight + 100;
     const distance = endY - startY;
     
-    // Корректируем длительность для начальных капель (меньше расстояние)
     const actualDuration = randomHeight ? (duration * (distance / (window.innerHeight + 150))) : duration;
 
     const animation = drop.animate([
@@ -1138,10 +1125,6 @@ function updatePlayPauseIcon() {
     }
 }
 
-// ============================================
-// ИНИЦИАЛИЗАЦИЯ И ОБРАБОТЧИКИ СОБЫТИЙ
-// ============================================
-
 if (songAudio) {
     songAudio.addEventListener('play', updatePlayPauseIcon);
     songAudio.addEventListener('pause', updatePlayPauseIcon);
@@ -1172,9 +1155,7 @@ if (progressSlider) {
     });
 }
 
-// Оборачиваем всю инициализацию в DOMContentLoaded для гарантии загрузки DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Переопределяем переменные после загрузки DOM
     const page1Element = document.getElementById('page1');
     const page2Element = document.getElementById('page2');
     const page3Element = document.getElementById('page3');
@@ -1191,7 +1172,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const progressFillElement = document.getElementById('progressFill');
     const progressSliderElement = document.getElementById('progressSlider');
 
-    // Переприсваиваем глобальные переменные
     Object.assign(window, {
         page1: page1Element,
         page2: page2Element,
@@ -1212,114 +1192,54 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderBarrels();
 
-    // Запускаем эффекты на первой странице
     startHeroEffects();
 
-    // Добавляем обработчик кнопки
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {
-            // Разблокируем аудио контекст
             if (audioContext && audioContext.state === 'suspended') {
                 audioContext.resume();
             }
 
-            // Показываем анимацию БИНГО
             const bingoAnimation = document.getElementById('bingoAnimation');
-
             if (bingoAnimation) {
-                // Включаем флаг активности для эффектов
-                isBingoActive = true; 
-                bingoAnimation.classList.remove('hidden');
-
-                // ЗАПУСК ЭФФЕКТОВ ШОУ
-                // 1. Звук отключен по просьбе
-                // playFanfareSound();
-                // playFireworkSound();
-                
-                // 2. Визуальные эффекты (фейерверки, конфетти)
-                // Используем существующую функцию, передавая контейнер анимации
-                startContinuousEffects(bingoAnimation); 
-                
-                // 3. Быстрый и мгновенный снежный вихрь
-                
-                // Сразу создаем 200 снежинок по всему экрану (МЕГА взрыв снега)
-                for(let i=0; i<200; i++) {
-                     createFastBingoSnow(bingoAnimation, true);
-                }
-
-                let bingoSnowInterval = setInterval(() => {
-                    if (!isBingoActive) return;
-                    // Создаем очень много снега (шторм)
-                    for(let i=0; i<5; i++) {
-                        createFastBingoSnow(bingoAnimation);
-                    }
-                }, 30);
-
-                // --- СКРЫТОЕ ПЕРЕКЛЮЧЕНИЕ ---
-                // Пока идет анимация (через 500мс), мы тихо меняем страницы под ней
-                setTimeout(() => {
-                    // Убираем первую страницу
-                    stopHeroEffects();
-                    page1Element.classList.add('hidden');
-                    
-                    // Включаем вторую страницу (без анимации появления, она уже должна быть готова)
-                    page2Element.classList.remove('hidden');
-                    page2Element.style.opacity = '1';
-                    page2Element.style.transform = 'none';
-                    page2Element.scrollIntoView({ behavior: 'auto' });
-                    startPage2Effects();
-                }, 500);
-
-                // Завершение шоу через 3 секунды
-                setTimeout(() => {
-                    bingoAnimation.classList.add('hidden');
-                    
-                    // Останавливаем эффекты БИНГО
-                    isBingoActive = false;
-                    if (animationInterval) clearInterval(animationInterval);
-                    if (page2RainInterval) clearInterval(page2RainInterval);
-                    if (bingoSnowInterval) clearInterval(bingoSnowInterval); // Очищаем снег
-                    const rainContainer = bingoAnimation.querySelector('.golden-rain-container');
-                    if (rainContainer) rainContainer.remove();
-                }, 3000);
+                startBingoShow(bingoAnimation);
             }
         });
     }
 });
 
-function createFastBingoSnow(container, initial = false) {
-    const particle = document.createElement('div');
-    particle.className = 'song-particle';
-    
-    const size = 5 + Math.random() * 10;
-    particle.style.width = size + 'px';
-    particle.style.height = size + 'px';
-    particle.style.background = 'white';
-    particle.style.borderRadius = '50%';
-    particle.style.boxShadow = '0 0 5px white';
-    particle.style.position = 'absolute';
-    particle.style.left = Math.random() * 100 + '%';
-    
-    // Если initial=true, снежинка может появиться сразу в центре экрана
-    let startY = -20;
-    if (initial) {
-        startY = Math.random() * window.innerHeight;
+function startBingoShow(bingoAnimation) {
+    isBingoActive = true;
+    bingoAnimation.classList.remove('hidden');
+
+    const colors = ['#ffffff', '#ff0000', '#00ff00', '#ffd700', '#ff00ff', '#00ffff'];
+    for(let i=0; i<8; i++) {
+        setTimeout(() => {
+            createFirework(bingoAnimation, colors);
+        }, i * 200);
     }
-    particle.style.top = startY + 'px';
-    
-    container.appendChild(particle);
-    
-    // Быстрое падение (2-4 секунды)
-    const duration = 2000 + Math.random() * 2000;
-    const endY = window.innerHeight + 50;
-    
-    particle.animate([
-        { transform: `translateY(0)` },
-        { transform: `translateY(${endY - startY}px)` }
-    ], {
-        duration: duration,
-        easing: 'linear'
-    }).onfinish = () => {
-        if(particle.parentElement) particle.remove();
-    };
+
+    startContinuousEffects(bingoAnimation);
+
+    setTimeout(() => {
+        stopHeroEffects();
+        const page1 = document.getElementById('page1');
+        const page2 = document.getElementById('page2');
+        
+        if (page1) page1.classList.add('hidden');
+        document.body.classList.add('blurred-bg');
+        
+        if (page2) {
+            page2.classList.remove('hidden');
+            page2.style.opacity = '1';
+            page2.style.transform = 'none';
+            startPage2Effects();
+        }
+    }, 500);
+
+    setTimeout(() => {
+        bingoAnimation.classList.add('hidden');
+        isBingoActive = false;
+        if (animationInterval) clearInterval(animationInterval);
+    }, 3000);
 }
