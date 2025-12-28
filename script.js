@@ -132,65 +132,9 @@ function persistSelected() {
 }
 
 function handleBarrelClick(track) {
-    const button = barrelGrid.querySelector(`[data-number="${track.number}"]`);
-    if (!button) return;
-    
     selectedSet.add(track.number);
     markBarrelUsed(track.number);
-    
-    const rect = button.getBoundingClientRect();
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const startX = rect.left + rect.width / 2;
-    const startY = rect.top + rect.height / 2;
-    
-    const clone = button.cloneNode(true);
-    clone.classList.add('animating');
-    clone.style.position = 'fixed';
-    clone.style.left = startX + 'px';
-    clone.style.top = startY + 'px';
-    clone.style.transform = 'translate(-50%, -50%)';
-    clone.style.width = rect.width + 'px';
-    clone.style.height = rect.height + 'px';
-    document.body.appendChild(clone);
-    
-    const screenSize = Math.min(window.innerWidth, window.innerHeight);
-    const targetSize = screenSize * 1.2;
-    const initialSize = rect.width;
-    const scaleToTarget = targetSize / initialSize;
-    
-    const moveAnimation = clone.animate([
-        {
-            left: startX + 'px',
-            top: startY + 'px',
-            transform: 'translate(-50%, -50%) scale(1)',
-            filter: 'brightness(1)',
-            offset: 0
-        },
-        {
-            left: centerX + 'px',
-            top: centerY + 'px',
-            transform: `translate(-50%, -50%) scale(${scaleToTarget * 0.6})`,
-            filter: 'brightness(0.3)',
-            offset: 0.3
-        },
-        {
-            left: centerX + 'px',
-            top: centerY + 'px',
-            transform: `translate(-50%, -50%) scale(${scaleToTarget})`,
-            filter: 'brightness(0.05)',
-            opacity: 0,
-            offset: 1
-        }
-    ], {
-        duration: 900,
-        easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-    });
-    
-    moveAnimation.onfinish = () => {
-        clone.remove();
-        openSongPage(track);
-    };
+    openSongPage(track);
 }
 
 function markBarrelUsed(number) {
@@ -517,12 +461,12 @@ function stopPage2Effects() {
 function createBackgroundTree(container, leftPosition) {
     const tree = document.createElement('div');
     tree.className = 'bg-tree';
-    tree.textContent = '🎄';
     
     tree.style.left = leftPosition + '%';
     
-    const size = 4 + Math.random() * 5; 
-    tree.style.fontSize = size + 'rem';
+    const scale = 0.5 + Math.random() * 0.5;
+    tree.style.width = (100 * scale) + 'px';
+    tree.style.height = (140 * scale) + 'px';
     
     const bottomOffset = -5 - (Math.random() * 20);
     tree.style.bottom = bottomOffset + 'px';
@@ -530,7 +474,7 @@ function createBackgroundTree(container, leftPosition) {
     tree.style.animationDelay = Math.random() * -10 + 's';
     
     const blurVal = 1 + Math.random() * 2;
-    const opacityVal = 0.3 + (size / 20); 
+    const opacityVal = 0.3 + (scale / 2); 
     tree.style.filter = `blur(${blurVal}px)`;
     tree.style.opacity = opacityVal;
     
@@ -545,10 +489,11 @@ function startHeroEffects() {
     if (!particlesContainer) return;
 
     if (forestContainer && forestContainer.children.length === 0) {
-        const count = 35;
+        const count = 80;
         for (let i = 0; i < count; i++) {
             const step = 100 / (count - 1);
-            const leftPos = (i * step) + (Math.random() * 2 - 1); 
+            const jitter = Math.random() * 1.2 - 0.6;
+            const leftPos = (i * step) + jitter;
             createBackgroundTree(forestContainer, leftPos);
         }
     }
@@ -857,8 +802,8 @@ function startContinuousEffects(container) {
             createSparkle(container, colors);
         }
 
-        if (Math.random() > 0.6) {
-            createConfetti(container);
+        if (Math.random() > 0.4) {
+            createSnow(container);
         }
 
         if (Math.random() > 0.85) {
@@ -870,7 +815,7 @@ function startContinuousEffects(container) {
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createFirework(container, colors);
-            createConfetti(container);
+            createSnow(container);
             if (i % 4 === 0) {
                 createPopper(container, colors);
             }
@@ -973,35 +918,35 @@ function createSparkle(container, colors) {
     }
 }
 
-function createConfetti(container) {
-    const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
-    const count = 10;
+function createSnow(container) {
+    const count = 12;
     for (let i = 0; i < count; i++) {
-        const confetti = document.createElement('div');
-        confetti.className = 'confetti';
-        confetti.style.left = Math.random() * 100 + '%';
-        confetti.style.top = '-20px';
-        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-        confetti.style.width = 10 + Math.random() * 10 + 'px';
-        confetti.style.height = 5 + Math.random() * 5 + 'px';
-        container.appendChild(confetti);
+        const snow = document.createElement('div');
+        snow.className = 'snow-particle';
+        const size = 3 + Math.random() * 6;
+        snow.style.width = size + 'px';
+        snow.style.height = size + 'px';
+        snow.style.left = Math.random() * 100 + '%';
+        snow.style.top = '-10px';
+        snow.style.opacity = 0.5 + Math.random() * 0.5;
+        snow.style.filter = `blur(${Math.random() * 2}px)`;
+        container.appendChild(snow);
 
-        const duration = 2000 + Math.random() * 2000;
+        const duration = 2500 + Math.random() * 2500;
         const drift = (Math.random() - 0.5) * 200;
-        const rotation = Math.random() * 720;
 
-        confetti.animate([
-            { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
-            { transform: `translateY(${window.innerHeight + 50}px) translateX(${drift}px) rotate(${rotation}deg)`, opacity: 0 }
+        snow.animate([
+            { transform: 'translateY(0) translateX(0)', opacity: snow.style.opacity },
+            { transform: `translateY(${window.innerHeight + 20}px) translateX(${drift}px)`, opacity: 0 }
         ], {
             duration: duration,
-            easing: 'ease-in'
-        }).onfinish = () => confetti.remove();
+            easing: 'linear'
+        }).onfinish = () => snow.remove();
     }
 }
 
 function createBingoEmoji(container) {
-    const emojis = ['❄️', '🎁', '🎄', '🎅', '🔔', '🕯️', '🍪'];
+    const emojis = ['❄️', '🎁', '☃️', '🎅', '🔔', '🕯️', '🍪'];
     const emoji = document.createElement('div');
     emoji.className = 'bingo-emoji';
     emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
@@ -1228,6 +1173,7 @@ function startBingoShow(bingoAnimation) {
         
         if (page1) page1.classList.add('hidden');
         document.body.classList.add('blurred-bg');
+        document.body.classList.add('show-side-trees');
         
         if (page2) {
             page2.classList.remove('hidden');
