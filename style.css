@@ -36,10 +36,6 @@ body::before {
     pointer-events: none;
 }
 
-
-
-
-
 body.blurred-bg::before {
     filter: brightness(0.5);
 }
@@ -64,8 +60,8 @@ body::after {
 }
 
 .bg-overlay.active {
-    background: rgba(0, 0, 0, 1);
-    opacity: 1;
+    background: rgba(0, 0, 0, 0);
+    opacity: 0;
 }
 
 .bg-overlay.hidden {
@@ -87,13 +83,13 @@ body::after {
     padding: 20px;
     scrollbar-width: thin;
     scrollbar-color: var(--gold) rgba(0,0,0,0.2);
-    opacity: 1;
+        opacity: 1;
     transform: translateX(0);
     transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .page.hidden {
-    opacity: 0;
+        opacity: 0;
     transform: translateX(-50px);
     pointer-events: none;
 }
@@ -120,7 +116,7 @@ body::after {
 }
 
 .page-grid {
-    opacity: 0;
+        opacity: 0;
     transform: translateX(100px) scale(0.95);
     z-index: 5;
 }
@@ -132,7 +128,6 @@ body::after {
     z-index: 5;
 }
 
-/* Режим наложения - страница 2 появляется поверх страницы 1 */
 .page-grid.overlay-mode {
     position: absolute;
     top: 0;
@@ -180,13 +175,6 @@ body::after {
     z-index: 2;
 }
 
-.hero-title-wrapper {
-    position: relative;
-    display: inline-block;
-    padding-top: 10px;
-    margin-bottom: 2rem;
-}
-
 .hero-title-3d {
     font-family: 'Rubik Gemstones', cursive;
     font-size: 8rem;
@@ -220,6 +208,41 @@ body::after {
     .hero-title-wrapper { padding-top: 30px; }
 }
 
+.tree-gift {
+    position: absolute;
+    bottom: 20px;
+    width: 60px;
+    height: 60px;
+    background-image: url('podarok.webp');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 5;
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) blur(2px);
+    pointer-events: none;
+}
+
+.left-tree .gift-pos-1 { left: 20px; bottom: 15px; transform: rotate(-15deg); }
+.left-tree .gift-pos-2 { left: 80px; bottom: 10px; transform: rotate(10deg) scale(0.85); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(90deg) blur(2px); }
+.left-tree .gift-pos-3 { left: 140px; bottom: 25px; transform: rotate(-5deg) scale(1.1); }
+.left-tree .gift-pos-4 { left: 50px; bottom: 40px; transform: rotate(20deg) scale(0.7); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(180deg) blur(2.5px); z-index: 4; }
+.left-tree .gift-pos-5 { left: 110px; bottom: 15px; transform: rotate(-10deg) scale(0.9); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(-45deg) blur(1.5px); }
+.left-tree .gift-pos-6 { left: 180px; bottom: 10px; transform: rotate(15deg) scale(0.8); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(45deg) blur(2px); }
+
+.right-tree .gift-pos-1 { right: 20px; bottom: 15px; transform: rotate(15deg); }
+.right-tree .gift-pos-2 { right: 80px; bottom: 10px; transform: rotate(-10deg) scale(0.85); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(180deg) blur(2px); }
+.right-tree .gift-pos-3 { right: 140px; bottom: 25px; transform: rotate(5deg) scale(1.1); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(-45deg) blur(1.5px); }
+.right-tree .gift-pos-4 { right: 50px; bottom: 40px; transform: rotate(-20deg) scale(0.7); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(90deg) blur(2.5px); z-index: 4; }
+.right-tree .gift-pos-5 { right: 110px; bottom: 15px; transform: rotate(10deg) scale(0.9); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(45deg) blur(1.5px); }
+.right-tree .gift-pos-6 { right: 180px; bottom: 10px; transform: rotate(-15deg) scale(0.8); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.6)) hue-rotate(-90deg) blur(2px); }
+
+@media (max-width: 768px) {
+    .tree-gift { width: 40px; height: 40px; }
+    .left-tree .gift-pos-2 { left: 50px; }
+    .left-tree .gift-pos-3 { left: 90px; }
+    .right-tree .gift-pos-2 { right: 50px; }
+    .right-tree .gift-pos-3 { right: 90px; }
+}
+
 .primary-btn-3d {
     font-family: 'Rubik Gemstones', cursive;
     font-size: 2.5rem;
@@ -237,13 +260,35 @@ body::after {
 }
 
 .primary-btn-3d::after {
-    /* Removed */
-    display: none;
+    content: '';
+    display: block;
+    position: absolute;
+    right: 25px;
+    top: 50%; 
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-image: url('podarok.webp');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+        filter: brightness(1.1);
 }
 
 .primary-btn-3d::before {
-    /* Removed */
-    display: none;
+    content: '';
+    display: block;
+    position: absolute;
+    left: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-image: url('podarok.webp');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    filter: brightness(1.1);
 }
 
 .primary-btn-3d:hover {
@@ -305,12 +350,13 @@ body::after {
 
 .barrel-grid {
     display: grid;
-    grid-template-columns: repeat(11, 1fr); 
-    gap: 15px;
-    max-width: 1000px; 
+    grid-template-columns: repeat(11, 75px) !important; 
+    justify-content: center;
+    gap: 8px;
+    max-width: 950px; 
     margin: 0 auto;
-    padding: 2.5rem;
-    padding-bottom: 60px;
+    padding: 1rem;
+    padding-bottom: 40px;
     background: rgba(5, 30, 10, 0.75);
     border-radius: 40px;
     box-shadow: 0 15px 35px rgba(0,0,0,0.5);
@@ -319,12 +365,12 @@ body::after {
 }
 
 .barrel {
-    width: 100% !important;
-    aspect-ratio: 1;
+    width: 75px !important;
+    height: 75px !important;
     background: url('bochki.webp') no-repeat center center;
     background-size: 140%; 
-    border-radius: 50%; 
-    overflow: hidden; 
+    border-radius: 50%;
+    overflow: visible; 
     border: none;
     position: relative;
     cursor: pointer;
@@ -335,7 +381,7 @@ body::after {
 }
 
 .barrel:hover {
-    transform: translateY(-10px) scale(1.08);
+    transform: translateY(-8px) scale(1.08);
     z-index: 10;
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
 }
@@ -346,6 +392,31 @@ body::after {
 
 .barrel::after, .barrel::before {
     display: none;
+}
+
+.barrel-hat {
+    position: absolute;
+    top: -42px;
+    left: 40%; 
+    transform: translateX(-50%);
+    width: 230%; 
+    height: 140%; 
+    background-image: url('shapka.webp');
+    background-size: contain;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    z-index: 20;
+    pointer-events: none;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.barrel:hover .barrel-hat {
+    transform: translateX(-50%) translateY(-5px) scale(1.1);
+}
+
+.barrel.used .barrel-hat {
+    opacity: 0.5;
+    filter: grayscale(0.5) brightness(0.8);
 }
 
 .barrel-face {
@@ -363,7 +434,7 @@ body::after {
 
 .barrel-number {
     font-family: 'Comfortaa', cursive, sans-serif;
-    font-size: 2rem;
+    font-size: 1.6rem;
     font-weight: bold;
     color: #5a0b0b;
     z-index: 2;
@@ -380,15 +451,15 @@ body::after {
     width: 35vh; 
     z-index: -1; 
     pointer-events: none;
-    opacity: 0;
+        opacity: 0;
     visibility: hidden;
     overflow: hidden;
     transition: opacity 0.8s ease, visibility 0.8s ease;
     will-change: transform, opacity;
-}
+    }
 
 body.show-side-trees .side-tree {
-    opacity: 1;
+        opacity: 1;
     visibility: visible;
 }
 
@@ -417,11 +488,10 @@ body.show-side-trees .side-tree {
 
 .show-side-trees .side-tree::before {
     filter: brightness(1.05) contrast(1.05);
-    transform: scale(1.1);
+        transform: scale(1.1);
     opacity: 0.9;
 }
 
-/* Blur для елок на второй и третьей страницах */
 body.show-side-trees .page-grid .side-tree::before,
 body.show-side-trees .page-song .side-tree::before {
     filter: brightness(1.05) contrast(1.05);
@@ -466,14 +536,34 @@ body.show-side-trees .page-song .side-tree::before {
     background-repeat: no-repeat;
     background-size: contain;
     transform-origin: bottom center;
-    /* animation removed */
     will-change: transform;
-    /* Increase overall brightness but shift hue slightly to darken reds/make them deeper if possible, 
-       or rely on contrast. Since we can't isolate red with simple CSS filters, 
-       we'll reduce brightness slightly from previous 1.3 to balance, 
-       and keep contrast high. */
     filter: brightness(1.15) contrast(1.3) saturate(1.1);
-    /* mix-blend-mode removed to avoid dark spots */
+}
+
+.bg-tree::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220%;
+    height: 20px;
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 80%);
+    filter: blur(8px);
+    z-index: -1;
+}
+
+.background-forest::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.12), transparent);
+    pointer-events: none;
+    z-index: 10;
+    filter: blur(15px);
 }
 
 @keyframes treeGentlySway {
@@ -481,16 +571,30 @@ body.show-side-trees .page-song .side-tree::before {
     50% { transform: rotate(2deg) scale(1.05); }
 }
 
-@media (max-width: 1024px) {
-    .barrel { width: calc((100% - 100px) / 8) !important; }
+@media (max-width: 1200px) {
+    .barrel-grid {
+        grid-template-columns: repeat(11, 85px) !important;
+        max-width: 98%;
+        gap: 10px;
+        padding: 1.2rem;
+    }
 }
+
 @media (max-width: 768px) {
+    .barrel-grid {
+        grid-template-columns: repeat(6, 1fr) !important;
+        gap: 10px;
+        padding: 1rem;
+    }
     .hero-title-3d { font-size: 3.5rem; }
-    .barrel { width: calc((100% - 80px) / 6) !important; }
     .page2-title { font-size: 1.8rem; }
 }
+
 @media (max-width: 480px) {
-    .barrel { width: calc((100% - 60px) / 4) !important; }
+    .barrel-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 8px;
+    }
 }
 
 .page-song {
@@ -655,6 +759,10 @@ body.show-side-trees .page-song .side-tree::before {
     to { opacity: 1; transform: translateY(0); }
 }
 
+.popper, .popper-particle, .sparkle {
+    will-change: transform, opacity;
+}
+
 .bingo-animation {
     position: fixed;
     inset: 0;
@@ -662,266 +770,99 @@ body.show-side-trees .page-song .side-tree::before {
     display: flex;
     justify-content: center;
     align-items: center;
-    perspective: 1000px;
-    overflow: hidden;
-    opacity: 1;
-    transform: scale(1);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    background: url('background1.jpg') no-repeat center center;
+    background-size: cover;
+        opacity: 1;
+    transition: opacity 1s ease;
 }
 
-.bingo-animation.hidden {
-    opacity: 0;
-    transform: scale(0.8);
-}
-
-.bingo-animation::before {
+.bingo-animation::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('background1.jpg') no-repeat center center;
-    background-size: cover;
-    z-index: -2;
+    background: black;
+    opacity: 0;
+    z-index: 100;
+    pointer-events: none;
+    transition: opacity 0.8s ease;
 }
 
+.bingo-animation.darken::after {
+    opacity: 1;
+}
+
+.bingo-animation.hidden {
+    display: none;
+}
 
 .bingo-text {
     font-family: 'Rubik Gemstones', cursive;
     font-size: 15vw;
     font-weight: bold;
     color: var(--primary-red);
-    position: relative;
-    z-index: 10;
-    will-change: transform, filter;
-    animation: bingoSoftVibe 2.5s ease-in-out infinite;
+    text-transform: uppercase;
+    display: flex;
+    gap: 20px;
 }
 
 .bingo-text span {
     display: inline-block;
+    filter: drop-shadow(0 0 15px #ffd700);
     opacity: 0;
-    transform: translateX(0);
-    animation: simpleBounce 4.5s ease-in-out forwards;
-    animation-delay: calc(var(--i) * 0.15s);
 }
 
-@keyframes simpleBounce {
-    /* Появление */
-    0% {
-        opacity: 0;
-        transform: translateY(50px) scale(0.3);
-    }
-    15% {
-        opacity: 1;
-        transform: translateY(0) scale(1.2);
-    }
-    25% {
-        transform: translateY(0) scale(1);
-    }
+.bingo-animation:not(.hidden) .bingo-text {
+    animation: flyIntoScreen 0.8s ease-in forwards;
+    animation-delay: 2s; 
+}
 
-    /* Веселые прыжки по кругу */
-    35% {
-        transform: translateX(80px) translateY(-30px) scale(1.1) rotate(10deg);
-    }
-    45% {
-        transform: translateX(80px) translateY(-30px) scale(1) rotate(10deg);
-    }
-    55% {
-        transform: translateX(-80px) translateY(-60px) scale(1.1) rotate(-15deg);
-    }
-    65% {
-        transform: translateX(-80px) translateY(-60px) scale(1) rotate(-15deg);
-    }
-    75% {
-        transform: translateX(60px) translateY(-90px) scale(1.1) rotate(5deg);
-    }
-    85% {
-        transform: translateX(60px) translateY(-90px) scale(1) rotate(5deg);
-    }
-
-    /* Финальный прыжок в центр и вылет */
-    90% {
-        transform: translateX(0) translateY(-20px) scale(1.2);
+@keyframes flyIntoScreen {
+    0% { 
+        transform: scale(1); 
+        filter: brightness(1) drop-shadow(0 0 15px #ffd700);
+        opacity: 1; 
     }
     100% {
-        opacity: 0;
-        transform: translateX(0) translateY(-150px) scale(2.5);
+        transform: scale(10); 
+        filter: brightness(2) drop-shadow(0 0 50px #ffd700);
+        opacity: 0; 
     }
 }
 
-.snow-particle {
-    position: absolute;
-    background: #fff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99;
-    box-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+.bingo-animation:not(.hidden) .bingo-text span {
+    animation: 
+        assembleLetters 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+        contourGlow 4s linear infinite;
+    animation-delay: calc(var(--i) * 0.1s), 0s;
 }
 
-.bingo-emoji {
+@keyframes assembleLetters {
+    0% {
+    opacity: 0;
+        transform: translate(
+            calc(sin(var(--i) * 3) * 50vw), 
+            calc(cos(var(--i) * 2) * 50vh)
+        ) scale(0) rotate(720deg);
+    }
+    100% {
+    opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+}
+
+.bingo-snow {
     position: absolute;
+    top: -10px;
+    background: white;
+    border-radius: 50%;
     pointer-events: none;
     z-index: 101;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+    filter: blur(1px);
+    animation: fall linear forwards;
 }
 
-@keyframes bingoSoftVibe {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255,215,0,0.4)); }
-    50% { transform: scale(1.08) rotate(1deg); filter: drop-shadow(0 0 30px rgba(255,215,0,0.8)); }
+@keyframes fall {
+    to {
+        transform: translateY(110vh) rotate(360deg);
+    }
 }
-
-.bingo-bg-tree {
-    position: absolute;
-    font-size: 2rem;
-    opacity: 0.4;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.bingo-text::after {
-    /* content: '🎉'; */
-    content: none;
-    position: absolute;
-    top: -10%;
-    right: -10%;
-    font-size: 10rem;
-    animation: spinSlow 2s linear infinite;
-}
-
-.bingo-text::before {
-    /* content: '🎊'; */
-    content: none;
-    position: absolute;
-    bottom: -10%;
-    left: -10%;
-    font-size: 10rem;
-    animation: spinSlow 3s linear infinite reverse;
-}
-
-@keyframes spinSlow {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-
-.song-background-effects, 
-.floating-particles, 
-.sparkles-container,
-.music-notes {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.music-note {
-    position: absolute;
-    font-size: 24px;
-    color: var(--gold);
-    opacity: 0;
-    animation: floatNote 3s ease-in-out forwards;
-}
-
-@keyframes floatNote {
-    0% { opacity: 0; transform: translateY(0) rotate(0deg); }
-    20% { opacity: 1; }
-    100% { opacity: 0; transform: translateY(-100px) rotate(20deg); }
-}
-
-.song-particle {
-    position: absolute;
-    background: radial-gradient(circle, rgba(255, 255, 255, 1) 20%, rgba(255, 255, 255, 0.4) 100%);
-    border-radius: 50%;
-    pointer-events: none;
-    will-change: transform, opacity;
-}
-
-.sparkle {
-    position: absolute;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 1000;
-    background: var(--gold);
-    animation: sparkleFade 0.8s ease-out forwards;
-}
-
-.popper {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    z-index: 99;
-    opacity: 0;
-}
-
-.popper-particle {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    border-radius: 2px;
-    z-index: 98;
-    animation: fireworkParticle 1s ease-out forwards;
-}
-
-@keyframes sparkleFade {
-    0% { transform: scale(0) translate(0, 0); opacity: 1; }
-    100% { transform: scale(1.5) translate(var(--tx), var(--ty)); opacity: 0; }
-}
-
-.firework {
-    position: absolute;
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    z-index: 99;
-    animation: fireworkFade 1.5s ease-out forwards;
-    will-change: transform, opacity;
-}
-
-.firework-particle {
-    position: absolute;
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    z-index: 98;
-    animation: fireworkParticle 1.2s ease-out forwards;
-    will-change: transform, opacity;
-}
-
-@keyframes fireworkFade {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(4); opacity: 0; }
-}
-
-@keyframes fireworkParticle {
-    0% { transform: translate(0, 0) scale(1); opacity: 1; }
-    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
-}
-
-.audio-visualizer {
-    display: flex;
-    align-items: flex-end;
-    gap: 5px;
-    height: 30px;
-    margin-top: 10px;
-}
-
-.eq-bar {
-    width: 6px;
-    background: var(--gold);
-    border-radius: 3px;
-    animation: eqBounce 1s infinite;
-}
-
-@keyframes eqBounce {
-    0%, 100% { height: 5px; }
-    50% { height: 25px; }
-}
-
-.eq-bar:nth-child(odd) { animation-duration: 0.8s; }
-.eq-bar:nth-child(even) { animation-duration: 1.2s; }
-
-.popper, .popper-particle, .sparkle {
-    will-change: transform, opacity;
-}
-

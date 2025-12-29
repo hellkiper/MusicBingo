@@ -67,10 +67,10 @@ const tracks = [
     { number: 63, title: "Твоя любовь Манила", artist: "Тахмина Умалатова", cover: "images/cover-63.jpg", src: "audio/63.mp3" },
     { number: 64, title: "Кукушка", artist: "Евгений Григорьев", cover: "images/cover-64.jpg", src: "audio/64.mp3" },
     { number: 65, title: "Отель", artist: "НЭНСИ", cover: "images/cover-65.jpg", src: "audio/65.mp3" },
-    { number: 66, title: "Я плачу", artist: "A.V.G", cover: "images/cover-66.jpg", src: "audio/66.mp3" },
-    { number: 67, title: "Этой ночью", artist: "Скачков", cover: "images/cover-67.jpg", src: "audio/67.mp3" },
-    { number: 68, title: "Где ты", artist: "Aslan, Марина Алиева", cover: "images/cover-68.jpg", src: "audio/68.mp3" },
-    { number: 69, title: "Ты так красива", artist: "Quest Pistols Show", cover: "images/cover-69.jpg", src: "audio/69.mp3" },
+    { number: 66, title: "Седая ночь", artist: "Юрий Шатунов", cover: "images/cover-66.jpg", src: "audio/66.mp3" },
+    { number: 67, title: "Трава у дома", artist: "Земляне", cover: "images/cover-67.jpg", src: "audio/67.mp3" },
+    { number: 68, title: "Миллион роз", artist: "Алла Пугачева", cover: "images/cover-68.jpg", src: "audio/68.mp3" },
+    { number: 69, title: "Земля в иллюминаторе", artist: "Земляне", cover: "images/cover-69.jpg", src: "audio/69.mp3" },
     { number: 70, title: "Мой мармеладный", artist: "Катя Лель", cover: "images/cover-70.jpg", src: "audio/70.mp3" },
     { number: 71, title: "Дни и ночи", artist: "Джиган", cover: "images/cover-71.jpg", src: "audio/71.mp3" },
     { number: 72, title: "КАК MOMMY", artist: "Instasamka", cover: "images/cover-72.jpg", src: "audio/72.mp3" },
@@ -110,6 +110,7 @@ function renderBarrels() {
         button.className = 'barrel';
         button.dataset.number = track.number;
         button.innerHTML = `
+            <div class="barrel-hat"></div>
             <div class="barrel-face">
                 <span class="barrel-number">${track.number}</span>
             </div>
@@ -199,12 +200,6 @@ function startSongParticles() {
         }
     }, 1500);
     
-    /* Sparkles removed
-    songSparklesInterval = setInterval(() => {
-        createSparkleEffect(sparklesContainer);
-    }, 800);
-    */
-    
     songNotesInterval = setInterval(() => {
         createMusicNote(notesContainer);
         if (Math.random() > 0.6) {
@@ -215,11 +210,6 @@ function startSongParticles() {
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
-            /*
-            if (i % 2 === 0) {
-                createSparkleEffect(sparklesContainer);
-            }
-            */
         }, i * 300);
     }
     
@@ -427,16 +417,9 @@ function startPage2Effects() {
         }
     }, 1500);
     
-    /* Sparkles removed
-    page2SparklesInterval = setInterval(() => {
-        createSparkleEffect(sparklesContainer);
-    }, 800);
-    */
-    
     for (let i = 0; i < 5; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
-            // if (i % 2 === 0) createSparkleEffect(sparklesContainer);
         }, i * 300);
     }
 }
@@ -497,23 +480,20 @@ function startHeroEffects() {
     
     if (!particlesContainer) return;
 
-    // Re-enable forest generation
     if (forestContainer && forestContainer.children.length === 0) {
         const layers = 6; 
         
         for (let layer = 0; layer < layers; layer++) {
-            const depth = layer / (layers - 1); // 0 (front) to 1 (back)
-            const scale = 1 - (depth * 0.6); // 1.0 to 0.4
+            const depth = layer / (layers - 1); 
+            const scale = 1 - (depth * 0.6); 
             const bottomBase = depth * 150; 
             
-            // Fixed count per layer
             const currentLayerCount = 40;
-            const spreadWidth = 140; // Cover 140% of width
-            const startX = -20; // Start from -20%
+            const spreadWidth = 140; 
+            const startX = -20; 
             const step = spreadWidth / currentLayerCount;
 
             for (let i = 0; i < currentLayerCount; i++) {
-                // Uniform distribution with jitter: place one tree in each "slot"
                 const leftPos = startX + (i * step) + (Math.random() * step * 0.6);
                 const jitterY = (Math.random() - 0.5) * 40; 
                 const bottomOffset = bottomBase + jitterY - 20; 
@@ -532,27 +512,15 @@ function startHeroEffects() {
     
     heroParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
-        if (Math.random() > 0.3) { 
+        if (Math.random() > 0.5) { 
             createSongParticle(particlesContainer);
         }
-    }, 200);
+    }, 100);
     
-    /* Sparkles removed
-    heroSparklesInterval = setInterval(() => {
-        createSparkleEffect(sparklesContainer);
-    }, 800);
-    */
-    
-    
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
-            /*
-            if (i % 5 === 0) {
-                createSparkleEffect(sparklesContainer);
-            }
-            */
-        }, i * 50);
+        }, i * 30);
     }
 
 }
@@ -614,10 +582,7 @@ document.addEventListener('keydown', (event) => {
     if (event.key === ' ' || event.code === 'Space') {
         event.preventDefault();
         
-        if (!page2.classList.contains('hidden')) {
-            toggleBingoAnimation();
-        }
-        else if (!page3.classList.contains('hidden')) {
+        if (!page3.classList.contains('hidden')) {
             if (songAudio.paused) {
                 songAudio.play();
             } else {
@@ -628,275 +593,7 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-let bingoSoundInterval = null;
-
-const bufferSize = audioContext.sampleRate * 2; 
-const noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
-const output = noiseBuffer.getChannelData(0);
-for (let i = 0; i < bufferSize; i++) {
-    output[i] = Math.random() * 2 - 1;
-}
-
-
-
-
-
-
-
-
-function toggleBingoAnimation() {
-    const bingoAnimation = document.getElementById('bingoAnimation');
-    
-    if (isBingoActive) {
-        isBingoActive = false;
-        bingoAnimation.classList.add('hidden');
-        
-        const rainContainer = bingoAnimation.querySelector('.golden-rain-container');
-        if (rainContainer) {
-            rainContainer.remove();
-        }
-        if (page2RainInterval) {
-            clearInterval(page2RainInterval);
-            page2RainInterval = null;
-        }
-    } else {
-        isBingoActive = true;
-        bingoAnimation.classList.remove('hidden');
-        
-        startBingoRain(bingoAnimation);
-    }
-}
-
-function startBingoRain(container) {
-    if (page2RainInterval) {
-        clearInterval(page2RainInterval);
-    }
-    
-    let rainContainer = document.createElement('div');
-    rainContainer.className = 'golden-rain-container';
-    rainContainer.style.position = 'absolute';
-    rainContainer.style.inset = '0';
-    rainContainer.style.pointerEvents = 'none';
-    rainContainer.style.zIndex = '-1'; 
-    rainContainer.style.overflow = 'hidden';
-    container.appendChild(rainContainer);
-    
-    page2RainInterval = setInterval(() => {
-        if (!isBingoActive) {
-            clearInterval(page2RainInterval);
-            page2RainInterval = null;
-            return;
-        }
-        
-        const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
-        if (currentDrops < MAX_RAIN_DROPS) {
-            for (let i = 0; i < 4; i++) {
-                createGoldenRain(rainContainer);
-            }
-        }
-    }, 60); 
-    
-    for (let i = 0; i < 60; i++) {
-        setTimeout(() => {
-            createGoldenRain(rainContainer, true); 
-        }, i * 10);
-    }
-}
-
-function startContinuousEffects(container) {
-    const colors = ['#ffffff', '#ff0000', '#00ff00', '#ffd700', '#ff00ff', '#00ffff'];
-    
-    animationInterval = setInterval(() => {
-        if (!isBingoActive) return;
-        
-        if (Math.random() > 0.3) {
-            createFirework(container, colors);
-        }
-        
-        if (Math.random() > 0.7) {
-            createPopper(container, colors);
-        }
-        
-        /* Sparkles removed
-        if (Math.random() > 0.8) {
-            createSparkle(container, colors);
-        }
-        */
-
-        /* Snow removed
-        if (Math.random() > 0.4) {
-            createSnow(container);
-        }
-        */
-
-        /* Emoji removed
-        if (Math.random() > 0.85) {
-            createBingoEmoji(container);
-        }
-        */
-        
-    }, 200);
-    
-    for (let i = 0; i < 8; i++) {
-        setTimeout(() => {
-            createFirework(container, colors);
-            // createSnow(container);
-            if (i % 4 === 0) {
-                createPopper(container, colors);
-            }
-        }, i * 200);
-    }
-}
-
-function createFirework(container, colors) {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    
-    const scale = 0.5 + Math.random() * 1.5; 
-    
-    const center = document.createElement('div');
-    center.className = 'firework';
-    center.style.left = x + 'px';
-    center.style.top = y + 'px';
-    center.style.background = color;
-    center.style.transform = `scale(${scale})`;
-    center.style.boxShadow = `0 0 ${20 * scale}px ${color}`;
-    container.appendChild(center);
-    
-    const particleCount = Math.floor(20 + Math.random() * 20);
-    for (let i = 0; i < particleCount; i++) {
-        const angle = (Math.PI * 2 * i) / particleCount;
-        const distance = (40 + Math.random() * 80) * scale;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-        
-        const particle = document.createElement('div');
-        particle.className = 'firework-particle';
-        particle.style.left = x + 'px';
-        particle.style.top = y + 'px';
-        particle.style.background = color;
-        particle.style.setProperty('--tx', tx + 'px');
-        particle.style.setProperty('--ty', ty + 'px');
-        container.appendChild(particle);
-    }
-    
-    setTimeout(() => {
-        if(center.parentElement) center.remove();
-    }, 1500);
-}
-
-function createPopper(container, colors) {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    
-    for (let pop = 0; pop < 2; pop++) {
-        setTimeout(() => {
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const center = document.createElement('div');
-            center.className = 'popper';
-            center.style.left = (x + (Math.random() - 0.5) * 60) + 'px';
-            center.style.top = (y + (Math.random() - 0.5) * 60) + 'px';
-            center.style.background = color;
-            container.appendChild(center);
-            
-            for (let i = 0; i < 12; i++) {
-                const angle = Math.random() * Math.PI * 2;
-                const distance = 20 + Math.random() * 50;
-                const particle = document.createElement('div');
-                particle.className = 'popper-particle';
-                particle.style.left = center.style.left;
-                particle.style.top = center.style.top;
-                particle.style.background = color;
-                particle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
-                particle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
-                container.appendChild(particle);
-            }
-            
-            setTimeout(() => {
-                center.remove();
-            }, 1000);
-        }, pop * 200);
-    }
-}
-
-function createSparkle(container, colors) {
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    
-    for (let i = 0; i < 5; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.style.left = x + 'px';
-        sparkle.style.top = y + 'px';
-        sparkle.style.background = color;
-        const angle = (Math.PI * 2 * i) / 5;
-        const distance = 15 + Math.random() * 25;
-        sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
-        sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
-        container.appendChild(sparkle);
-        
-        setTimeout(() => {
-            if (sparkle.parentElement === container) sparkle.remove();
-        }, 800);
-    }
-}
-
-function createSnow(container) {
-    const count = 12;
-    for (let i = 0; i < count; i++) {
-        const snow = document.createElement('div');
-        snow.className = 'snow-particle';
-        const size = 3 + Math.random() * 6;
-        snow.style.width = size + 'px';
-        snow.style.height = size + 'px';
-        snow.style.left = Math.random() * 100 + '%';
-        snow.style.top = '-10px';
-        snow.style.opacity = 0.5 + Math.random() * 0.5;
-        snow.style.filter = `blur(${Math.random() * 2}px)`;
-        container.appendChild(snow);
-
-        const duration = 2500 + Math.random() * 2500;
-        const drift = (Math.random() - 0.5) * 200;
-
-        snow.animate([
-            { transform: 'translateY(0) translateX(0)', opacity: snow.style.opacity },
-            { transform: `translateY(${window.innerHeight + 20}px) translateX(${drift}px)`, opacity: 0 }
-        ], {
-            duration: duration,
-            easing: 'linear'
-        }).onfinish = () => snow.remove();
-    }
-}
-
-function createBingoEmoji(container) {
-    /* Emojis disabled */
-    return;
-    
-    /*
-    const emojis = ['❄️', '🎁', '☃️', '🎅', '🔔', '🕯️', '🍪'];
-    const emoji = document.createElement('div');
-    emoji.className = 'bingo-emoji';
-    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-    emoji.style.left = Math.random() * 100 + '%';
-    emoji.style.top = Math.random() * 100 + '%';
-    emoji.style.fontSize = 2 + Math.random() * 3 + 'rem';
-    container.appendChild(emoji);
-
-    emoji.animate([
-        { transform: 'scale(0) rotate(0deg)', opacity: 0 },
-        { transform: 'scale(1.5) rotate(20deg)', opacity: 0.8, offset: 0.5 },
-        { transform: 'scale(1) rotate(-20deg)', opacity: 0 }
-    ], {
-        duration: 3000,
-        easing: 'ease-out'
-    }).onfinish = () => emoji.remove();
-    */
-}
-
-function createGoldenRain(container, randomHeight = false) {
+function formatTime(seconds) {
     if (!container) return;
     
     const currentDrops = container.querySelectorAll('.golden-rain').length;
@@ -1074,58 +771,76 @@ document.addEventListener('DOMContentLoaded', function() {
         startBtnElement.addEventListener('click', () => {
             const bingoAnimation = document.getElementById('bingoAnimation');
             if (bingoAnimation) {
-                startBingoShow(bingoAnimation);
+                bingoAnimation.classList.remove('hidden');
+                bingoAnimation.classList.remove('darken');
+                bingoAnimation.style.opacity = '1';
+                
+                for (let i = 0; i < 100; i++) {
+                    const snow = document.createElement('div');
+                    snow.className = 'bingo-snow';
+                    const size = Math.random() * 5 + 2 + 'px';
+                    snow.style.width = size;
+                    snow.style.height = size;
+                    snow.style.left = Math.random() * 100 + 'vw';
+                    snow.style.opacity = Math.random();
+                    snow.style.animationDuration = Math.random() * 2 + 1 + 's';
+                    snow.style.animationDelay = Math.random() * 2 + 's';
+                    bingoAnimation.appendChild(snow);
+                }
+
+                setTimeout(() => {
+                    bingoAnimation.classList.add('darken');
+                }, 1800); 
             }
+            
+            setTimeout(() => {
+                stopHeroEffects();
+                const page1 = document.getElementById('page1');
+                const page2 = document.getElementById('page2');
+                
+                if (page1) page1.classList.add('hidden');
+                document.body.classList.add('blurred-bg');
+                document.body.classList.add('show-side-trees');
+                
+                if (page2) {
+                    page2.classList.remove('hidden');
+                    page2.style.opacity = '0';
+                    setTimeout(() => {
+                        page2.style.opacity = '1';
+                        startPage2Effects();
+                    }, 50);
+                }
+
+                if (bingoAnimation) {
+                    bingoAnimation.style.opacity = '0';
+                    setTimeout(() => {
+                        bingoAnimation.classList.add('hidden');
+                    }, 1000); 
+                    
+                    const snows = bingoAnimation.querySelectorAll('.bingo-snow');
+                    snows.forEach(s => s.remove());
+                }
+
+                if (!document.querySelector('.side-tree')) {
+                    const leftTree = document.createElement('div');
+                    leftTree.className = 'side-tree left-tree';
+                    for(let i=1; i<=6; i++) {
+                        const gift = document.createElement('div');
+                        gift.className = `tree-gift gift-pos-${i}`;
+                        leftTree.appendChild(gift);
+                    }
+                    document.body.appendChild(leftTree);
+                    
+                    const rightTree = document.createElement('div');
+                    rightTree.className = 'side-tree right-tree';
+                    for(let i=1; i<=6; i++) {
+                        const gift = document.createElement('div');
+                        gift.className = `tree-gift gift-pos-${i}`;
+                        rightTree.appendChild(gift);
+                    }
+                    document.body.appendChild(rightTree);
+                }
+            }, 2600); 
         });
     }
 });
-
-function startBingoShow(bingoAnimation) {
-    isBingoActive = true;
-    bingoAnimation.classList.remove('hidden');
-
-    // Плавное наложение страницы 2 на страницу 1
-    setTimeout(() => {
-        stopHeroEffects();
-        const page1 = document.getElementById('page1');
-        const page2 = document.getElementById('page2');
-
-        // Убираем размытие - чистый переход
-        // Create and show side trees now
-        if (!document.querySelector('.side-tree')) {
-            const leftTree = document.createElement('div');
-            leftTree.className = 'side-tree left-tree';
-            document.body.appendChild(leftTree);
-            
-            const rightTree = document.createElement('div');
-            rightTree.className = 'side-tree right-tree';
-            document.body.appendChild(rightTree);
-        }
-
-        // Force reflow
-        void document.body.offsetWidth;
-        document.body.classList.add('show-side-trees');
-
-        // Показываем вторую страницу поверх первой
-        if (page2) {
-            page2.classList.remove('hidden');
-            page2.classList.add('overlay-mode'); // Новый класс для режима наложения
-
-            setTimeout(() => {
-                startPage2Effects();
-            }, 200);
-        }
-
-        // Скрываем первую страницу только после полного появления второй
-        setTimeout(() => {
-            if (page1) page1.classList.add('hidden');
-            if (page2) page2.classList.remove('overlay-mode');
-        }, 1500);
-    }, 3500); // Начинаем переход чуть раньше
-
-    // Скрываем анимацию после перехода к странице 2
-    setTimeout(() => {
-        bingoAnimation.classList.add('hidden');
-        isBingoActive = false;
-    }, 5000);
-}
