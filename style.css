@@ -141,13 +141,13 @@ body::after {
     font-family: 'Rubik Gemstones', cursive; 
     font-size: 2.5rem;
     padding: 1rem 3rem;
-    color: var(--primary-red); 
-    background: #f0f0f0; 
-    border: 4px solid #fff;
+    color: var(--gold);
+    background: linear-gradient(135deg, #0f2f0f, #153f15);
+    border: 3px solid #b8860b;
     border-radius: 50px;
     cursor: pointer;
-    box-shadow: 0 8px 0 #ccc;
-    transition: all 0.2s;
+    box-shadow: 0 10px 0 #0a1f0a, 0 0 25px rgba(255, 215, 0, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     text-transform: none; 
     position: relative;
     overflow: hidden;
@@ -183,13 +183,14 @@ body::after {
 
 .primary-btn-3d:hover {
     transform: translateY(4px) scale(1.05) !important; 
-    box-shadow: 0 4px 0 #ccc !important;
-    background: #f0f0f0;
+    box-shadow: 0 6px 0 #0a1f0a, 0 0 30px rgba(255, 215, 0, 0.3) !important;
+    background: linear-gradient(135deg, #144014, #1a541a);
 }
 
 .primary-btn-3d:active {
     transform: translateY(8px) scale(1.05) !important;
-    box-shadow: inset 0 4px 10px rgba(0,0,0,0.2) !important;
+    box-shadow: inset 0 4px 10px rgba(0,0,0,0.25) !important;
+    background: linear-gradient(135deg, #0d250d, #123012);
 }
 
 .top-bar {
