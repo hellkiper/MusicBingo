@@ -199,9 +199,11 @@ function startSongParticles() {
         }
     }, 1500);
     
+    /* Sparkles removed
     songSparklesInterval = setInterval(() => {
         createSparkleEffect(sparklesContainer);
     }, 800);
+    */
     
     songNotesInterval = setInterval(() => {
         createMusicNote(notesContainer);
@@ -213,9 +215,11 @@ function startSongParticles() {
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
+            /*
             if (i % 2 === 0) {
                 createSparkleEffect(sparklesContainer);
             }
+            */
         }, i * 300);
     }
     
@@ -423,14 +427,16 @@ function startPage2Effects() {
         }
     }, 1500);
     
+    /* Sparkles removed
     page2SparklesInterval = setInterval(() => {
         createSparkleEffect(sparklesContainer);
     }, 800);
+    */
     
     for (let i = 0; i < 5; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
-            if (i % 2 === 0) createSparkleEffect(sparklesContainer);
+            // if (i % 2 === 0) createSparkleEffect(sparklesContainer);
         }, i * 300);
     }
 }
@@ -458,24 +464,27 @@ function stopPage2Effects() {
     if (rainContainer) rainContainer.remove(); 
 }
 
-function createBackgroundTree(container, leftPosition) {
+function createBackgroundTree(container, leftPosition, scale = null, bottomOffset = null) {
     const tree = document.createElement('div');
     tree.className = 'bg-tree';
     
     tree.style.left = leftPosition + '%';
     
-    const scale = 0.5 + Math.random() * 0.5;
+    if (scale === null) scale = 0.5 + Math.random() * 0.5;
     tree.style.width = (100 * scale) + 'px';
     tree.style.height = (140 * scale) + 'px';
     
-    const bottomOffset = -5 - (Math.random() * 20);
+    if (bottomOffset === null) bottomOffset = -5 - (Math.random() * 20);
     tree.style.bottom = bottomOffset + 'px';
+    
+    tree.style.zIndex = Math.floor(bottomOffset); 
     
     tree.style.animationDelay = Math.random() * -10 + 's';
     
-    const blurVal = 1 + Math.random() * 2;
-    const opacityVal = 0.3 + (scale / 2); 
-    tree.style.filter = `blur(${blurVal}px)`;
+    const blurVal = (1 - scale) * 2; 
+    const opacityVal = 0.6 + (scale * 0.4); 
+    
+    tree.style.filter = `blur(${blurVal}px) brightness(${0.8 + scale * 0.2})`;
     tree.style.opacity = opacityVal;
     
     container.appendChild(tree);
@@ -488,13 +497,29 @@ function startHeroEffects() {
     
     if (!particlesContainer) return;
 
+    // Re-enable forest generation
     if (forestContainer && forestContainer.children.length === 0) {
-        const count = 80;
-        for (let i = 0; i < count; i++) {
-            const step = 100 / (count - 1);
-            const jitter = Math.random() * 1.2 - 0.6;
-            const leftPos = (i * step) + jitter;
-            createBackgroundTree(forestContainer, leftPos);
+        const layers = 6; 
+        
+        for (let layer = 0; layer < layers; layer++) {
+            const depth = layer / (layers - 1); // 0 (front) to 1 (back)
+            const scale = 1 - (depth * 0.6); // 1.0 to 0.4
+            const bottomBase = depth * 150; 
+            
+            // Fixed count per layer
+            const currentLayerCount = 40;
+            const spreadWidth = 140; // Cover 140% of width
+            const startX = -20; // Start from -20%
+            const step = spreadWidth / currentLayerCount;
+
+            for (let i = 0; i < currentLayerCount; i++) {
+                // Uniform distribution with jitter: place one tree in each "slot"
+                const leftPos = startX + (i * step) + (Math.random() * step * 0.6);
+                const jitterY = (Math.random() - 0.5) * 40; 
+                const bottomOffset = bottomBase + jitterY - 20; 
+                
+                createBackgroundTree(forestContainer, leftPos, scale, bottomOffset);
+            }
         }
     }
 
@@ -512,17 +537,21 @@ function startHeroEffects() {
         }
     }, 200);
     
+    /* Sparkles removed
     heroSparklesInterval = setInterval(() => {
         createSparkleEffect(sparklesContainer);
     }, 800);
+    */
     
     
     for (let i = 0; i < 50; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
+            /*
             if (i % 5 === 0) {
                 createSparkleEffect(sparklesContainer);
             }
+            */
         }, i * 50);
     }
 
@@ -609,121 +638,12 @@ for (let i = 0; i < bufferSize; i++) {
     output[i] = Math.random() * 2 - 1;
 }
 
-function playFireworkSound() {
-    const t = audioContext.currentTime;
-    
-    const oscillator = audioContext.createOscillator();
-    const oscGain = audioContext.createGain();
-    
-    oscillator.type = 'sine';
-    oscillator.frequency.setValueAtTime(150, t);
-    oscillator.frequency.exponentialRampToValueAtTime(600, t + 0.1);
-    
-    oscGain.gain.setValueAtTime(0.1, t);
-    oscGain.gain.linearRampToValueAtTime(0.05, t + 0.1);
-    oscGain.gain.linearRampToValueAtTime(0, t + 0.15);
-    
-    oscillator.connect(oscGain);
-    oscGain.connect(audioContext.destination);
-    oscillator.start(t);
-    oscillator.stop(t + 0.15);
 
-    const noise = audioContext.createBufferSource();
-    noise.buffer = noiseBuffer;
-    const noiseGain = audioContext.createGain();
-    const noiseFilter = audioContext.createBiquadFilter();
-    
-    noiseFilter.type = 'lowpass';
-    noiseFilter.frequency.setValueAtTime(100, t + 0.1);
-    noiseFilter.frequency.exponentialRampToValueAtTime(1000, t + 0.15);
-    noiseFilter.frequency.exponentialRampToValueAtTime(20, t + 1.5); 
-    
-    noiseGain.gain.setValueAtTime(0, t + 0.1);
-    noiseGain.gain.linearRampToValueAtTime(1, t + 0.15);
-    noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 1.5);
-    
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(audioContext.destination);
-    
-    noise.start(t + 0.1);
-    noise.stop(t + 2);
-}
 
-function playPopperSound() {
-    const t = audioContext.currentTime;
-    
-    const noise = audioContext.createBufferSource();
-    noise.buffer = noiseBuffer;
-    const noiseGain = audioContext.createGain();
-    const noiseFilter = audioContext.createBiquadFilter();
-    
-    noiseFilter.type = 'highpass';
-    noiseFilter.frequency.value = 1000;
-    
-    noiseGain.gain.setValueAtTime(0, t);
-    noiseGain.gain.linearRampToValueAtTime(0.8, t + 0.01);
-    noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.3);
-    
-    noise.connect(noiseFilter);
-    noiseFilter.connect(noiseGain);
-    noiseGain.connect(audioContext.destination);
-    
-    noise.start(t);
-    noise.stop(t + 0.3);
-}
 
-function playFanfareSound() {
-    const now = audioContext.currentTime;
-    const notes = [523.25, 659.25, 783.99, 1046.50]; 
-    
-    notes.forEach((freq, i) => {
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        
-        osc.type = 'triangle'; 
-        osc.frequency.setValueAtTime(freq, now);
-        
-        gain.gain.setValueAtTime(0, now);
-        gain.gain.linearRampToValueAtTime(0.1, now + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
-        
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
-        
-        osc.start(now);
-        osc.stop(now + 0.5);
-    });
-}
 
-function startBingoSounds() {
-    if (bingoSoundInterval) clearInterval(bingoSoundInterval);
-    
-    playFanfareSound();
-    playFireworkSound();
-    
-    bingoSoundInterval = setInterval(() => {
-        if (!isBingoActive) return;
-        
-        const rand = Math.random();
-        
-        if (rand < 0.4) {
-            playFireworkSound(); 
-        } else if (rand < 0.7) {
-            playPopperSound();   
-        } else {
-             if (Math.random() > 0.5) playFanfareSound();
-        }
-        
-    }, 400); 
-}
 
-function stopBingoSounds() {
-    if (bingoSoundInterval) {
-        clearInterval(bingoSoundInterval);
-        bingoSoundInterval = null;
-    }
-}
+
 
 function toggleBingoAnimation() {
     const bingoAnimation = document.getElementById('bingoAnimation');
@@ -798,24 +718,30 @@ function startContinuousEffects(container) {
             createPopper(container, colors);
         }
         
+        /* Sparkles removed
         if (Math.random() > 0.8) {
             createSparkle(container, colors);
         }
+        */
 
+        /* Snow removed
         if (Math.random() > 0.4) {
             createSnow(container);
         }
+        */
 
+        /* Emoji removed
         if (Math.random() > 0.85) {
             createBingoEmoji(container);
         }
+        */
         
     }, 200);
     
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createFirework(container, colors);
-            createSnow(container);
+            // createSnow(container);
             if (i % 4 === 0) {
                 createPopper(container, colors);
             }
@@ -946,6 +872,10 @@ function createSnow(container) {
 }
 
 function createBingoEmoji(container) {
+    /* Emojis disabled */
+    return;
+    
+    /*
     const emojis = ['❄️', '🎁', '☃️', '🎅', '🔔', '🕯️', '🍪'];
     const emoji = document.createElement('div');
     emoji.className = 'bingo-emoji';
@@ -963,6 +893,7 @@ function createBingoEmoji(container) {
         duration: 3000,
         easing: 'ease-out'
     }).onfinish = () => emoji.remove();
+    */
 }
 
 function createGoldenRain(container, randomHeight = false) {
@@ -1141,10 +1072,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {
-            if (audioContext && audioContext.state === 'suspended') {
-                audioContext.resume();
-            }
-
             const bingoAnimation = document.getElementById('bingoAnimation');
             if (bingoAnimation) {
                 startBingoShow(bingoAnimation);
@@ -1157,35 +1084,48 @@ function startBingoShow(bingoAnimation) {
     isBingoActive = true;
     bingoAnimation.classList.remove('hidden');
 
-    const colors = ['#ffffff', '#ff0000', '#00ff00', '#ffd700', '#ff00ff', '#00ffff'];
-    for(let i=0; i<8; i++) {
-        setTimeout(() => {
-            createFirework(bingoAnimation, colors);
-        }, i * 200);
-    }
-
-    startContinuousEffects(bingoAnimation);
-
+    // Плавное наложение страницы 2 на страницу 1
     setTimeout(() => {
         stopHeroEffects();
         const page1 = document.getElementById('page1');
         const page2 = document.getElementById('page2');
-        
-        if (page1) page1.classList.add('hidden');
-        document.body.classList.add('blurred-bg');
+
+        // Убираем размытие - чистый переход
+        // Create and show side trees now
+        if (!document.querySelector('.side-tree')) {
+            const leftTree = document.createElement('div');
+            leftTree.className = 'side-tree left-tree';
+            document.body.appendChild(leftTree);
+            
+            const rightTree = document.createElement('div');
+            rightTree.className = 'side-tree right-tree';
+            document.body.appendChild(rightTree);
+        }
+
+        // Force reflow
+        void document.body.offsetWidth;
         document.body.classList.add('show-side-trees');
-        
+
+        // Показываем вторую страницу поверх первой
         if (page2) {
             page2.classList.remove('hidden');
-            page2.style.opacity = '1';
-            page2.style.transform = 'none';
-            startPage2Effects();
-        }
-    }, 500);
+            page2.classList.add('overlay-mode'); // Новый класс для режима наложения
 
+            setTimeout(() => {
+                startPage2Effects();
+            }, 200);
+        }
+
+        // Скрываем первую страницу только после полного появления второй
+        setTimeout(() => {
+            if (page1) page1.classList.add('hidden');
+            if (page2) page2.classList.remove('overlay-mode');
+        }, 1500);
+    }, 3500); // Начинаем переход чуть раньше
+
+    // Скрываем анимацию после перехода к странице 2
     setTimeout(() => {
         bingoAnimation.classList.add('hidden');
         isBingoActive = false;
-        if (animationInterval) clearInterval(animationInterval);
-    }, 3000);
+    }, 5000);
 }
