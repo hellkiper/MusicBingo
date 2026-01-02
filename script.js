@@ -128,14 +128,10 @@ function renderBarrels() {
 function updateSelectedCounter() {
     selectedCount.textContent = selectedSet.size;
 }
-
-function persistSelected() {
-}
-
 function handleBarrelClick(track) {
     selectedSet.add(track.number);
     markBarrelUsed(track.number);
-    openSongPage(track);
+        openSongPage(track);
 }
 
 function markBarrelUsed(number) {
@@ -147,7 +143,6 @@ function markBarrelUsed(number) {
 }
 
 let songParticlesInterval = null;
-let songNotesInterval = null;
 
 function openSongPage(track) {
     page2.classList.add('hidden');
@@ -172,27 +167,15 @@ function openSongPage(track) {
     
     startSongParticles();
 }
-
-let songSparklesInterval = null;
-let songLinesInterval = null;
-
 function startSongParticles() {
     const particlesContainer = page3.querySelector('.floating-particles');
     const sparklesContainer = page3.querySelector('.sparkles-container');
-    const notesContainer = page3.querySelector('.music-notes');
 
-    if (!particlesContainer || !sparklesContainer || !notesContainer) return;
+    if (!particlesContainer || !sparklesContainer) return;
     
     if (songParticlesInterval) {
         clearInterval(songParticlesInterval);
     }
-    if (songNotesInterval) {
-        clearInterval(songNotesInterval);
-    }
-    if (songSparklesInterval) {
-        clearInterval(songSparklesInterval);
-    }
-    
     songParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
         if (Math.random() > 0.5) {
@@ -200,21 +183,10 @@ function startSongParticles() {
         }
     }, 1500);
     
-    songNotesInterval = setInterval(() => {
-        createMusicNote(notesContainer);
-        if (Math.random() > 0.6) {
-            createMusicNote(notesContainer);
-        }
-    }, 1100);
-    
     for (let i = 0; i < 8; i++) {
         setTimeout(() => {
             createSongParticle(particlesContainer);
         }, i * 300);
-    }
-    
-    for (let i = 0; i < 6; i++) {
-        setTimeout(() => createMusicNote(notesContainer), 200 + i * 180);
     }
 }
 
@@ -270,85 +242,6 @@ function createSongParticle(container) {
         }
     };
 }
-
-function createSparkleEffect(container) {
-    if (!container) return;
-    
-    const x = Math.random() * window.innerWidth;
-    const y = Math.random() * window.innerHeight;
-    const colors = ['rgba(255, 215, 0, 1)', 'rgba(255, 223, 0, 1)', 'rgba(255, 250, 205, 1)']; 
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    
-    for (let i = 0; i < 4; i++) {
-        const sparkle = document.createElement('div');
-        sparkle.style.position = 'absolute';
-        sparkle.style.left = (x + (Math.random() - 0.5) * 50) + 'px';
-        sparkle.style.top = (y + (Math.random() - 0.5) * 50) + 'px';
-        sparkle.style.width = '4px';
-        sparkle.style.height = '4px';
-        sparkle.style.background = color;
-        sparkle.style.borderRadius = '50%';
-        sparkle.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}`;
-        sparkle.style.opacity = '0';
-        
-        container.appendChild(sparkle);
-        
-        const angle = (Math.PI * 2 * i) / 4;
-        const distance = 30 + Math.random() * 40;
-        const moveX = Math.cos(angle) * distance;
-        const moveY = Math.sin(angle) * distance;
-        
-        sparkle.animate([
-            { opacity: 0, transform: 'translate(0, 0) scale(0)' },
-            { opacity: 1, transform: 'translate(0, 0) scale(1)', offset: 0.2 },
-            { opacity: 0, transform: `translate(${moveX}px, ${moveY}px) scale(0)` }
-        ], {
-            duration: 1000 + Math.random() * 500,
-            easing: 'ease-out'
-        }).onfinish = () => {
-            if (sparkle.parentElement) sparkle.remove();
-        };
-    }
-}
-
-
-function createMusicNote(container) {
-    if (!container) return;
-    
-    const note = document.createElement('div');
-    note.className = 'music-note';
-    const symbols = ['♪', '♫', '♬'];
-    note.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-    
-    const size = 14 + Math.random() * 10;
-    note.style.fontSize = `${size}px`;
-    note.style.color = `hsl(50, 100%, ${50 + Math.random() * 20}%)`; 
-    
-    const startX = Math.random() * 100;
-    const startY = 70 + Math.random() * 20;
-    note.style.left = `${startX}%`;
-    note.style.top = `${startY}%`;
-    
-    container.appendChild(note);
-    
-    const driftX = (Math.random() - 0.5) * 40;
-    const floatY = -120 - Math.random() * 80;
-    const rotateStart = (Math.random() - 0.5) * 40;
-    const rotateEnd = rotateStart + (Math.random() - 0.5) * 120;
-    const duration = 3200 + Math.random() * 1800;
-    
-    note.animate([
-        { opacity: 0, transform: `translate(0, 0) scale(0.7) rotate(${rotateStart}deg)` },
-        { opacity: 1, transform: `translate(${driftX * 0.4}px, ${floatY * 0.35}px) scale(1) rotate(${rotateStart * 0.6}deg)`, offset: 0.35 },
-        { opacity: 0, transform: `translate(${driftX}px, ${floatY}px) scale(1.1) rotate(${rotateEnd}deg)` }
-    ], {
-        duration,
-        easing: 'ease-out'
-    }).onfinish = () => {
-        if (note.parentElement) note.remove();
-    };
-}
-
 function closeSongPage() {
     songAudio.pause();
     songAudio.currentTime = 0;
@@ -362,22 +255,12 @@ function closeSongPage() {
         clearInterval(songParticlesInterval);
         songParticlesInterval = null;
     }
-    if (songNotesInterval) {
-        clearInterval(songNotesInterval);
-        songNotesInterval = null;
-    }
-    if (songSparklesInterval) {
-        clearInterval(songSparklesInterval);
-        songSparklesInterval = null;
-    }
     
     const particlesContainer = page3.querySelector('.floating-particles');
     const sparklesContainer = page3.querySelector('.sparkles-container');
-    const notesContainer = page3.querySelector('.music-notes');
 
     if (particlesContainer) particlesContainer.innerHTML = '';
     if (sparklesContainer) sparklesContainer.innerHTML = '';
-    if (notesContainer) notesContainer.innerHTML = '';
 }
 
 let heroParticlesInterval = null;
@@ -385,7 +268,6 @@ let heroSparklesInterval = null;
 let page2ParticlesInterval = null;
 let page2SparklesInterval = null;
 let page2RainInterval = null;
-let bingoRainInterval = null;
 
 function stopHeroEffects() {
     if (heroParticlesInterval) {
@@ -429,10 +311,6 @@ function stopPage2Effects() {
         clearInterval(page2ParticlesInterval);
         page2ParticlesInterval = null;
     }
-    if (page2SparklesInterval) {
-        clearInterval(page2SparklesInterval);
-        page2SparklesInterval = null;
-    }
     if (page2RainInterval) {
         clearInterval(page2RainInterval);
         page2RainInterval = null;
@@ -445,6 +323,127 @@ function stopPage2Effects() {
     if (particlesContainer) particlesContainer.innerHTML = '';
     if (sparklesContainer) sparklesContainer.innerHTML = '';
     if (rainContainer) rainContainer.remove(); 
+}
+
+function createVictoryConfetti(container) {
+    const colors = ['#ffd700', '#ff0000', '#00ff00', '#ff00ff', '#00ffff', '#ffffff'];
+    const confettiCount = 150;
+    
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'victory-confetti';
+        
+        const size = Math.random() * 8 + 4;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const startX = Math.random() * window.innerWidth;
+        const startY = -20;
+        const endY = window.innerHeight + 50;
+        const horizontalDrift = (Math.random() - 0.5) * 200;
+        const rotation = Math.random() * 720;
+        const duration = Math.random() * 2 + 2;
+        const delay = Math.random() * 0.5;
+        
+        confetti.style.width = size + 'px';
+        confetti.style.height = size + 'px';
+        confetti.style.backgroundColor = color;
+        confetti.style.left = startX + 'px';
+        confetti.style.top = startY + 'px';
+        confetti.style.boxShadow = `0 0 ${size * 2}px ${color}`;
+        
+        container.appendChild(confetti);
+        const animation = confetti.animate([
+            {
+                transform: `translate(0, 0) rotate(0deg)`,
+                opacity: 1
+            },
+            {
+                transform: `translate(${horizontalDrift}px, ${endY}px) rotate(${rotation}deg)`,
+                opacity: 0.3
+            }
+        ], {
+            duration: duration * 1000,
+            delay: delay * 1000,
+            easing: 'cubic-bezier(0.5, 0, 0.5, 1)'
+        });
+        
+        animation.onfinish = () => confetti.remove();
+    }
+}
+function handleVideoEnd() {
+    const video = document.getElementById('bingoVideo');
+    if (!video) return;
+    video.style.opacity = '0';
+    video.style.visibility = 'hidden';
+}
+
+function handleVideoTimeUpdate() {
+    const video = document.getElementById('bingoVideo');
+    if (!video || !video.duration) return;
+    
+    const currentTime = video.currentTime;
+    const duration = video.duration;
+    const fadeStartTime = duration - 2;
+    if (currentTime >= fadeStartTime) {
+        const fadeProgress = (currentTime - fadeStartTime) / 2; 
+        const opacity = 0.7 * (1 - fadeProgress);
+        video.style.opacity = opacity;
+    } else {
+        video.style.opacity = '0.7';
+    }
+}
+
+function showBingoAnimationPage2() {
+    const bingoAnimation = document.getElementById('bingoAnimationPage2');
+    const video = document.getElementById('bingoVideo');
+    if (!bingoAnimation) return;
+    
+    const isHidden = bingoAnimation.classList.contains('hidden');
+    const isActive = bingoAnimation.classList.contains('active');
+    
+    if (isHidden || !isActive) {
+        
+        bingoAnimation.classList.remove('hidden');
+        bingoAnimation.style.opacity = '0';
+        const spans = bingoAnimation.querySelectorAll('.bingo-text-page2 span');
+        spans.forEach(span => {
+            span.style.animation = 'none';
+        });
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                spans.forEach(span => {
+                    span.style.animation = '';
+                });
+                bingoAnimation.classList.add('active');
+                bingoAnimation.style.opacity = '1';
+                if (video) {
+                    video.style.opacity = '0.7';
+                    video.style.visibility = 'visible';
+                    video.currentTime = 0;
+                    video.removeEventListener('ended', handleVideoEnd);
+                    video.removeEventListener('timeupdate', handleVideoTimeUpdate);
+                    video.addEventListener('ended', handleVideoEnd);
+                    video.addEventListener('timeupdate', handleVideoTimeUpdate);
+                    video.play().catch(err => console.log('Video play error:', err));
+                }
+                
+            });
+        });
+    } else {
+        bingoAnimation.style.opacity = '0';
+        if (video) {
+            video.pause();
+        }
+        
+        setTimeout(() => {
+            bingoAnimation.classList.remove('active');
+            bingoAnimation.classList.add('hidden');
+            const spans = bingoAnimation.querySelectorAll('.bingo-text-page2 span');
+            spans.forEach(span => {
+                span.style.animation = 'none';
+            });
+            
+        }, 500);
+    }
 }
 
 function createBackgroundTree(container, leftPosition, scale = null, bottomOffset = null) {
@@ -512,7 +511,7 @@ function startHeroEffects() {
     
     heroParticlesInterval = setInterval(() => {
         createSongParticle(particlesContainer);
-        if (Math.random() > 0.5) { 
+            if (Math.random() > 0.5) {
             createSongParticle(particlesContainer);
         }
     }, 100);
@@ -526,55 +525,6 @@ function startHeroEffects() {
 }
 
 const MAX_RAIN_DROPS = 300; 
-
-function startPage2GoldenRain() {
-    const page2Container = document.querySelector('#page2');
-    if (!page2Container) return;
-    
-    if (page2RainInterval) {
-        clearInterval(page2RainInterval);
-    }
-    
-    let rainContainer = page2Container.querySelector('.golden-rain-container');
-    if (!rainContainer) {
-        rainContainer = document.createElement('div');
-        rainContainer.className = 'golden-rain-container';
-        rainContainer.style.position = 'absolute';
-        rainContainer.style.inset = '0';
-        rainContainer.style.pointerEvents = 'none';
-        rainContainer.style.zIndex = '3';
-        rainContainer.style.overflow = 'hidden';
-        page2Container.style.position = 'relative';
-        page2Container.appendChild(rainContainer);
-    }
-    
-    page2RainInterval = setInterval(() => {
-        const currentDrops = rainContainer.querySelectorAll('.golden-rain').length;
-        if (currentDrops < MAX_RAIN_DROPS) {
-            const dropsToCreate = Math.min(8, MAX_RAIN_DROPS - currentDrops);
-            for (let i = 0; i < dropsToCreate; i++) {
-                createGoldenRain(rainContainer);
-            }
-        }
-    }, 50);
-    
-    for (let i = 0; i < 30; i++) {
-        setTimeout(() => {
-            createGoldenRain(rainContainer);
-        }, i * 30);
-    }
-}
-
-
-let checkerRaf = 0;
-window.addEventListener('resize', () => {
-    cancelAnimationFrame(checkerRaf);
-    checkerRaf = requestAnimationFrame(applyCheckerboardLayout);
-});
-
-let isBingoActive = false;
-let animationInterval = null;
-
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && !page3.classList.contains('hidden')) {
         closeSongPage();
@@ -589,78 +539,11 @@ document.addEventListener('keydown', (event) => {
                 songAudio.pause();
             }
             updatePlayPauseIcon();
+        } else if (!page2.classList.contains('hidden')) {
+            showBingoAnimationPage2();
         }
     }
 });
-
-function formatTime(seconds) {
-    if (!container) return;
-    
-    const currentDrops = container.querySelectorAll('.golden-rain').length;
-    if (currentDrops >= MAX_RAIN_DROPS) return;
-    
-    const startX = Math.random() * window.innerWidth;
-    const colors = ['#ffffff', '#f0f8ff', '#e0ffff', '#b0e0e6', '#fffafa'];
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    const size = 1.5 + Math.random() * 2;
-    const speed = 1.0 + Math.random() * 1.5; 
-    const durationBase = 1500 + Math.random() * 1000;
-    const duration = durationBase / speed;
-    
-    const drop = document.createElement('div');
-    drop.className = 'golden-rain';
-    
-    drop.style.position = 'absolute';
-    drop.style.left = startX + 'px';
-    drop.style.width = size + 'px';
-    drop.style.height = size * 8 + 'px';
-    drop.style.background = `linear-gradient(to bottom, ${color}, transparent)`;
-    drop.style.borderRadius = '50%';
-    drop.style.opacity = '0';
-    
-    let startY = -50;
-    if (randomHeight) {
-        startY = Math.random() * window.innerHeight;
-        drop.style.opacity = '0.8'; 
-    }
-    drop.style.top = startY + 'px';
-    
-    container.appendChild(drop);
-    
-    const endY = window.innerHeight + 100;
-    const distance = endY - startY;
-    
-    const actualDuration = randomHeight ? (duration * (distance / (window.innerHeight + 150))) : duration;
-
-    const animation = drop.animate([
-        { 
-            opacity: randomHeight ? 0.8 : 0, 
-            transform: 'translateY(0) scale(1)' 
-        },
-        { 
-            opacity: 0.9, 
-            transform: randomHeight ? `translateY(${distance * 0.1}px) scale(1)` : 'translateY(50px) scale(1)',
-            offset: 0.1
-        },
-        { 
-            opacity: 0.8, 
-            transform: `translateY(${distance}px) scale(1)`,
-            offset: 0.9
-        },
-        { 
-            opacity: 0, 
-            transform: `translateY(${distance + 50}px) scale(0.5)`
-        }
-    ], {
-        duration: actualDuration,
-        easing: 'linear'
-    });
-    
-    animation.onfinish = () => {
-        drop.remove();
-    };
-}
-
 
 function formatTime(seconds) {
     if (isNaN(seconds)) return '0:00';
@@ -675,6 +558,9 @@ function updateTimeDisplay() {
     currentTimeEl.textContent = formatTime(songAudio.currentTime);
     
     if (songAudio.duration) {
+        const totalTimeEl = document.getElementById('totalTime');
+        if (totalTimeEl) totalTimeEl.textContent = formatTime(songAudio.duration);
+        
         const progress = (songAudio.currentTime / songAudio.duration) * 100;
         if (progressFill) progressFill.style.width = progress + '%';
         if (progressSlider) progressSlider.value = progress;
@@ -686,15 +572,18 @@ function updatePlayPauseIcon() {
     
     const playIcon = playPauseBtn.querySelector('.play-icon');
     const pauseIcon = playPauseBtn.querySelector('.pause-icon');
+    const songCard = document.querySelector('.song-card');
     
     if (!playIcon || !pauseIcon) return;
     
     if (songAudio.paused) {
         playIcon.style.display = 'block';
         pauseIcon.style.display = 'none';
+        if (songCard) songCard.classList.remove('is-playing');
     } else {
         playIcon.style.display = 'none';
         pauseIcon.style.display = 'block';
+        if (songCard) songCard.classList.add('is-playing');
     }
 }
 
@@ -764,7 +653,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     renderBarrels();
-
     startHeroEffects();
 
     if (startBtnElement) {
@@ -792,9 +680,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     bingoAnimation.classList.add('darken');
                 }, 1800); 
             }
-            
+
             setTimeout(() => {
-                stopHeroEffects();
+                    stopHeroEffects();
                 const page1 = document.getElementById('page1');
                 const page2 = document.getElementById('page2');
                 
@@ -807,8 +695,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     page2.style.opacity = '0';
                     setTimeout(() => {
                         page2.style.opacity = '1';
-                        startPage2Effects();
-                    }, 50);
+                            startPage2Effects();
+                        }, 50);
                 }
 
                 if (bingoAnimation) {

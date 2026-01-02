@@ -6,7 +6,7 @@
     <title>Новогоднее Музыкальное бинго в Тамбове</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Rubik+Gemstones&family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Rubik+Gemstones&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Righteous&family=Bungee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,25 +14,19 @@
 
     <div id="bingoAnimation" class="bingo-animation hidden">
         <div class="bingo-text">
-            <span style="--i:1">Б</span>
-            <span style="--i:2">И</span>
-            <span style="--i:3">Н</span>
-            <span style="--i:4">Г</span>
-            <span style="--i:5">О</span>
+            <span style="--i: 0">Б</span>
+            <span style="--i: 1">И</span>
+            <span style="--i: 2">Н</span>
+            <span style="--i: 3">Г</span>
+            <span style="--i: 4">О</span>
         </div>
     </div>
 
     <section id="page1" class="page page-hero">
-        <div class="background-forest"></div>
         <div class="song-background-effects">
             <div class="floating-particles"></div>
             <div class="sparkles-container"></div>
-            <div class="glow-orbits">
-                <div class="glow-orbit glow-orbit-1"></div>
-                <div class="glow-orbit glow-orbit-2"></div>
-                <div class="glow-orbit glow-orbit-3"></div>
-                <div class="glow-orbit glow-orbit-4"></div>
-            </div>
+            <div class="background-forest"></div>
         </div>
         <div class="hero-content">
             <div class="hero-title-wrapper">
@@ -58,11 +52,17 @@
         <div class="song-background-effects">
             <div class="floating-particles"></div>
             <div class="sparkles-container"></div>
-            <div class="glow-orbits">
-                <div class="glow-orbit glow-orbit-1"></div>
-                <div class="glow-orbit glow-orbit-2"></div>
-                <div class="glow-orbit glow-orbit-3"></div>
-                <div class="glow-orbit glow-orbit-4"></div>
+        </div>
+        <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
+            <video id="bingoVideo" class="bingo-video" playsinline>
+                <source src="assets/ferverk.mp4" type="video/mp4">
+            </video>
+            <div class="bingo-text-page2">
+                <span style="--i: 0">Б</span>
+                <span style="--i: 1">И</span>
+                <span style="--i: 2">Н</span>
+                <span style="--i: 3">Г</span>
+                <span style="--i: 4">О</span>
             </div>
         </div>
         <div class="top-bar">
@@ -114,16 +114,10 @@
                         </svg>
                     </button>
                 </div>
-                <div class="audio-visualizer">
-                    <span class="eq-bar"></span>
-                    <span class="eq-bar"></span>
-                    <span class="eq-bar"></span>
-                    <span class="eq-bar"></span>
-                    <span class="eq-bar"></span>
-                    <span class="eq-bar"></span>
-                </div>
             </div>
         </div>
+        <div class="gifts-side-left"></div>
+        <div class="gifts-side-right"></div>
     </section>
 
     <script src="script.js"></script>
