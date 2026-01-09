@@ -8,8 +8,8 @@ const tracks = [
     { number: 4, title: "Чашка Кофию", artist: "Марина Хлебникова", cover: "images/cover-04.jpg", src: "audio/04.mp3" },
     { number: 5, title: "Улыбайся", artist: "IOWA", cover: "images/cover-05.jpg", src: "audio/05.mp3" },
     { number: 6, title: "Широка Река", artist: "Надежда Кадышева", cover: "images/cover-06.jpg", src: "audio/06.mp3" },
-    { number: 7, title: "Люди меня люби", artist: "Гречка", cover: "images/cover-07.jpg", src: "audio/07.mp3" },
-    { number: 8, title: "Хали-Гали, паратрупер", artist: "Леприконсы", cover: "images/cover-08.mp3", src: "audio/08.mp3" },
+    { number: 7, title: "Люби меня люби", artist: "Гречка", cover: "images/cover-07.jpg", src: "audio/07.mp3" },
+    { number: 8, title: "Хали-Гали, паратрупер", artist: "Леприконсы", cover: "images/cover-08.jpg", src: "audio/08.mp3" },
     { number: 9, title: "Горячая, гремучая", artist: "Салтан Лагучев", cover: "images/cover-09.jpg", src: "audio/09.mp3" },
     { number: 10, title: "Девочка-война", artist: "Hamali, Navai", cover: "images/cover-10.jpg", src: "audio/10.mp3" },
     { number: 11, title: "Я русский", artist: "Шаман", cover: "images/cover-11.jpg", src: "audio/11.mp3" },
@@ -50,7 +50,7 @@ const tracks = [
     { number: 46, title: "А че че", artist: "Бьянка", cover: "images/cover-46.jpg", src: "audio/46.mp3" },
     { number: 47, title: "Зеленоглазое такси", artist: "Михаил Боярский", cover: "images/cover-47.jpg", src: "audio/47.mp3" },
     { number: 48, title: "Chuchuka", artist: "Big Baby Type", cover: "images/cover-48.jpg", src: "audio/48.mp3" },
-    { number: 49, title: "Moscow Nere sleep", artist: "DJ Smash", cover: "images/cover-49.jpg", src: "audio/49.mp3" },
+    { number: 49, title: "Moscow Never Sleep", artist: "DJ Smash", cover: "images/cover-49.jpg", src: "audio/49.mp3" },
     { number: 50, title: "Прованс", artist: "Ёлка", cover: "images/cover-50.jpg", src: "audio/50.mp3" },
     { number: 51, title: "Коламбия Пикчерз не представляет", artist: "БАНДЭРОС", cover: "images/cover-51.jpg", src: "audio/51.mp3" },
     { number: 52, title: "Где прошла ты", artist: "Кравц, Гио Пика", cover: "images/cover-52.jpg", src: "audio/52.mp3" },
@@ -65,12 +65,12 @@ const tracks = [
     { number: 61, title: "Gangnam Style", artist: "PSY", cover: "images/cover-61.jpg", src: "audio/61.mp3" },
     { number: 62, title: "Отпускай", artist: "Три дня дождя", cover: "images/cover-62.jpg", src: "audio/62.mp3" },
     { number: 63, title: "Твоя любовь Манила", artist: "Тахмина Умалатова", cover: "images/cover-63.jpg", src: "audio/63.mp3" },
-    { number: 64, title: "Кукушка", artist: "Евгений Григорьев", cover: "images/cover-64.jpg", src: "audio/64.mp3" },
+    { number: 64, title: "Кукушка", artist: "Полина Гагарина", cover: "images/cover-64.jpg", src: "audio/64.mp3" },
     { number: 65, title: "Отель", artist: "НЭНСИ", cover: "images/cover-65.jpg", src: "audio/65.mp3" },
     { number: 66, title: "Седая ночь", artist: "Юрий Шатунов", cover: "images/cover-66.jpg", src: "audio/66.mp3" },
-    { number: 67, title: "Трава у дома", artist: "Земляне", cover: "images/cover-67.jpg", src: "audio/67.mp3" },
+    { number: 67, title: "Я плачу", artist: "AVG", cover: "images/cover-67.jpg", src: "audio/67.mp3" },
     { number: 68, title: "Миллион роз", artist: "Алла Пугачева", cover: "images/cover-68.jpg", src: "audio/68.mp3" },
-    { number: 69, title: "Земля в иллюминаторе", artist: "Земляне", cover: "images/cover-69.jpg", src: "audio/69.mp3" },
+    { number: 69, title: "Где ты", artist: "Аслан & Marina", cover: "images/cover-69.jpg", src: "audio/69.mp3" },
     { number: 70, title: "Мой мармеладный", artist: "Катя Лель", cover: "images/cover-70.jpg", src: "audio/70.mp3" },
     { number: 71, title: "Дни и ночи", artist: "Джиган", cover: "images/cover-71.jpg", src: "audio/71.mp3" },
     { number: 72, title: "КАК MOMMY", artist: "Instasamka", cover: "images/cover-72.jpg", src: "audio/72.mp3" },
@@ -153,6 +153,12 @@ function openSongPage(track) {
     songCover.src = track.cover;
     songCover.alt = `Обложка ${track.title}`;
     songTitle.textContent = track.title;
+    // Добавляем класс для длинных названий
+    if (track.title.length > 25 || track.number === 82) {
+        songTitle.classList.add('long-title');
+    } else {
+        songTitle.classList.remove('long-title');
+    }
     songArtist.textContent = track.artist;
     songNumber.textContent = `Бочонок ${track.number}`;
 

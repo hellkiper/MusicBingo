@@ -966,6 +966,10 @@ body.show-side-trees .page-song .side-tree::before {
     overflow: hidden;
 }
 
+#songTitle.long-title {
+    font-size: 2rem;
+}
+
 #songArtist {
     font-family: 'Comfortaa', sans-serif;
     font-weight: 400;
