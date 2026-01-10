@@ -65,7 +65,7 @@ const tracks = [
     { number: 61, title: "Gangnam Style", artist: "PSY", cover: "images/cover-61.jpg", src: "audio/61.mp3" },
     { number: 62, title: "Отпускай", artist: "Три дня дождя", cover: "images/cover-62.jpg", src: "audio/62.mp3" },
     { number: 63, title: "Твоя любовь Манила", artist: "Тахмина Умалатова", cover: "images/cover-63.jpg", src: "audio/63.mp3" },
-    { number: 64, title: "Кукушка", artist: "Полина Гагарина", cover: "images/cover-64.jpg", src: "audio/64.mp3" },
+    { number: 64, title: "Кукушка", artist: "Евгений Григорьев", cover: "images/cover-64.jpg", src: "audio/64.mp3" },
     { number: 65, title: "Отель", artist: "НЭНСИ", cover: "images/cover-65.jpg", src: "audio/65.mp3" },
     { number: 66, title: "Этой ночью", artist: "Скачков", cover: "images/cover-66.jpg", src: "audio/66.mp3" },
     { number: 67, title: "Я плачу", artist: "AVG", cover: "images/cover-67.jpg", src: "audio/67.mp3" },

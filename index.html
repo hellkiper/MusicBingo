@@ -8,6 +8,27 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Rubik+Gemstones&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Righteous&family=Bungee&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Начинаем загрузку видео сразу при загрузке DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bingoVideo');
+            if (video) {
+                // Принудительно начинаем загрузку видео
+                video.load();
+                // Также предзагружаем при загрузке окна
+                video.addEventListener('loadstart', function() {
+                    console.log('Видео начало загружаться');
+                });
+            }
+        });
+        // Дополнительная загрузка при полной загрузке страницы
+        window.addEventListener('load', function() {
+            const video = document.getElementById('bingoVideo');
+            if (video && video.readyState === 0) {
+                video.load();
+            }
+        });
+    </script>
 </head>
 <body>
     <div class="bg-overlay"></div>
@@ -120,6 +141,6 @@
         <div class="gifts-side-right"></div>
     </section>
 
-    <script src="script.js?v=5"></script>
+    <script src="script.js?v=6"></script>
 </body>
 </html>
