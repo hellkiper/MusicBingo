@@ -425,11 +425,38 @@ function showBingoAnimationPage2() {
                     video.style.opacity = '0.7';
                     video.style.visibility = 'visible';
                     video.currentTime = 0;
+                    
+                    // Очищаем предыдущие обработчики
                     video.removeEventListener('ended', handleVideoEnd);
                     video.removeEventListener('timeupdate', handleVideoTimeUpdate);
+                    
+                    // Функция для начала воспроизведения после загрузки
+                    const handleVideoCanPlay = () => {
+                        video.muted = false; // Включаем звук
+                        video.play().catch(err => console.log('Video play error:', err));
+                    };
+                    
+                    // Удаляем предыдущий обработчик если был
+                    const oldCanPlayHandler = video._canPlayHandler;
+                    if (oldCanPlayHandler) {
+                        video.removeEventListener('canplaythrough', oldCanPlayHandler);
+                    }
+                    
+                    // Сохраняем ссылку на обработчик для последующего удаления
+                    video._canPlayHandler = handleVideoCanPlay;
+                    
+                    // Проверяем, готово ли видео к воспроизведению
+                    if (video.readyState >= 3) { // HAVE_FUTURE_DATA или выше
+                        handleVideoCanPlay();
+                    } else {
+                        // Ждем загрузки видео
+                        video.addEventListener('canplaythrough', handleVideoCanPlay, { once: true });
+                        // Начинаем загрузку если еще не начата
+                        video.load();
+                    }
+                    
                     video.addEventListener('ended', handleVideoEnd);
                     video.addEventListener('timeupdate', handleVideoTimeUpdate);
-                    video.play().catch(err => console.log('Video play error:', err));
                 }
                 
             });
@@ -660,6 +687,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderBarrels();
     startHeroEffects();
+    
+    // Предзагрузка видео для анимации бинго
+    const bingoVideo = document.getElementById('bingoVideo');
+    if (bingoVideo) {
+        bingoVideo.load(); // Начинаем загрузку видео заранее
+    }
 
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {

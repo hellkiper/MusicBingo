@@ -1252,6 +1252,10 @@ body.show-side-trees .page-song .side-tree::before {
     z-index: 0;
     opacity: 0.7;
     filter: brightness(1.1) contrast(1.2);
+    will-change: opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
 }
 
 .bingo-animation-page2.hidden {
