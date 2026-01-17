@@ -1,3 +1,6 @@
+// 3D Tilt Effect removed
+// document.addEventListener('mousemove', (e) => { ... });
+
 const TOTAL_BARRELS = 99;
 const selectedSet = new Set();
 
@@ -110,7 +113,6 @@ function renderBarrels() {
         button.className = 'barrel';
         button.dataset.number = track.number;
         button.innerHTML = `
-            <div class="barrel-hat"></div>
             <div class="barrel-face">
                 <span class="barrel-number">${track.number}</span>
             </div>
@@ -207,11 +209,12 @@ function createSongParticle(container) {
     particle.style.position = 'absolute';
     particle.style.width = size + 'px';
     particle.style.height = size + 'px';
-    particle.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.4) 60%, transparent 100%)';
+    // Pinkish/White gradient
+    particle.style.background = 'radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 192, 203, 0.6) 60%, transparent 100%)';
     particle.style.borderRadius = '50%';
     particle.style.filter = `blur(${blur}px)`;
     particle.style.opacity = '0';
-    particle.style.boxShadow = `0 0 ${5 + Math.random() * 10}px rgba(255, 255, 255, 0.5)`;
+    particle.style.boxShadow = `0 0 ${5 + Math.random() * 10}px rgba(255, 105, 180, 0.5)`;
     
     const startX = Math.random() * 100; 
     particle.style.left = startX + '%';
@@ -332,7 +335,8 @@ function stopPage2Effects() {
 }
 
 function createVictoryConfetti(container) {
-    const colors = ['#ffd700', '#ff0000', '#00ff00', '#ff00ff', '#00ffff', '#ffffff'];
+    // Pink, Gold, White, Deep Pink
+    const colors = ['#ffd700', '#ff69b4', '#ff1493', '#ffffff', '#db7093'];
     const confettiCount = 150;
     
     for (let i = 0; i < confettiCount; i++) {
@@ -479,61 +483,14 @@ function showBingoAnimationPage2() {
     }
 }
 
-function createBackgroundTree(container, leftPosition, scale = null, bottomOffset = null) {
-    const tree = document.createElement('div');
-    tree.className = 'bg-tree';
-    
-    tree.style.left = leftPosition + '%';
-    
-    if (scale === null) scale = 0.5 + Math.random() * 0.5;
-    tree.style.width = (100 * scale) + 'px';
-    tree.style.height = (140 * scale) + 'px';
-    
-    if (bottomOffset === null) bottomOffset = -5 - (Math.random() * 20);
-    tree.style.bottom = bottomOffset + 'px';
-    
-    tree.style.zIndex = Math.floor(bottomOffset); 
-    
-    tree.style.animationDelay = Math.random() * -10 + 's';
-    
-    const blurVal = (1 - scale) * 2; 
-    const opacityVal = 0.6 + (scale * 0.4); 
-    
-    tree.style.filter = `blur(${blurVal}px) brightness(${0.8 + scale * 0.2})`;
-    tree.style.opacity = opacityVal;
-    
-    container.appendChild(tree);
-}
+// Function createBackgroundTree removed
+function removedBackgroundTree() {}
 
 function startHeroEffects() {
     const particlesContainer = document.querySelector('#page1 .floating-particles');
     const sparklesContainer = document.querySelector('#page1 .sparkles-container');
-    const forestContainer = document.querySelector('#page1 .background-forest');
     
     if (!particlesContainer) return;
-
-    if (forestContainer && forestContainer.children.length === 0) {
-        const layers = 6; 
-        
-        for (let layer = 0; layer < layers; layer++) {
-            const depth = layer / (layers - 1); 
-            const scale = 1 - (depth * 0.6); 
-            const bottomBase = depth * 150; 
-            
-            const currentLayerCount = 40;
-            const spreadWidth = 140; 
-            const startX = -20; 
-            const step = spreadWidth / currentLayerCount;
-
-            for (let i = 0; i < currentLayerCount; i++) {
-                const leftPos = startX + (i * step) + (Math.random() * step * 0.6);
-                const jitterY = (Math.random() - 0.5) * 40; 
-                const bottomOffset = bottomBase + jitterY - 20; 
-                
-                createBackgroundTree(forestContainer, leftPos, scale, bottomOffset);
-            }
-        }
-    }
 
     if (heroParticlesInterval) {
         clearInterval(heroParticlesInterval);
@@ -686,7 +643,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     renderBarrels();
-    startHeroEffects();
+    // startHeroEffects();
     
     // Предзагрузка видео для анимации бинго
     const bingoVideo = document.getElementById('bingoVideo');
@@ -727,7 +684,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (page1) page1.classList.add('hidden');
                 document.body.classList.add('blurred-bg');
-                document.body.classList.add('show-side-trees');
+                // Removed side trees class
                 
                 if (page2) {
                     page2.classList.remove('hidden');
@@ -748,25 +705,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     snows.forEach(s => s.remove());
                 }
 
-                if (!document.querySelector('.side-tree')) {
-                    const leftTree = document.createElement('div');
-                    leftTree.className = 'side-tree left-tree';
-                    for(let i=1; i<=6; i++) {
-                        const gift = document.createElement('div');
-                        gift.className = `tree-gift gift-pos-${i}`;
-                        leftTree.appendChild(gift);
-                    }
-                    document.body.appendChild(leftTree);
-                    
-                    const rightTree = document.createElement('div');
-                    rightTree.className = 'side-tree right-tree';
-                    for(let i=1; i<=6; i++) {
-                        const gift = document.createElement('div');
-                        gift.className = `tree-gift gift-pos-${i}`;
-                        rightTree.appendChild(gift);
-                    }
-                    document.body.appendChild(rightTree);
-                }
+                // Removed side tree creation
             }, 2600); 
         });
     }
