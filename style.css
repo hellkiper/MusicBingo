@@ -369,7 +369,7 @@ body::after {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 2.2rem;
-    color: var(--deep-pink); /* Более темный насыщенный розовый */
+    color: #ff1493; /* Ярко-розовый (DeepPink) под цвет бутонов */
     /* Убрали белую обводку, оставили только свечение */
     text-shadow: 0 0 20px rgba(255, 20, 147, 0.4); 
     margin: 0;
@@ -391,7 +391,7 @@ body::after {
 .page2-progress {
     font-family: 'Comfortaa', sans-serif;
     font-size: 1.5rem; /* Увеличил шрифт */
-    color: var(--deep-pink); /* Темно-розовый */
+    color: #ff1493; /* Ярко-розовый под цвет бутонов */
     background: transparent;
     padding: 0;
     margin: 0;
@@ -1158,14 +1158,15 @@ body::after {
 /* Side Flowers */
 .side-flower {
     position: fixed;
-    bottom: -5vh; 
+    bottom: -25vh; /* Опустили ниже, чтобы скрыть вазы */
     height: 75vh;
     width: auto; 
     max-width: 35vw;
     pointer-events: none;
     z-index: 2;
-    filter: drop-shadow(0 0 20px rgba(0,0,0,0.2)) blur(5px); /* Вернул блюр */
-    opacity: 0.8; /* Вернул прозрачность */
+    /* Подгнали цвет под бутоны: яркость + насыщенность */
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.2)) blur(5px) brightness(1.1) saturate(1.2); 
+    opacity: 0.8; 
     animation: flower-sway 6s ease-in-out infinite alternate;
 }
 
