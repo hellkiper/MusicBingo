@@ -1,7 +1,7 @@
 // 3D Tilt Effect removed
 // document.addEventListener('mousemove', (e) => { ... });
 
-const TOTAL_BARRELS = 99;
+const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
 
 const tracks = [
@@ -94,16 +94,7 @@ const tracks = [
     { number: 87, title: "Электричка", artist: "Алена Апина", cover: "images/cover-87.jpg", src: "audio/87.mp3" },
     { number: 88, title: "Все решено", artist: "Гости из будущего", cover: "images/cover-88.jpg", src: "audio/88.mp3" },
     { number: 89, title: "Гори-гори ясно", artist: "Балаган лимитед", cover: "images/cover-89.jpg", src: "audio/89.mp3" },
-    { number: 90, title: "Подождем", artist: "Игорек", cover: "images/cover-90.jpg", src: "audio/90.mp3" },
-    { number: 91, title: "Марджанджа", artist: "Михаил Шуфутинский", cover: "images/cover-91.jpg", src: "audio/91.mp3" },
-    { number: 92, title: "Афтерпати", artist: "Unqie, Nkeeei, xxxmanera", cover: "images/cover-92.jpg", src: "audio/92.mp3" },
-    { number: 93, title: "Новогодняя", artist: "Дилижанс", cover: "images/cover-93.jpg", src: "audio/93.mp3" },
-    { number: 94, title: "Фиеста", artist: "Aarne, Yanix", cover: "images/cover-94.jpg", src: "audio/94.mp3" },
-    { number: 95, title: "Hoodak MP3", artist: "Bid Baby Tape, Aarne", cover: "images/cover-95.jpg", src: "audio/95.mp3" },
-    { number: 96, title: "Холостяк", artist: "ЛСП, Feduk,  Егор Крид", cover: "images/cover-96.jpg", src: "audio/96.mp3" },
-    { number: 97, title: "Mamacita", artist: "Yanix", cover: "images/cover-97.jpg", src: "audio/97.mp3" },
-    { number: 98, title: "Тает Лед", artist: "Грибы", cover: "images/cover-98.jpg", src: "audio/98.mp3" },
-    { number: 99, title: "Патимэйкер", artist: "Пика", cover: "images/cover-99.jpg", src: "audio/99.mp3" }
+    { number: 90, title: "Подождем", artist: "Игорек", cover: "images/cover-90.jpg", src: "audio/90.mp3" }
 ];
 
 function renderBarrels() {
@@ -133,7 +124,50 @@ function updateSelectedCounter() {
 function handleBarrelClick(track) {
     selectedSet.add(track.number);
     markBarrelUsed(track.number);
+    
+    // 1. Находим кнопку
+    const button = barrelGrid.querySelector(`[data-number="${track.number}"]`);
+    if (!button) {
         openSongPage(track);
+        return;
+    }
+
+    // 2. Создаем клон для полета
+    const rect = button.getBoundingClientRect();
+    const clone = button.cloneNode(true);
+    
+    // Стилизуем клон
+    clone.className = 'barrel flying-barrel';
+    clone.style.left = rect.left + 'px';
+    clone.style.top = rect.top + 'px';
+    clone.style.width = rect.width + 'px';
+    clone.style.height = rect.height + 'px';
+    clone.style.margin = '0';
+    
+    document.body.appendChild(clone);
+
+    // 3. Запускаем анимацию полета и затемнения
+    // Используем двойной requestAnimationFrame или setTimeout, чтобы браузер успел отрисовать начальное состояние
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            clone.classList.add('fly');
+        });
+    });
+
+    // 4. Переключаем страницу раньше (через 0.5 сек), когда бутон закрыл большую часть экрана
+    setTimeout(() => {
+        openSongPage(track);
+    }, 500); 
+
+    // 5. Когда экран полностью черный (через 1 сек), начинаем растворять бутон
+    setTimeout(() => {
+        clone.classList.add('fade-out'); 
+    }, 1000);
+
+    // 6. Удаляем клон после завершения всех анимаций
+    setTimeout(() => {
+        clone.remove();
+    }, 1600);
 }
 
 function markBarrelUsed(number) {
@@ -294,6 +328,8 @@ function stopHeroEffects() {
 }
 
 function startPage2Effects() {
+    // Эффекты падающих частиц отключены по просьбе
+    /*
     const particlesContainer = document.querySelector('#page2 .floating-particles');
     const sparklesContainer = document.querySelector('#page2 .sparkles-container');
     
@@ -313,6 +349,7 @@ function startPage2Effects() {
             createSongParticle(particlesContainer);
         }, i * 300);
     }
+    */
 }
 
 function stopPage2Effects() {
@@ -332,6 +369,59 @@ function stopPage2Effects() {
     if (particlesContainer) particlesContainer.innerHTML = '';
     if (sparklesContainer) sparklesContainer.innerHTML = '';
     if (rainContainer) rainContainer.remove(); 
+}
+
+let transitionConfettiInterval = null;
+
+function createSingleConfetti(container) {
+    const colors = ['#ffffff', '#ff69b4', '#ff1493', '#ffe4e1']; // Только белые и розовые
+    const confetti = document.createElement('div');
+    confetti.className = 'victory-confetti';
+    
+    const size = Math.random() * 8 + 4;
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    const startX = Math.random() * window.innerWidth;
+    const startY = -20;
+    const endY = window.innerHeight + 50;
+    const horizontalDrift = (Math.random() - 0.5) * 200;
+    const rotation = Math.random() * 720;
+    const duration = Math.random() * 2 + 3; // Чуть медленнее для плавности
+    
+    confetti.style.width = size + 'px';
+    confetti.style.height = size + 'px';
+    confetti.style.backgroundColor = color;
+    confetti.style.left = startX + 'px';
+    confetti.style.top = startY + 'px';
+    confetti.style.boxShadow = `0 0 ${size}px ${color}`; // Свечение
+    
+    container.appendChild(confetti);
+    
+    const animation = confetti.animate([
+        { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+        { transform: `translate(${horizontalDrift}px, ${endY}px) rotate(${rotation}deg)`, opacity: 0 }
+    ], {
+        duration: duration * 1000,
+        easing: 'linear'
+    });
+    
+    animation.onfinish = () => confetti.remove();
+}
+
+function startTransitionConfetti(container) {
+    if (transitionConfettiInterval) clearInterval(transitionConfettiInterval);
+    
+    // Спавним часто для плотности
+    transitionConfettiInterval = setInterval(() => {
+        createSingleConfetti(container);
+        createSingleConfetti(container); 
+    }, 50);
+}
+
+function stopTransitionConfetti() {
+    if (transitionConfettiInterval) {
+        clearInterval(transitionConfettiInterval);
+        transitionConfettiInterval = null;
+    }
 }
 
 function createVictoryConfetti(container) {
@@ -414,14 +504,25 @@ function showBingoAnimationPage2() {
         
         bingoAnimation.classList.remove('hidden');
         bingoAnimation.style.opacity = '0';
-        const spans = bingoAnimation.querySelectorAll('.bingo-text-page2 span');
-        spans.forEach(span => {
-            span.style.animation = 'none';
+        const letterWrappers = bingoAnimation.querySelectorAll('.letter-wrapper');
+        letterWrappers.forEach(wrapper => {
+            wrapper.style.animation = 'none';
+            wrapper.style.opacity = '0';
+            wrapper.style.transform = 'translateY(200px) scale(0.3)';
+        });
+        const crowns = bingoAnimation.querySelectorAll('.letter-crown');
+        crowns.forEach(crown => {
+            crown.style.animation = 'none';
+            crown.style.opacity = '0';
+            crown.style.transform = 'translateX(-50%) scale(0)';
         });
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
-                spans.forEach(span => {
-                    span.style.animation = '';
+                letterWrappers.forEach(wrapper => {
+                    wrapper.style.animation = '';
+                });
+                crowns.forEach(crown => {
+                    crown.style.animation = '';
                 });
                 bingoAnimation.classList.add('active');
                 bingoAnimation.style.opacity = '1';
@@ -474,9 +575,13 @@ function showBingoAnimationPage2() {
         setTimeout(() => {
             bingoAnimation.classList.remove('active');
             bingoAnimation.classList.add('hidden');
-            const spans = bingoAnimation.querySelectorAll('.bingo-text-page2 span');
-            spans.forEach(span => {
-                span.style.animation = 'none';
+            const letterWrappers = bingoAnimation.querySelectorAll('.letter-wrapper');
+            letterWrappers.forEach(wrapper => {
+                wrapper.style.animation = 'none';
+            });
+            const crowns = bingoAnimation.querySelectorAll('.letter-crown');
+            crowns.forEach(crown => {
+                crown.style.animation = 'none';
             });
             
         }, 500);
@@ -653,60 +758,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {
-            const bingoAnimation = document.getElementById('bingoAnimation');
-            if (bingoAnimation) {
-                bingoAnimation.classList.remove('hidden');
-                bingoAnimation.classList.remove('darken');
-                bingoAnimation.style.opacity = '1';
+            const transitionOverlay = document.getElementById('bingoTransition');
+            
+            // 1. Показываем оверлей перехода
+            if (transitionOverlay) {
+                transitionOverlay.classList.remove('hidden');
+                // Запускаем бесконечное конфетти (бело-розовое)
+                startTransitionConfetti(transitionOverlay);
                 
-                for (let i = 0; i < 100; i++) {
-                    const snow = document.createElement('div');
-                    snow.className = 'bingo-snow';
-                    const size = Math.random() * 5 + 2 + 'px';
-                    snow.style.width = size;
-                    snow.style.height = size;
-                    snow.style.left = Math.random() * 100 + 'vw';
-                    snow.style.opacity = Math.random();
-                    snow.style.animationDuration = Math.random() * 2 + 1 + 's';
-                    snow.style.animationDelay = Math.random() * 2 + 's';
-                    bingoAnimation.appendChild(snow);
-                }
-
-                setTimeout(() => {
-                    bingoAnimation.classList.add('darken');
-                }, 1800); 
+                // Небольшая задержка перед добавлением active для срабатывания transition opacity
+                requestAnimationFrame(() => {
+                    transitionOverlay.classList.add('active');
+                });
             }
 
+            // 2. Ждем завершения анимации букв (около 2-2.5 секунд)
             setTimeout(() => {
-                    stopHeroEffects();
+                stopHeroEffects();
+                stopTransitionConfetti(); // Останавливаем дождь
                 const page1 = document.getElementById('page1');
                 const page2 = document.getElementById('page2');
                 
                 if (page1) page1.classList.add('hidden');
                 document.body.classList.add('blurred-bg');
-                // Removed side trees class
                 
                 if (page2) {
                     page2.classList.remove('hidden');
-                    page2.style.opacity = '0';
-                    setTimeout(() => {
-                        page2.style.opacity = '1';
-                            startPage2Effects();
-                        }, 50);
+                    // Сразу показываем страницу 2, так как она перекрыта оверлеем
+                    page2.style.opacity = '1';
+                    startPage2Effects();
                 }
 
-                if (bingoAnimation) {
-                    bingoAnimation.style.opacity = '0';
+                // 3. Скрываем оверлей
+                if (transitionOverlay) {
+                    transitionOverlay.classList.remove('active');
                     setTimeout(() => {
-                        bingoAnimation.classList.add('hidden');
-                    }, 1000); 
-                    
-                    const snows = bingoAnimation.querySelectorAll('.bingo-snow');
-                    snows.forEach(s => s.remove());
+                        transitionOverlay.classList.add('hidden');
+                    }, 500); // Ждем завершения transition opacity (0.5s)
                 }
 
-                // Removed side tree creation
-            }, 2600); 
+            }, 2500); 
         });
     }
 });

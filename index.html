@@ -31,17 +31,50 @@
     </script>
 </head>
 <body>
-    <div class="bg-overlay"></div>
-
-    <div id="bingoAnimation" class="bingo-animation hidden">
-        <div class="bingo-text">
-            <span style="--i: 0">Б</span>
-            <span style="--i: 1">И</span>
-            <span style="--i: 2">Н</span>
-            <span style="--i: 3">Г</span>
-            <span style="--i: 4">О</span>
+    <div id="bingoTransition" class="bingo-transition hidden">
+        <!-- Spotlights -->
+        <div class="spotlight spotlight-left"></div>
+        <div class="spotlight spotlight-right"></div>
+        
+        <div class="transition-text">
+            <div class="t-char" style="--dx: -100vw; --dy: -100vh;">
+                <img src="assets/korony.webp" alt="">
+                <span>Б</span>
+                <div class="sparkles-burst">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="t-char" style="--dx: -50vw; --dy: 100vh;">
+                <img src="assets/korony.webp" alt="">
+                <span>И</span>
+                <div class="sparkles-burst">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="t-char" style="--dx: 0px; --dy: -120vh;">
+                <img src="assets/korony.webp" alt="">
+                <span>Н</span>
+                <div class="sparkles-burst">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="t-char" style="--dx: 50vw; --dy: 100vh;">
+                <img src="assets/korony.webp" alt="">
+                <span>Г</span>
+                <div class="sparkles-burst">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="t-char" style="--dx: 100vw; --dy: -100vh;">
+                <img src="assets/korony.webp" alt="">
+                <span>О</span>
+                <div class="sparkles-burst">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="bg-overlay"></div>
 
     <section id="page1" class="page page-hero">
         <div class="hero-bg-gradient"></div>
@@ -58,21 +91,21 @@
         </div>
 
         <div class="floating-hearts">
-            <img src="assets/heart.webp" class="heart heart-1" alt="">
-            <img src="assets/heart.webp" class="heart heart-2" alt="">
-            <img src="assets/heart.webp" class="heart heart-3" alt="">
-            <img src="assets/heart.webp" class="heart heart-4" alt="">
-            <img src="assets/heart.webp" class="heart heart-5" alt="">
-            <img src="assets/heart.webp" class="heart heart-6" alt="">
-            <img src="assets/heart.webp" class="heart heart-7" alt="">
-            <img src="assets/heart.webp" class="heart heart-8" alt="">
-            <img src="assets/heart.webp" class="heart heart-9" alt="">
-            <img src="assets/heart.webp" class="heart heart-10" alt="">
-            <img src="assets/heart.webp" class="heart heart-11" alt="">
-            <img src="assets/heart.webp" class="heart heart-12" alt="">
-            <img src="assets/heart.webp" class="heart heart-13" alt="">
-            <img src="assets/heart.webp" class="heart heart-14" alt="">
-            <img src="assets/heart.webp" class="heart heart-15" alt="">
+            <img src="assets/korony.webp" class="heart heart-1" alt="">
+            <img src="assets/korony.webp" class="heart heart-2" alt="">
+            <img src="assets/korony.webp" class="heart heart-3" alt="">
+            <img src="assets/korony.webp" class="heart heart-4" alt="">
+            <img src="assets/korony.webp" class="heart heart-5" alt="">
+            <img src="assets/korony.webp" class="heart heart-6" alt="">
+            <img src="assets/korony.webp" class="heart heart-7" alt="">
+            <img src="assets/korony.webp" class="heart heart-8" alt="">
+            <img src="assets/korony.webp" class="heart heart-9" alt="">
+            <img src="assets/korony.webp" class="heart heart-10" alt="">
+            <img src="assets/korony.webp" class="heart heart-11" alt="">
+            <img src="assets/korony.webp" class="heart heart-12" alt="">
+            <img src="assets/korony.webp" class="heart heart-13" alt="">
+            <img src="assets/korony.webp" class="heart heart-14" alt="">
+            <img src="assets/korony.webp" class="heart heart-15" alt="">
         </div>
         <div class="hero-content">
             <div class="hero-title-wrapper">
@@ -86,6 +119,10 @@
     </section>
 
     <section id="page2" class="page page-grid hidden">
+        <!-- Flowers -->
+        <img src="assets/cvety.webp" class="side-flower flower-left" alt="">
+        <img src="assets/cvety.webp" class="side-flower flower-right" alt="">
+        
         <div class="song-background-effects">
             <div class="floating-particles"></div>
             <div class="sparkles-container"></div>
@@ -95,16 +132,31 @@
                 <source src="assets/ferverk.mp4" type="video/mp4">
             </video>
             <div class="bingo-text-page2">
-                <span style="--i: 0">Б</span>
-                <span style="--i: 1">И</span>
-                <span style="--i: 2">Н</span>
-                <span style="--i: 3">Г</span>
-                <span style="--i: 4">О</span>
+                <div class="letter-wrapper" style="--i: 0">
+                    <img src="assets/korony.webp" class="letter-crown" alt="">
+                    <span>Б</span>
+                </div>
+                <div class="letter-wrapper" style="--i: 1">
+                    <img src="assets/korony.webp" class="letter-crown" alt="">
+                    <span>И</span>
+                </div>
+                <div class="letter-wrapper" style="--i: 2">
+                    <img src="assets/korony.webp" class="letter-crown" alt="">
+                    <span>Н</span>
+                </div>
+                <div class="letter-wrapper" style="--i: 3">
+                    <img src="assets/korony.webp" class="letter-crown" alt="">
+                    <span>Г</span>
+                </div>
+                <div class="letter-wrapper" style="--i: 4">
+                    <img src="assets/korony.webp" class="letter-crown" alt="">
+                    <span>О</span>
+                </div>
             </div>
         </div>
         <div class="top-bar">
             <h1 class="page2-title">МУЗЫКАЛЬНОЕ БИНГО</h1>
-            <p class="page2-progress">Сыграно бочонков: <span id="selectedCount">0</span>/99</p>
+            <p class="page2-progress">Сыграно бочонков: <span id="selectedCount">0</span>/90</p>
         </div>
         <div id="barrelGrid" class="barrel-grid"></div>
     </section>
