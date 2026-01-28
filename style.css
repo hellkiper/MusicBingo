@@ -54,8 +54,8 @@
 }
 
 :root {
-    --primary-pink: #ff8fab; /* Чуть насыщеннее */
-    --deep-pink: #e75480;    /* Темно-розовый для контраста */
+    --primary-pink: #ff8fab; /* Нежно-розовый (основной) */
+    --deep-pink: #ff8fab;    /* Заменяем темный на нежный везде */
     --light-pink: #ffe4e1;
     --white: #ffffff;
     --gold: #ffd700;
@@ -210,7 +210,7 @@ body::after {
     -webkit-text-fill-color: transparent;
     animation: title-glare 5s infinite linear;
     animation-delay: 0.5s; /* Slight offset for visual interest */
-    
+
     text-transform: uppercase;
     filter: drop-shadow(0 0 10px rgba(255,255,255,0.8)) drop-shadow(0 0 30px rgba(255, 105, 180, 0.7));
     
@@ -369,9 +369,14 @@ body::after {
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     font-size: 2.2rem;
-    color: #ff1493; /* Ярко-розовый (DeepPink) под цвет бутонов */
-    /* Убрали белую обводку, оставили только свечение */
-    text-shadow: 0 0 20px rgba(255, 20, 147, 0.4); 
+    color: #ff8fab; /* Розовый */
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff, 
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff, 
+         1px  1px 0 #ffffff,
+         0 0 20px rgba(255, 143, 171, 0.4); /* Мягкое свечение */
     margin: 0;
     animation: neon-pulse 2s ease-in-out infinite alternate;
     text-align: left;
@@ -384,27 +389,36 @@ body::after {
     }
     to {
         transform: scale(1.02);
-        filter: drop-shadow(0 0 15px rgba(255,20,147,0.6));
+        filter: drop-shadow(0 0 15px rgba(255, 143, 171, 0.6));
     }
 }
 
 .page2-progress {
     font-family: 'Comfortaa', sans-serif;
-    font-size: 1.5rem; /* Увеличил шрифт */
-    color: #ff1493; /* Ярко-розовый под цвет бутонов */
+    font-size: 1.5rem; 
+    color: #ff8fab; /* Розовый */
     background: transparent;
     padding: 0;
     margin: 0;
     white-space: nowrap;
-    /* Убрали белую обводку */
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff, 
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff, 
+         1px  1px 0 #ffffff;
     font-weight: 700;
 }
 
 #selectedCount {
     font-weight: bold;
     color: var(--white); /* Белая цифра */
-    text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+    /* Розовый контур */
+    text-shadow: 
+        -1px -1px 0 #ff8fab, 
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab, 
+         1px  1px 0 #ff8fab;
 }
 
 .barrel-grid {
@@ -445,25 +459,63 @@ body::after {
 }
 
 .barrel {
-    width: 100px; /* 100 пикселей, как просили */
-    height: 100px;
-    background: url('assets/buton.webp') no-repeat center center;
-    background-size: contain;
+    width: 80px;
+    height: 80px;
+    /* Фон и тени переносим в ::before */
+    background: none; 
     border: none;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-    /* Яркий, сочный бутон */
-    filter: brightness(1.1) saturate(1.2) drop-shadow(0 4px 5px rgba(0,0,0,0.2)); 
+    box-shadow: none; /* Убираем тень с контейнера */
+    filter: none;
+}
+
+/* Слой с винилом и контуром */
+.barrel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('assets/vinil.webp') no-repeat center center;
+    background-size: contain;
+    border-radius: 50%;
+    
+    /* Сдвигаем винил немного ВНИЗ */
+    transform: translateY(3px); 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Убрали белый контур, оставили только мягкую тень */
+    box-shadow: 
+        0 8px 15px rgba(0,0,0,0.5);
+    filter: brightness(1.05);
+    z-index: 0; /* Винил на нижнем слое */
+}
+
+/* Обертка цифры - поднимаем ее наверх */
+.barrel-face {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Чтобы клики проходили сквозь цифру к кнопке */
+}
+
+.barrel:hover::before {
+    /* Анимация при наведении теперь на псевдоэлементе */
+    transform: translateY(3px) scale(1.15) rotate(15deg);
+    box-shadow: 
+        0 15px 25px rgba(0,0,0,0.4);
+    filter: brightness(1.15);
 }
 
 .barrel:hover {
-    transform: scale(1.15) rotate(5deg);
-    /* Еще ярче при наведении */
-    filter: brightness(1.25) saturate(1.3) drop-shadow(0 4px 5px rgba(0,0,0,0.2));
+    transform: none; /* Убираем скейл с контейнера, чтобы цифра не скакала странно */
     z-index: 10;
 }
 
@@ -485,10 +537,11 @@ body::after {
          1px -1px 0 rgba(0,0,0,0.6),
         -1px  1px 0 rgba(0,0,0,0.6),
          1px  1px 0 rgba(0,0,0,0.6),
-         0 2px 4px rgba(0,0,0,0.5); /* + мягкая тень вниз */
+         0 2px 4px rgba(0,0,0,0.5); 
     
-    z-index: 1;
-    padding-bottom: 5px; 
+    z-index: 3; /* Еще выше внутри barrel-face */
+    transform: none; 
+    padding-bottom: 0;
 }
 
 /* Убираем зачеркивание для сыгранных бочонков */
@@ -505,25 +558,26 @@ body::after {
     align-items: center;
     background: rgba(0,0,0,0.2); 
     /* Darken bg slightly for contrast */
-}
+    }
     
-.song-card {
+    .song-card {
     background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 40px;
     padding: 40px;
-    width: 100%;
-    max-width: 450px;
+    width: 95%; /* Чуть меньше 100%, чтобы были отступы */
+    max-width: 800px; /* Сделали ШИРЕ (было 450px) */
     text-align: center;
     box-shadow: 0 20px 50px rgba(0,0,0,0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 25px;
-}
+    transition: max-width 0.3s ease; /* Плавное изменение размера */
+    }
     
-.cover-wrap {
+    .cover-wrap {
     width: 300px;
     height: 300px;
     border-radius: 30px;
@@ -545,35 +599,65 @@ body::after {
 .song-number {
     font-family: 'Montserrat', sans-serif;
     font-weight: 700;
-    font-size: 1.2rem;
-    color: var(--light-pink);
+    font-size: 1.5rem;
+    color: #ff8fab; /* Розовый */
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 5px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
 }
 
 #songTitle {
     font-family: 'Montserrat', sans-serif;
     font-weight: 800;
-    font-size: 2rem;
-    color: var(--white);
+    font-size: 3rem;
+    color: #ffffff; /* Белый */
     line-height: 1.1;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    /* Розовый контур + свечение */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab,
+         0 0 20px rgba(255, 20, 147, 0.6);
 }
 
 #songArtist {
     font-family: 'Comfortaa', sans-serif;
-    font-size: 1.3rem;
-    color: var(--gold);
+    font-size: 1.8rem;
+    color: #ff8fab; /* Розовый */
+    margin-bottom: 10px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
 }
 
 /* Audio Player */
 .audio-player {
-    width: 100%;
+    width: calc(100% + 40px); /* Компенсируем padding родителя (20px * 2) */
+    margin-left: -20px;
+    margin-right: -20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
+}
+
+.audio-controls-minimal {
+    width: 100%; /* Принудительно растягиваем на всю ширину */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 150px; /* Отступы по 150px (было 100px + еще 50px) */
 }
 
 .progress-container {
@@ -582,18 +666,20 @@ body::after {
 
 .progress-line {
     width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
+    height: 5px; /* Сделали уже на 10px (было 15px) */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
     position: relative;
     cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
 }
 
 .progress-fill-minimal {
     height: 100%;
-    background: var(--primary-pink);
-    border-radius: 3px;
+    background: #ffffff; 
+    border-radius: 10px;
     width: 0%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Яркое свечение */
 }
 
 .progress-slider-minimal {
@@ -610,23 +696,34 @@ body::after {
     display: flex;
     justify-content: flex-end;
     margin-top: 5px;
-    font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #ffffff; /* Белый */
+    /* Розовый контур */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab;
 }
 
 .play-pause-btn-minimal {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: var(--white);
-    color: var(--deep-pink);
-    border: none;
+    background: #ffffff; /* Белая заливка */
+    color: #ff8fab; /* Розовая иконка */
+    border: 3px solid #ff8fab; /* Розовая обводка */
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
     transition: transform 0.2s;
+}
+
+.play-pause-btn-minimal:hover {
+    transform: scale(1.1);
 }
 
 .play-pause-btn-minimal:hover {
@@ -1003,6 +1100,21 @@ body::after {
     100% { transform: rotate(-45deg) scaleY(1.2); opacity: 0.6; }
 }
 
+/* Spotlights for Page 3 */
+#page3 .spotlight {
+    opacity: 0.5; /* Чуть прозрачнее, чтобы не перебивать текст */
+    transition: opacity 1s ease;
+    z-index: 0;
+}
+
+#page3 .spotlight-left {
+    animation: spotlight-sweep-left 6s ease-in-out infinite alternate; /* Медленнее */
+}
+
+#page3 .spotlight-right {
+    animation: spotlight-sweep-right 6s ease-in-out infinite alternate;
+}
+
 .transition-text {
     display: flex;
     gap: 20px;
@@ -1034,9 +1146,9 @@ body::after {
     color: #ffffff; /* Чистый белый */
     /* Контурное розовое свечение */
     text-shadow: 
-        0 0 5px #ff1493,   /* Четкий розовый контур */
-        0 0 15px #ff69b4,  /* Свечение */
-        0 0 30px #ff1493,  /* Дальнее свечение */
+        0 0 5px #ff8fab,   /* Четкий розовый контур */
+        0 0 15px #ff8fab,  /* Свечение */
+        0 0 30px #ff8fab,  /* Дальнее свечение */
         0 0 50px rgba(255, 20, 147, 0.8);
     line-height: 1;
     
@@ -1069,7 +1181,7 @@ body::after {
 
 /* Раскрашиваем искры */
 .sparkles-burst i:nth-child(1) { background: #ffd700; color: #ffd700; --tx: -50px; --ty: -50px; animation-delay: inherit; }
-.sparkles-burst i:nth-child(2) { background: #ff69b4; color: #ff69b4; --tx: 50px; --ty: -40px; animation-delay: inherit; width: 12px; height: 12px; }
+.sparkles-burst i:nth-child(2) { background: #ff8fab; color: #ff8fab; --tx: 50px; --ty: -40px; animation-delay: inherit; width: 12px; height: 12px; }
 .sparkles-burst i:nth-child(3) { background: #ffffff; color: #ffffff; --tx: 0px; --ty: -70px; animation-delay: inherit; width: 8px; height: 8px; }
 
 /* Комбинируем появление (Fly In) и последующую волну */
@@ -1231,4 +1343,2217 @@ body::after {
 .flying-barrel .barrel-number {
     transition: opacity 0.3s;
     opacity: 0;
+}
+
+/* Karaoke Styles */
+.lyrics-container {
+    width: 100%;
+    height: 50vh; /* Чуть уменьшил высоту (было 60vh), раз расширили */
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+/* ... existing scroll styles ... */
+
+/* Synced Karaoke Structure */
+.lyrics-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 40px 10px;
+    text-align: center;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.karaoke-line {
+    position: relative;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    font-size: 2.0rem;
+    color: #ffffff;
+    white-space: nowrap;
+    cursor: default;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: inline-block;
+    padding: 0; 
+    text-align: left; 
+    text-shadow: -1px -1px 0 #ff8fab, 1px -1px 0 #ff8fab, -1px 1px 0 #ff8fab, 1px 1px 0 #ff8fab;
+    opacity: 1;
+    letter-spacing: -1px;
+}
+
+.karaoke-line::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; 
+    left: 0;
+    color: #ffc0cb;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.42s ease-in-out;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    pointer-events: none;
+    will-change: width; 
+}
+
+.karaoke-line.active {
+    transform: scale(1.2);
+    opacity: 1;
+    color: #ffffff;
+}
+
+.karaoke-line:not(.active) {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Word-level караоке (подсветка по словам) */
+.karaoke-line-words {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    white-space: normal;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.35s ease;
+}
+.karaoke-line-words::after {
+    display: none;
+}
+.karaoke-word {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.5em;
+    color: #ffffff;
+    opacity: 1;
+    text-shadow: -1px -1px 0 rgba(255,255,255,0.5), 1px -1px 0 rgba(255,255,255,0.5), -1px 1px 0 rgba(255,255,255,0.5), 1px 1px 0 rgba(255,255,255,0.5);
+}
+.karaoke-word::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ff1493;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    transition: width 0.38s ease-in-out;
+    pointer-events: none;
+}
+.karaoke-line-words.active-line {
+    transform: scale(1.4);
+}
+.karaoke-line-words:not(.active-line) {
+    transform: scale(1);
+}
+
+/* Убираем старые классы, чтобы не мешали */
+.karaoke-line-wrapper, .line-base, .line-fill, .karaoke-display {
+    display: none;
+}
+
+.lyrics-content::-webkit-scrollbar {
+    display: none;
+}
+
+.lyrics-content p {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-weight: 700;
+}
+
+/* Адаптив для караоке */
+@media (max-width: 768px) {
+    .lyrics-container {
+        height: 50vh;
+    }
+    .line-base {
+        font-size: 1.5rem;
+    }
+    .lyrics-content p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Synced Karaoke */
+.karaoke-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.karaoke-display .current-line {
+    font-size: 2rem !important;
+    color: #ffd700 !important;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    margin-bottom: 30px !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.karaoke-display .next-line {
+    font-size: 1.2rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    transform: scale(0.9);
+}
+    
+@keyframes card-pulse {
+    0% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 20px #ffffff, 0 0 40px #ffffff; /* Неоновое свечение */
+    }
+    100% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.song-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 3px solid #ffffff; /* Контур толще и ярко-белый */
+    border-radius: 40px;
+    padding: 40px 20px;
+    width: 70%; /* Вернули 70% (откат) */
+    max-width: none;
+    min-width: 300px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    transition: width 0.3s ease;
+    animation: card-pulse 3s infinite ease-in-out; /* Добавили анимацию пульсации */
+}
+    
+.cover-wrap {
+    width: 300px;
+    height: 300px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+}
+
+#songCover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.song-meta {
+    width: 100%;
+}
+
+.song-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #ff8fab; /* Розовый */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+}
+
+#songTitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    color: #ffffff; /* Белый */
+    line-height: 1.1;
+    margin-bottom: 10px;
+    /* Розовый контур + свечение */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab,
+         0 0 20px rgba(255, 20, 147, 0.6);
+}
+
+#songArtist {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.8rem;
+    color: #ff8fab; /* Розовый */
+    margin-bottom: 10px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+}
+
+/* Audio Player */
+.audio-player {
+    width: calc(100% + 40px); /* Компенсируем padding родителя (20px * 2) */
+    margin-left: -20px;
+    margin-right: -20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.audio-controls-minimal {
+    width: 100%; /* Принудительно растягиваем на всю ширину */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 150px; /* Отступы по 150px (было 100px + еще 50px) */
+}
+
+.progress-container {
+    width: 100%;
+}
+
+.progress-line {
+    width: 100%;
+    height: 5px; /* Сделали уже на 10px (было 15px) */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.progress-fill-minimal {
+    height: 100%;
+    background: #ffffff; 
+    border-radius: 10px;
+    width: 0%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Яркое свечение */
+}
+
+.progress-slider-minimal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.audio-time-minimal {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #ffffff; /* Белый */
+    /* Розовый контур */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab;
+}
+
+.play-pause-btn-minimal {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #ffffff; /* Белая заливка */
+    color: #ff8fab; /* Розовая иконка */
+    border: 3px solid #ff8fab; /* Розовая обводка */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
+    transition: transform 0.2s;
+}
+
+.play-pause-btn-minimal:hover {
+    transform: scale(1.1);
+}
+
+.play-pause-btn-minimal:hover {
+    transform: scale(1.1);
+}
+
+.play-pause-btn-minimal svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    margin-left: 2px; /* Visual adjustment for play icon */
+}
+
+/* Animations */
+.bingo-animation-page2 {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.bingo-animation-page2.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bingo-text-page2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 8rem;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.letter-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(200px) scale(0.3);
+    animation: letter-royal-entry 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    animation-delay: calc(var(--i) * 0.2s);
+}
+
+.letter-wrapper span {
+    color: var(--primary-pink);
+    text-shadow: 
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,255,255,0.6),
+        0 0 30px var(--primary-pink);
+    position: relative;
+    z-index: 2;
+}
+
+.letter-crown {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+    animation: crown-appear 0.6s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.2s + 0.4s);
+    z-index: 1;
+}
+
+/* Royal Entry Animation */
+@keyframes letter-royal-entry {
+    0% {
+        opacity: 0;
+        transform: translateY(200px) scale(0.3) rotate(-10deg);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.1) rotate(2deg);
+    }
+    80% {
+        transform: translateY(10px) scale(0.95) rotate(-1deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+}
+
+/* Crown Appear Animation */
+@keyframes crown-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0) rotate(-180deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
+}
+
+/* White Glow Final Effect */
+.bingo-animation-page2.active .bingo-text-page2 {
+    animation: final-white-glow 2s ease-in-out 2.5s forwards;
+}
+
+@keyframes final-white-glow {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 60px rgba(255,255,255,0.9)) drop-shadow(0 0 100px rgba(255,255,255,0.6));
+    }
+    100% {
+        filter: drop-shadow(0 0 40px rgba(255,255,255,0.7)) drop-shadow(0 0 80px rgba(255,255,255,0.5));
+    }
+}
+
+.bingo-animation-page2.active .letter-wrapper span {
+    animation: letter-white-glow 2s ease-in-out 2.5s forwards;
+}
+
+@keyframes letter-white-glow {
+    0% {
+        text-shadow: 
+            0 0 10px rgba(255,255,255,0.8),
+            0 0 20px rgba(255,255,255,0.6),
+            0 0 30px var(--primary-pink);
+    }
+    50% {
+        text-shadow: 
+            0 0 30px rgba(255,255,255,1),
+            0 0 60px rgba(255,255,255,0.9),
+            0 0 90px rgba(255,255,255,0.7),
+            0 0 120px rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.95);
+    }
+    100% {
+        text-shadow: 
+            0 0 20px rgba(255,255,255,0.9),
+            0 0 40px rgba(255,255,255,0.7),
+            0 0 60px rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.9);
+    }
+}
+
+/* Particle Styles */
+.song-particle {
+    pointer-events: none;
+}
+
+.victory-confetti {
+    position: absolute;
+    pointer-events: none;
+    z-index: 60;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .barrel-grid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title-main { font-size: 4rem; }
+    .hero-title-sub { font-size: 5.5rem; }
+    .hero-subtitle { font-size: 1.8rem; }
+    .vinyl-record { width: 150px; height: 150px; }
+    
+    .barrel-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+    .barrel {
+        width: 45px;
+        height: 45px;
+    }
+    .barrel-number {
+        font-size: 1rem;
+    }
+    
+    .page2-title {
+        font-size: 1.8rem;
+    }
+    
+    .song-card {
+        padding: 20px;
+    }
+    .cover-wrap {
+        width: 250px;
+        height: 250px;
+    }
+    #songTitle {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .barrel-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .event-details {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+.song-background-effects {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Music Notes */
+.music-notes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Add logic to spawn notes if needed, or just keep as placeholder for JS particles */
+}
+/* Ambient Blobs (Glassmorphism) removed */
+
+/* Star Dust (Sparkles) */
+.hero-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 10px white, 
+        0 0 20px var(--gold);
+        opacity: 0;
+    animation: sparkle-twinkle 4s infinite ease-in-out;
+}
+
+/* Use pseudo-elements to make a cross/star shape */
+.sparkle::before, .sparkle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+}
+.sparkle::before { height: 14px; width: 2px; }
+.sparkle::after { width: 14px; height: 2px; }
+
+@keyframes sparkle-twinkle {
+    0% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(45deg); }
+    100% { opacity: 0; transform: scale(0) rotate(90deg); }
+}
+
+/* Sparkle Positions */
+.s1 { top: 20%; left: 20%; animation-delay: 0s; }
+.s2 { top: 30%; right: 25%; animation-delay: 1.5s; }
+.s3 { bottom: 30%; left: 15%; animation-delay: 2.5s; }
+.s4 { top: 15%; right: 15%; animation-delay: 0.5s; }
+.s5 { bottom: 20%; right: 35%; animation-delay: 3s; }
+.s6 { top: 60%; left: 40%; animation-delay: 1s; }
+.s7 { bottom: 10%; right: 10%; animation-delay: 2s; }
+.s8 { top: 40%; left: 10%; animation-delay: 3.5s; }
+
+/* Transition Overlay */
+.bingo-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Фон переносим в ::before для размытия */
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Размытый фон */
+.bingo-transition::before {
+    content: '';
+    position: absolute;
+    inset: -20px; /* Делаем чуть больше, чтобы края размытия не белели */
+    background: url('assets/background.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(15px);
+    z-index: 0;
+}
+
+/* Затемнение */
+.bingo-transition::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5); /* Overlay darken */
+    z-index: 1;
+}
+
+/* Spotlights */
+.spotlight {
+    position: absolute;
+    bottom: -10%;
+    width: 100vh; /* Длина луча */
+    height: 100vh;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.4), transparent 80%);
+    transform-origin: bottom center;
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: 1; /* За текстом, но перед фоном */
+    opacity: 0;
+}
+
+.spotlight-left {
+    left: 20%;
+    transform: rotate(25deg);
+}
+
+.spotlight-right {
+    right: 20%;
+    transform: rotate(-25deg);
+}
+
+.bingo-transition.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bingo-transition.active .spotlight {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.bingo-transition.active .spotlight-left {
+    animation: spotlight-sweep-left 4s ease-in-out infinite alternate;
+}
+
+.bingo-transition.active .spotlight-right {
+    animation: spotlight-sweep-right 4s ease-in-out infinite alternate;
+}
+
+@keyframes spotlight-sweep-left {
+    0% { transform: rotate(15deg) scaleY(1); opacity: 0.3; }
+    100% { transform: rotate(45deg) scaleY(1.2); opacity: 0.6; }
+}
+
+@keyframes spotlight-sweep-right {
+    0% { transform: rotate(-15deg) scaleY(1); opacity: 0.3; }
+    100% { transform: rotate(-45deg) scaleY(1.2); opacity: 0.6; }
+}
+
+/* Spotlights for Page 3 */
+#page3 .spotlight {
+    opacity: 0.5; /* Чуть прозрачнее, чтобы не перебивать текст */
+    transition: opacity 1s ease;
+    z-index: 0;
+}
+
+#page3 .spotlight-left {
+    animation: spotlight-sweep-left 6s ease-in-out infinite alternate; /* Медленнее */
+}
+
+#page3 .spotlight-right {
+    animation: spotlight-sweep-right 6s ease-in-out infinite alternate;
+}
+
+.transition-text {
+    display: flex;
+    gap: 20px;
+    z-index: 2; /* Текст поверх всего */
+    position: relative;
+    align-items: flex-end;
+}
+
+.t-char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+    position: relative; /* Для позиционирования блесток */
+}
+
+.t-char img {
+    width: 80px;
+    height: auto;
+    margin-bottom: -20px; /* Чтобы корона "сидела" на букве */
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.t-char span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 14rem; /* Увеличили размер! */
+    color: #ffffff; /* Чистый белый */
+    /* Контурное розовое свечение */
+    text-shadow: 
+        0 0 5px #ff8fab,   /* Четкий розовый контур */
+        0 0 15px #ff8fab,  /* Свечение */
+        0 0 30px #ff8fab,  /* Дальнее свечение */
+        0 0 50px rgba(255, 20, 147, 0.8);
+    line-height: 1;
+    
+    /* Убрали анимацию блика white-shine */
+}
+
+/* Контейнер блесток */
+.sparkles-burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Сами звездочки */
+.sparkles-burst i {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #ffd700;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0 0 10px currentColor; /* Добавляем свечение самим искрам */
+}
+
+/* Раскрашиваем искры */
+.sparkles-burst i:nth-child(1) { background: #ffd700; color: #ffd700; --tx: -50px; --ty: -50px; animation-delay: inherit; }
+.sparkles-burst i:nth-child(2) { background: #ff8fab; color: #ff8fab; --tx: 50px; --ty: -40px; animation-delay: inherit; width: 12px; height: 12px; }
+.sparkles-burst i:nth-child(3) { background: #ffffff; color: #ffffff; --tx: 0px; --ty: -70px; animation-delay: inherit; width: 8px; height: 8px; }
+
+/* Комбинируем появление (Fly In) и последующую волну */
+.bingo-transition.active .t-char {
+    animation: 
+        letter-fly-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+        letter-wave 2s ease-in-out infinite alternate;
+}
+
+@keyframes letter-fly-in {
+    0% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(15deg);
+    }
+    70% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1.1) rotate(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+}
+
+/* Запуск анимации блесток вместе с буквами */
+.bingo-transition.active .t-char .sparkles-burst i {
+    animation: sparkle-burst 0.8s ease-out forwards;
+}
+
+/* Анимация букв + пульсация родителя + ВОЛНА */
+.bingo-transition.active .transition-text {
+    animation: text-pulse 0.5s ease-in-out 1.8s forwards;
+}
+
+@keyframes text-pulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.15); filter: brightness(1.3) drop-shadow(0 0 30px rgba(255, 20, 147, 0.8)); } /* Сильный импульс */
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Передаем задержку от родителя к блесткам */
+.bingo-transition.active .t-char:nth-child(1) .sparkles-burst i { animation-delay: 0.2s; }
+.bingo-transition.active .t-char:nth-child(2) .sparkles-burst i { animation-delay: 0.4s; }
+.bingo-transition.active .t-char:nth-child(3) .sparkles-burst i { animation-delay: 0.6s; }
+.bingo-transition.active .t-char:nth-child(4) .sparkles-burst i { animation-delay: 0.8s; }
+.bingo-transition.active .t-char:nth-child(5) .sparkles-burst i { animation-delay: 1.0s; }
+
+@keyframes sparkle-burst {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(calc(var(--tx) * 0.5), calc(var(--ty) * 0.5)) scale(1) rotate(90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg);
+    }
+}
+
+/* Задержки для букв */
+.bingo-transition.active .t-char:nth-child(1) { animation-delay: 0.2s, 0.8s; }
+.bingo-transition.active .t-char:nth-child(2) { animation-delay: 0.4s, 1.0s; }
+.bingo-transition.active .t-char:nth-child(3) { animation-delay: 0.6s, 1.2s; }
+.bingo-transition.active .t-char:nth-child(4) { animation-delay: 0.8s, 1.4s; }
+.bingo-transition.active .t-char:nth-child(5) { animation-delay: 1.0s, 1.6s; }
+
+@keyframes letter-fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes letter-wave {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-15px) scale(1.05); } /* Легкое всплытие */
+}
+
+/* Side Flowers */
+.side-flower {
+    position: fixed;
+    bottom: -25vh; /* Опустили ниже, чтобы скрыть вазы */
+    height: 75vh;
+    width: auto; 
+    max-width: 35vw;
+    pointer-events: none;
+    z-index: 2;
+    /* Подгнали цвет под бутоны: яркость + насыщенность */
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.2)) blur(5px) brightness(1.1) saturate(1.2); 
+    opacity: 0.8; 
+    animation: flower-sway 6s ease-in-out infinite alternate;
+}
+
+.flower-left {
+    left: 0;
+    transform-origin: bottom center;
+    transform: translateX(calc(-40% - 15px));
+}
+
+.flower-right {
+    right: 0;
+    transform-origin: bottom center;
+    transform: scaleX(-1) translateX(calc(-40% - 15px)); 
+    animation-delay: -3s;
+}
+
+@keyframes flower-sway {
+    0% { transform: translateX(calc(-40% - 15px)) rotate(0deg); }
+    100% { transform: translateX(calc(-40% - 15px)) rotate(2deg); }
+}
+
+.flower-right {
+    animation-name: flower-sway-right;
+}
+
+@keyframes flower-sway-right {
+    0% { transform: scaleX(-1) translateX(calc(-40% - 15px)) rotate(0deg); }
+    100% { transform: scaleX(-1) translateX(calc(-40% - 15px)) rotate(-2deg); }
+}
+
+@media (max-width: 1200px) {
+    .side-flower {
+        opacity: 0.5;
+        width: 20vw;
+    }
+}
+
+/* Flying Barrel Animation (Blackout Eclipse) */
+.flying-barrel {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    /* Явно указываем transition для filter */
+    transition: transform 1s cubic-bezier(0.55, 0.055, 0.675, 0.19), filter 1s ease;
+    transform-origin: center center;
+    box-shadow: none !important;
+    /* Задаем начальную точку для фильтра, чтобы transition сработал */
+    filter: brightness(1) drop-shadow(0 4px 5px rgba(0,0,0,0)); 
+}
+
+.flying-barrel.fly {
+    transform: scale(80); 
+    /* Плавно уходим в черноту */
+    filter: brightness(0) drop-shadow(0 4px 5px rgba(0,0,0,0));
+}
+
+.flying-barrel.fade-out {
+    transition: opacity 0.5s ease;
+    opacity: 0; /* Плавное исчезновение черноты */
+}
+
+.flying-barrel .barrel-number {
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+/* Karaoke Styles */
+.lyrics-container {
+    width: 100%;
+    height: 50vh; /* Чуть уменьшил высоту (было 60vh), раз расширили */
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+/* ... existing scroll styles ... */
+
+/* Synced Karaoke Structure */
+.lyrics-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 40px 10px;
+    text-align: center;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.karaoke-line {
+    position: relative;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    font-size: 2.0rem;
+    color: #ffffff;
+    white-space: nowrap;
+    cursor: default;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: inline-block;
+    padding: 0; 
+    text-align: left; 
+    text-shadow: -1px -1px 0 #ff8fab, 1px -1px 0 #ff8fab, -1px 1px 0 #ff8fab, 1px 1px 0 #ff8fab;
+    opacity: 1;
+    letter-spacing: -1px;
+}
+
+.karaoke-line::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; 
+    left: 0;
+    color: #ffc0cb;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.42s ease-in-out;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    pointer-events: none;
+    will-change: width; 
+}
+
+.karaoke-line.active {
+    transform: scale(1.2);
+    opacity: 1;
+    color: #ffffff;
+}
+
+.karaoke-line:not(.active) {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Word-level караоке (подсветка по словам) */
+.karaoke-line-words {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    white-space: normal;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.35s ease;
+}
+.karaoke-line-words::after {
+    display: none;
+}
+.karaoke-word {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.5em;
+    color: #ffffff;
+    opacity: 1;
+    text-shadow: -1px -1px 0 rgba(255,255,255,0.5), 1px -1px 0 rgba(255,255,255,0.5), -1px 1px 0 rgba(255,255,255,0.5), 1px 1px 0 rgba(255,255,255,0.5);
+}
+.karaoke-word::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ff1493;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    transition: width 0.38s ease-in-out;
+    pointer-events: none;
+}
+.karaoke-line-words.active-line {
+    transform: scale(1.4);
+}
+.karaoke-line-words:not(.active-line) {
+    transform: scale(1);
+}
+
+/* Убираем старые классы, чтобы не мешали */
+.karaoke-line-wrapper, .line-base, .line-fill, .karaoke-display {
+    display: none;
+}
+
+.lyrics-content::-webkit-scrollbar {
+    display: none;
+}
+
+.lyrics-content p {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-weight: 700;
+}
+
+/* Адаптив для караоке */
+@media (max-width: 768px) {
+    .lyrics-container {
+        height: 50vh;
+    }
+    .line-base {
+        font-size: 1.5rem;
+    }
+    .lyrics-content p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Synced Karaoke */
+.karaoke-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.karaoke-display .current-line {
+    font-size: 2rem !important;
+    color: #ffd700 !important;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    margin-bottom: 30px !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.karaoke-display .next-line {
+    font-size: 1.2rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    transform: scale(0.9);
+}
+
+.barrel {
+    width: 80px;
+    height: 80px;
+    /* Фон и тени переносим в ::before */
+    background: none; 
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    box-shadow: none; /* Убираем тень с контейнера */
+    filter: none;
+}
+
+/* Слой с винилом и контуром */
+.barrel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('assets/vinil.webp') no-repeat center center;
+    background-size: contain;
+    border-radius: 50%;
+    
+    /* Сдвигаем винил немного ВНИЗ */
+    transform: translateY(3px); 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* Убрали белый контур, оставили только мягкую тень */
+    box-shadow: 
+        0 8px 15px rgba(0,0,0,0.5);
+    filter: brightness(1.05);
+    z-index: 0; /* Винил на нижнем слое */
+}
+
+/* Обертка цифры - поднимаем ее наверх */
+.barrel-face {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none; /* Чтобы клики проходили сквозь цифру к кнопке */
+}
+
+.barrel:hover::before {
+    /* Анимация при наведении теперь на псевдоэлементе */
+    transform: translateY(3px) scale(1.15) rotate(15deg);
+    box-shadow: 
+        0 15px 25px rgba(0,0,0,0.4);
+    filter: brightness(1.15);
+}
+
+.barrel:hover {
+    transform: none; /* Убираем скейл с контейнера, чтобы цифра не скакала странно */
+    z-index: 10;
+}
+
+.barrel.used {
+    /* Эффект для сыгранного бочонка: черно-белый и полупрозрачный */
+    filter: grayscale(1) opacity(0.6);
+    transform: scale(0.9);
+}
+
+.barrel-number {
+    font-family: 'Pacifico', cursive;
+    font-weight: 400;
+    font-size: 2.3rem;
+    color: #ffffff;
+    
+    /* Четкая темная обводка со всех сторон */
+    text-shadow: 
+        -1px -1px 0 rgba(0,0,0,0.6),  
+         1px -1px 0 rgba(0,0,0,0.6),
+        -1px  1px 0 rgba(0,0,0,0.6),
+         1px  1px 0 rgba(0,0,0,0.6),
+         0 2px 4px rgba(0,0,0,0.5); 
+    
+    z-index: 3; /* Еще выше внутри barrel-face */
+    transform: none; 
+    padding-bottom: 0;
+}
+
+/* Убираем зачеркивание для сыгранных бочонков */
+.barrel.used .barrel-number {
+    color: #ccc; /* Чуть серее */
+    opacity: 0.8;
+    text-decoration: none; 
+}
+
+/* Song Page */
+.page-song {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.2); 
+    /* Darken bg slightly for contrast */
+}
+    
+@keyframes card-pulse {
+    0% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 20px #ffffff, 0 0 40px #ffffff; /* Неоновое свечение */
+    }
+    100% {
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+}
+
+.song-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px);
+    border: 3px solid #ffffff; /* Контур толще и ярко-белый */
+    border-radius: 40px;
+    padding: 40px 20px;
+    width: 70%; /* Вернули 70% (откат) */
+    max-width: none;
+    min-width: 300px;
+    text-align: center;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    transition: width 0.3s ease;
+    animation: card-pulse 3s infinite ease-in-out; /* Добавили анимацию пульсации */
+}
+    
+.cover-wrap {
+    width: 300px;
+    height: 300px;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border: 4px solid rgba(255, 255, 255, 0.2);
+}
+
+#songCover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.song-meta {
+    width: 100%;
+}
+
+.song-number {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #ff8fab; /* Розовый */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+}
+
+#songTitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 3rem;
+    color: #ffffff; /* Белый */
+    line-height: 1.1;
+    margin-bottom: 10px;
+    /* Розовый контур + свечение */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab,
+         0 0 20px rgba(255, 20, 147, 0.6);
+}
+
+#songArtist {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.8rem;
+    color: #ff8fab; /* Розовый */
+    margin-bottom: 10px;
+    /* Белый контур */
+    text-shadow: 
+        -1px -1px 0 #ffffff,
+         1px -1px 0 #ffffff,
+        -1px  1px 0 #ffffff,
+         1px  1px 0 #ffffff;
+}
+
+/* Audio Player */
+.audio-player {
+    width: calc(100% + 40px); /* Компенсируем padding родителя (20px * 2) */
+    margin-left: -20px;
+    margin-right: -20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.audio-controls-minimal {
+    width: 100%; /* Принудительно растягиваем на всю ширину */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 150px; /* Отступы по 150px (было 100px + еще 50px) */
+}
+
+.progress-container {
+    width: 100%;
+}
+
+.progress-line {
+    width: 100%;
+    height: 5px; /* Сделали уже на 10px (было 15px) */
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.progress-fill-minimal {
+    height: 100%;
+    background: #ffffff; 
+    border-radius: 10px;
+    width: 0%;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8); /* Яркое свечение */
+}
+
+.progress-slider-minimal {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.audio-time-minimal {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #ffffff; /* Белый */
+    /* Розовый контур */
+    text-shadow: 
+        -1px -1px 0 #ff8fab,
+         1px -1px 0 #ff8fab,
+        -1px  1px 0 #ff8fab,
+         1px  1px 0 #ff8fab;
+}
+
+.play-pause-btn-minimal {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #ffffff; /* Белая заливка */
+    color: #ff8fab; /* Розовая иконка */
+    border: 3px solid #ff8fab; /* Розовая обводка */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(255, 143, 171, 0.3);
+    transition: transform 0.2s;
+}
+
+.play-pause-btn-minimal:hover {
+    transform: scale(1.1);
+}
+
+.play-pause-btn-minimal:hover {
+    transform: scale(1.1);
+}
+
+.play-pause-btn-minimal svg {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    margin-left: 2px; /* Visual adjustment for play icon */
+}
+
+/* Animations */
+.bingo-animation-page2 {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s;
+}
+
+.bingo-animation-page2.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bingo-text-page2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 8rem;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.letter-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(200px) scale(0.3);
+    animation: letter-royal-entry 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+    animation-delay: calc(var(--i) * 0.2s);
+}
+
+.letter-wrapper span {
+    color: var(--primary-pink);
+    text-shadow: 
+        0 0 10px rgba(255,255,255,0.8),
+        0 0 20px rgba(255,255,255,0.6),
+        0 0 30px var(--primary-pink);
+    position: relative;
+    z-index: 2;
+}
+
+.letter-crown {
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    opacity: 0;
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+    animation: crown-appear 0.6s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.2s + 0.4s);
+    z-index: 1;
+}
+
+/* Royal Entry Animation */
+@keyframes letter-royal-entry {
+    0% {
+        opacity: 0;
+        transform: translateY(200px) scale(0.3) rotate(-10deg);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(-20px) scale(1.1) rotate(2deg);
+    }
+    80% {
+        transform: translateY(10px) scale(0.95) rotate(-1deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(0deg);
+    }
+}
+
+/* Crown Appear Animation */
+@keyframes crown-appear {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) scale(0) rotate(-180deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2) rotate(10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1) rotate(0deg);
+    }
+}
+
+/* White Glow Final Effect */
+.bingo-animation-page2.active .bingo-text-page2 {
+    animation: final-white-glow 2s ease-in-out 2.5s forwards;
+}
+
+@keyframes final-white-glow {
+    0% {
+        filter: drop-shadow(0 0 20px rgba(255,255,255,0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 60px rgba(255,255,255,0.9)) drop-shadow(0 0 100px rgba(255,255,255,0.6));
+    }
+    100% {
+        filter: drop-shadow(0 0 40px rgba(255,255,255,0.7)) drop-shadow(0 0 80px rgba(255,255,255,0.5));
+    }
+}
+
+.bingo-animation-page2.active .letter-wrapper span {
+    animation: letter-white-glow 2s ease-in-out 2.5s forwards;
+}
+
+@keyframes letter-white-glow {
+    0% {
+        text-shadow: 
+            0 0 10px rgba(255,255,255,0.8),
+            0 0 20px rgba(255,255,255,0.6),
+            0 0 30px var(--primary-pink);
+    }
+    50% {
+        text-shadow: 
+            0 0 30px rgba(255,255,255,1),
+            0 0 60px rgba(255,255,255,0.9),
+            0 0 90px rgba(255,255,255,0.7),
+            0 0 120px rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.95);
+    }
+    100% {
+        text-shadow: 
+            0 0 20px rgba(255,255,255,0.9),
+            0 0 40px rgba(255,255,255,0.7),
+            0 0 60px rgba(255,255,255,0.5);
+        color: rgba(255,255,255,0.9);
+    }
+}
+
+/* Particle Styles */
+.song-particle {
+    pointer-events: none;
+}
+
+.victory-confetti {
+    position: absolute;
+    pointer-events: none;
+    z-index: 60;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .barrel-grid {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title-main { font-size: 4rem; }
+    .hero-title-sub { font-size: 5.5rem; }
+    .hero-subtitle { font-size: 1.8rem; }
+    .vinyl-record { width: 150px; height: 150px; }
+    
+    .barrel-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 8px;
+        padding: 10px;
+    }
+    .barrel {
+        width: 45px;
+        height: 45px;
+    }
+    .barrel-number {
+        font-size: 1rem;
+    }
+    
+    .page2-title {
+        font-size: 1.8rem;
+    }
+    
+    .song-card {
+        padding: 20px;
+    }
+    .cover-wrap {
+        width: 250px;
+        height: 250px;
+    }
+    #songTitle {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .barrel-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    .event-details {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+}
+
+.song-background-effects {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Music Notes */
+.music-notes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    /* Add logic to spawn notes if needed, or just keep as placeholder for JS particles */
+}
+/* Ambient Blobs (Glassmorphism) removed */
+
+/* Star Dust (Sparkles) */
+.hero-sparkles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 
+        0 0 10px white, 
+        0 0 20px var(--gold);
+        opacity: 0;
+    animation: sparkle-twinkle 4s infinite ease-in-out;
+}
+
+/* Use pseudo-elements to make a cross/star shape */
+.sparkle::before, .sparkle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    border-radius: inherit;
+    transform: translate(-50%, -50%);
+}
+.sparkle::before { height: 14px; width: 2px; }
+.sparkle::after { width: 14px; height: 2px; }
+
+@keyframes sparkle-twinkle {
+    0% { opacity: 0; transform: scale(0) rotate(0deg); }
+    50% { opacity: 1; transform: scale(1) rotate(45deg); }
+    100% { opacity: 0; transform: scale(0) rotate(90deg); }
+}
+
+/* Sparkle Positions */
+.s1 { top: 20%; left: 20%; animation-delay: 0s; }
+.s2 { top: 30%; right: 25%; animation-delay: 1.5s; }
+.s3 { bottom: 30%; left: 15%; animation-delay: 2.5s; }
+.s4 { top: 15%; right: 15%; animation-delay: 0.5s; }
+.s5 { bottom: 20%; right: 35%; animation-delay: 3s; }
+.s6 { top: 60%; left: 40%; animation-delay: 1s; }
+.s7 { bottom: 10%; right: 10%; animation-delay: 2s; }
+.s8 { top: 40%; left: 10%; animation-delay: 3.5s; }
+
+/* Transition Overlay */
+.bingo-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Фон переносим в ::before для размытия */
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+/* Размытый фон */
+.bingo-transition::before {
+    content: '';
+    position: absolute;
+    inset: -20px; /* Делаем чуть больше, чтобы края размытия не белели */
+    background: url('assets/background.jpg') no-repeat center center;
+    background-size: cover;
+    filter: blur(15px);
+    z-index: 0;
+}
+
+/* Затемнение */
+.bingo-transition::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5); /* Overlay darken */
+    z-index: 1;
+}
+
+/* Spotlights */
+.spotlight {
+    position: absolute;
+    bottom: -10%;
+    width: 100vh; /* Длина луча */
+    height: 100vh;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.4), transparent 80%);
+    transform-origin: bottom center;
+    filter: blur(20px);
+    pointer-events: none;
+    z-index: 1; /* За текстом, но перед фоном */
+    opacity: 0;
+}
+
+.spotlight-left {
+    left: 20%;
+    transform: rotate(25deg);
+}
+
+.spotlight-right {
+    right: 20%;
+    transform: rotate(-25deg);
+}
+
+.bingo-transition.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.bingo-transition.active .spotlight {
+    opacity: 1;
+    transition: opacity 1s ease;
+}
+
+.bingo-transition.active .spotlight-left {
+    animation: spotlight-sweep-left 4s ease-in-out infinite alternate;
+}
+
+.bingo-transition.active .spotlight-right {
+    animation: spotlight-sweep-right 4s ease-in-out infinite alternate;
+}
+
+@keyframes spotlight-sweep-left {
+    0% { transform: rotate(15deg) scaleY(1); opacity: 0.3; }
+    100% { transform: rotate(45deg) scaleY(1.2); opacity: 0.6; }
+}
+
+@keyframes spotlight-sweep-right {
+    0% { transform: rotate(-15deg) scaleY(1); opacity: 0.3; }
+    100% { transform: rotate(-45deg) scaleY(1.2); opacity: 0.6; }
+}
+
+/* Spotlights for Page 3 */
+#page3 .spotlight {
+    opacity: 0.5; /* Чуть прозрачнее, чтобы не перебивать текст */
+    transition: opacity 1s ease;
+    z-index: 0;
+}
+
+#page3 .spotlight-left {
+    animation: spotlight-sweep-left 6s ease-in-out infinite alternate; /* Медленнее */
+}
+
+#page3 .spotlight-right {
+    animation: spotlight-sweep-right 6s ease-in-out infinite alternate;
+}
+
+.transition-text {
+    display: flex;
+    gap: 20px;
+    z-index: 2; /* Текст поверх всего */
+    position: relative;
+    align-items: flex-end;
+}
+
+.t-char {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(50px) scale(0.8);
+    position: relative; /* Для позиционирования блесток */
+}
+
+.t-char img {
+    width: 80px;
+    height: auto;
+    margin-bottom: -20px; /* Чтобы корона "сидела" на букве */
+    filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.5));
+}
+
+.t-char span {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 900;
+    font-size: 14rem; /* Увеличили размер! */
+    color: #ffffff; /* Чистый белый */
+    /* Контурное розовое свечение */
+    text-shadow: 
+        0 0 5px #ff8fab,   /* Четкий розовый контур */
+        0 0 15px #ff8fab,  /* Свечение */
+        0 0 30px #ff8fab,  /* Дальнее свечение */
+        0 0 50px rgba(255, 20, 147, 0.8);
+    line-height: 1;
+    
+    /* Убрали анимацию блика white-shine */
+}
+
+/* Контейнер блесток */
+.sparkles-burst {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 3;
+}
+
+/* Сами звездочки */
+.sparkles-burst i {
+    position: absolute;
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #ffd700;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0;
+    transform: scale(0);
+    box-shadow: 0 0 10px currentColor; /* Добавляем свечение самим искрам */
+}
+
+/* Раскрашиваем искры */
+.sparkles-burst i:nth-child(1) { background: #ffd700; color: #ffd700; --tx: -50px; --ty: -50px; animation-delay: inherit; }
+.sparkles-burst i:nth-child(2) { background: #ff8fab; color: #ff8fab; --tx: 50px; --ty: -40px; animation-delay: inherit; width: 12px; height: 12px; }
+.sparkles-burst i:nth-child(3) { background: #ffffff; color: #ffffff; --tx: 0px; --ty: -70px; animation-delay: inherit; width: 8px; height: 8px; }
+
+/* Комбинируем появление (Fly In) и последующую волну */
+.bingo-transition.active .t-char {
+    animation: 
+        letter-fly-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+        letter-wave 2s ease-in-out infinite alternate;
+}
+
+@keyframes letter-fly-in {
+    0% {
+        opacity: 0;
+        transform: translate(var(--dx), var(--dy)) scale(0.5) rotate(15deg);
+    }
+    70% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1.1) rotate(-5deg);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+}
+
+/* Запуск анимации блесток вместе с буквами */
+.bingo-transition.active .t-char .sparkles-burst i {
+    animation: sparkle-burst 0.8s ease-out forwards;
+}
+
+/* Анимация букв + пульсация родителя + ВОЛНА */
+.bingo-transition.active .transition-text {
+    animation: text-pulse 0.5s ease-in-out 1.8s forwards;
+}
+
+@keyframes text-pulse {
+    0% { transform: scale(1); filter: brightness(1); }
+    50% { transform: scale(1.15); filter: brightness(1.3) drop-shadow(0 0 30px rgba(255, 20, 147, 0.8)); } /* Сильный импульс */
+    100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* Передаем задержку от родителя к блесткам */
+.bingo-transition.active .t-char:nth-child(1) .sparkles-burst i { animation-delay: 0.2s; }
+.bingo-transition.active .t-char:nth-child(2) .sparkles-burst i { animation-delay: 0.4s; }
+.bingo-transition.active .t-char:nth-child(3) .sparkles-burst i { animation-delay: 0.6s; }
+.bingo-transition.active .t-char:nth-child(4) .sparkles-burst i { animation-delay: 0.8s; }
+.bingo-transition.active .t-char:nth-child(5) .sparkles-burst i { animation-delay: 1.0s; }
+
+@keyframes sparkle-burst {
+    0% {
+        opacity: 0;
+        transform: translate(0, 0) scale(0) rotate(0deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(calc(var(--tx) * 0.5), calc(var(--ty) * 0.5)) scale(1) rotate(90deg);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(var(--tx), var(--ty)) scale(0) rotate(180deg);
+    }
+}
+
+/* Задержки для букв */
+.bingo-transition.active .t-char:nth-child(1) { animation-delay: 0.2s, 0.8s; }
+.bingo-transition.active .t-char:nth-child(2) { animation-delay: 0.4s, 1.0s; }
+.bingo-transition.active .t-char:nth-child(3) { animation-delay: 0.6s, 1.2s; }
+.bingo-transition.active .t-char:nth-child(4) { animation-delay: 0.8s, 1.4s; }
+.bingo-transition.active .t-char:nth-child(5) { animation-delay: 1.0s, 1.6s; }
+
+@keyframes letter-fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(50px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes letter-wave {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-15px) scale(1.05); } /* Легкое всплытие */
+}
+
+/* Side Flowers */
+.side-flower {
+    position: fixed;
+    bottom: -25vh; /* Опустили ниже, чтобы скрыть вазы */
+    height: 75vh;
+    width: auto; 
+    max-width: 35vw;
+    pointer-events: none;
+    z-index: 2;
+    /* Подгнали цвет под бутоны: яркость + насыщенность */
+    filter: drop-shadow(0 0 20px rgba(0,0,0,0.2)) blur(5px) brightness(1.1) saturate(1.2); 
+    opacity: 0.8; 
+    animation: flower-sway 6s ease-in-out infinite alternate;
+}
+
+.flower-left {
+    left: 0;
+    transform-origin: bottom center;
+    transform: translateX(calc(-40% - 15px));
+}
+
+.flower-right {
+    right: 0;
+    transform-origin: bottom center;
+    transform: scaleX(-1) translateX(calc(-40% - 15px)); 
+    animation-delay: -3s;
+}
+
+@keyframes flower-sway {
+    0% { transform: translateX(calc(-40% - 15px)) rotate(0deg); }
+    100% { transform: translateX(calc(-40% - 15px)) rotate(2deg); }
+}
+
+.flower-right {
+    animation-name: flower-sway-right;
+}
+
+@keyframes flower-sway-right {
+    0% { transform: scaleX(-1) translateX(calc(-40% - 15px)) rotate(0deg); }
+    100% { transform: scaleX(-1) translateX(calc(-40% - 15px)) rotate(-2deg); }
+}
+
+@media (max-width: 1200px) {
+    .side-flower {
+        opacity: 0.5;
+        width: 20vw;
+    }
+}
+
+/* Flying Barrel Animation (Blackout Eclipse) */
+.flying-barrel {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    /* Явно указываем transition для filter */
+    transition: transform 1s cubic-bezier(0.55, 0.055, 0.675, 0.19), filter 1s ease;
+    transform-origin: center center;
+    box-shadow: none !important;
+    /* Задаем начальную точку для фильтра, чтобы transition сработал */
+    filter: brightness(1) drop-shadow(0 4px 5px rgba(0,0,0,0)); 
+}
+
+.flying-barrel.fly {
+    transform: scale(80); 
+    /* Плавно уходим в черноту */
+    filter: brightness(0) drop-shadow(0 4px 5px rgba(0,0,0,0));
+}
+
+.flying-barrel.fade-out {
+    transition: opacity 0.5s ease;
+    opacity: 0; /* Плавное исчезновение черноты */
+}
+
+.flying-barrel .barrel-number {
+    transition: opacity 0.3s;
+    opacity: 0;
+}
+
+/* Karaoke Styles */
+.lyrics-container {
+    width: 100%;
+    height: 50vh; /* Чуть уменьшил высоту (было 60vh), раз расширили */
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+}
+
+/* ... existing scroll styles ... */
+
+/* Synced Karaoke Structure */
+.lyrics-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 40px 10px;
+    text-align: center;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.karaoke-line {
+    position: relative;
+    font-family: 'Comfortaa', sans-serif;
+    font-weight: 700;
+    font-size: 2.0rem;
+    color: #ffffff;
+    white-space: nowrap;
+    cursor: default;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    display: inline-block;
+    padding: 0; 
+    text-align: left; 
+    text-shadow: -1px -1px 0 #ff8fab, 1px -1px 0 #ff8fab, -1px 1px 0 #ff8fab, 1px 1px 0 #ff8fab;
+    opacity: 1;
+    letter-spacing: -1px;
+}
+
+.karaoke-line::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; 
+    left: 0;
+    color: #ffc0cb;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.42s ease-in-out;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    pointer-events: none;
+    will-change: width; 
+}
+
+.karaoke-line.active {
+    transform: scale(1.2);
+    opacity: 1;
+    color: #ffffff;
+}
+
+.karaoke-line:not(.active) {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Word-level караоке (подсветка по словам) */
+.karaoke-line-words {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: center;
+    white-space: normal;
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: center center;
+    transition: transform 0.35s ease;
+}
+.karaoke-line-words::after {
+    display: none;
+}
+.karaoke-word {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    margin-right: 0.5em;
+    color: #ffffff;
+    opacity: 1;
+    text-shadow: -1px -1px 0 rgba(255,255,255,0.5), 1px -1px 0 rgba(255,255,255,0.5), -1px 1px 0 rgba(255,255,255,0.5), 1px 1px 0 rgba(255,255,255,0.5);
+}
+.karaoke-word::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--progress, 0%);
+    overflow: hidden;
+    white-space: nowrap;
+    color: #ff1493;
+    text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+    transition: width 0.38s ease-in-out;
+    pointer-events: none;
+}
+.karaoke-line-words.active-line {
+    transform: scale(1.4);
+}
+.karaoke-line-words:not(.active-line) {
+    transform: scale(1);
+}
+
+/* Убираем старые классы, чтобы не мешали */
+.karaoke-line-wrapper, .line-base, .line-fill, .karaoke-display {
+    display: none;
+}
+
+.lyrics-content::-webkit-scrollbar {
+    display: none;
+}
+
+.lyrics-content p {
+    font-family: 'Comfortaa', sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    font-weight: 700;
+}
+
+/* Адаптив для караоке */
+@media (max-width: 768px) {
+    .lyrics-container {
+        height: 50vh;
+    }
+    .line-base {
+        font-size: 1.5rem;
+    }
+    .lyrics-content p {
+        font-size: 1.1rem;
+    }
+}
+
+/* Synced Karaoke */
+.karaoke-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.karaoke-display .current-line {
+    font-size: 2rem !important;
+    color: #ffd700 !important;
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    margin-bottom: 30px !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.karaoke-display .next-line {
+    font-size: 1.2rem !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    transform: scale(0.9);
 }
