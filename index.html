@@ -8,27 +8,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script>
-        // Начинаем загрузку видео сразу при загрузке DOM
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('bingoVideo');
-            if (video) {
-                // Принудительно начинаем загрузку видео
-                video.load();
-                // Также предзагружаем при загрузке окна
-                video.addEventListener('loadstart', function() {
-                    console.log('Видео начало загружаться');
-                });
-            }
-        });
-        // Дополнительная загрузка при полной загрузке страницы
-        window.addEventListener('load', function() {
-            const video = document.getElementById('bingoVideo');
-            if (video && video.readyState === 0) {
-                video.load();
-            }
-        });
-    </script>
 </head>
 <body>
     <div id="bingoTransition" class="bingo-transition hidden">
@@ -161,10 +140,9 @@
             <div class="floating-particles"></div>
             <div class="sparkles-container"></div>
         </div>
+        <audio id="bingoVictoryAudio" src="audio/100.mp3" preload="auto"></audio>
         <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
-            <video id="bingoVideo" class="bingo-video" playsinline preload="auto" muted>
-                <source src="assets/ferverk.mp4" type="video/mp4">
-            </video>
+            <div id="bingoConfettiContainer" class="bingo-confetti-container"></div>
             <div class="bingo-text-page2">
                 <div class="letter-wrapper" style="--i: 0">
                     <img src="assets/korony.webp" class="letter-crown" alt="">
@@ -203,19 +181,9 @@
             <div class="sparkles-container"></div>
             <div class="music-notes"></div>
         </div>
-        <div class="song-card karaoke-mode">
-            <!-- Cover removed for Karaoke Mode -->
-            <!-- <div class="cover-wrap">
+        <div class="song-card">
+            <div class="cover-wrap">
                 <img id="songCover" src="" alt="Обложка трека" />
-            </div> -->
-            
-            <div class="lyrics-container">
-                <div class="lyrics-content" id="songLyrics">
-                    <p>Здесь будет текст песни...</p>
-                    <p>Пришлите файл с текстами,</p>
-                    <p>и мы будем петь!</p>
-                    <p>🎤 🎶 🎹</p>
-                </div>
             </div>
 
             <div class="song-meta">
