@@ -6,12 +6,23 @@
     <title>Музыкальное бинго</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const video = document.getElementById('bingoVideo');
+            if (video) video.load();
+        });
+        window.addEventListener('load', function() {
+            const video = document.getElementById('bingoVideo');
+            if (video && video.readyState === 0) {
+                video.load();
+            }
+        });
+    </script>
 </head>
 <body>
     <div id="bingoTransition" class="bingo-transition hidden">
-        <!-- Spotlights -->
         <div class="spotlight spotlight-left"></div>
         <div class="spotlight spotlight-right"></div>
         
@@ -19,110 +30,71 @@
             <div class="t-char" style="--dx: -100vw; --dy: -100vh;">
                 <img src="assets/korony.webp" alt="">
                 <span>Б</span>
-                <div class="sparkles-burst">
-                    <i></i><i></i><i></i>
-                </div>
             </div>
             <div class="t-char" style="--dx: -50vw; --dy: 100vh;">
                 <img src="assets/korony.webp" alt="">
                 <span>И</span>
-                <div class="sparkles-burst">
-                    <i></i><i></i><i></i>
-                </div>
             </div>
             <div class="t-char" style="--dx: 0px; --dy: -120vh;">
                 <img src="assets/korony.webp" alt="">
                 <span>Н</span>
-                <div class="sparkles-burst">
-                    <i></i><i></i><i></i>
-                </div>
             </div>
             <div class="t-char" style="--dx: 50vw; --dy: 100vh;">
                 <img src="assets/korony.webp" alt="">
                 <span>Г</span>
-                <div class="sparkles-burst">
-                    <i></i><i></i><i></i>
-                </div>
             </div>
             <div class="t-char" style="--dx: 100vw; --dy: -100vh;">
                 <img src="assets/korony.webp" alt="">
                 <span>О</span>
-                <div class="sparkles-burst">
-                    <i></i><i></i><i></i>
-                </div>
             </div>
         </div>
     </div>
     <div class="bg-overlay"></div>
     
-    <!-- Background 1: Bows (Page 1) - Scattered (Original) -->
-    <div id="bg-bows" class="floating-hearts" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; transition: opacity 1s ease;">
-        <img src="assets/bant.webp" class="heart heart-1" alt="">
-        <img src="assets/bant.webp" class="heart heart-2" alt="">
-        <img src="assets/bant.webp" class="heart heart-3" alt="">
-        <img src="assets/bant.webp" class="heart heart-4" alt="">
-        <img src="assets/bant.webp" class="heart heart-5" alt="">
-        <img src="assets/bant.webp" class="heart heart-6" alt="">
-        <img src="assets/bant.webp" class="heart heart-7" alt="">
-        <img src="assets/bant.webp" class="heart heart-8" alt="">
-        <img src="assets/bant.webp" class="heart heart-9" alt="">
-        <img src="assets/bant.webp" class="heart heart-10" alt="">
-        <img src="assets/bant.webp" class="heart heart-11" alt="">
-        <img src="assets/bant.webp" class="heart heart-12" alt="">
-        <img src="assets/bant.webp" class="heart heart-13" alt="">
-        <img src="assets/bant.webp" class="heart heart-14" alt="">
-        <img src="assets/bant.webp" class="heart heart-15" alt="">
-    </div>
-
-    <!-- Background 2: Bouquets (Page 2) - Fixed & Edges Only -->
     <div id="bg-bouquets" class="floating-hearts" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1s ease;">
-        <!-- ... existing bouquets ... -->
-        <img src="assets/buket.webp" class="heart heart-1" style="left: 3%; top: 8%; width: 110px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-2" style="left: 1%; top: 40%; width: 80px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-3" style="left: 6%; bottom: 12%; width: 100px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-4" style="right: 4%; top: 12%; width: 120px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-5" style="right: 2%; top: 38%; width: 85px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-6" style="right: 7%; bottom: 15%; width: 105px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-7" style="left: 20%; top: -2%; width: 90px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-8" style="right: 20%; top: 1%; width: 95px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-9" style="left: 15%; bottom: -2%; width: 85px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-10" style="right: 15%; bottom: 1%; width: 90px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-11" style="left: -2%; top: 60%; width: 70px;" alt="">
-        <img src="assets/buket.webp" class="heart heart-12" style="right: -2%; top: 65%; width: 75px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-1" style="left: 3%; top: 8%; width: 110px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-2" style="left: 1%; top: 40%; width: 80px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-3" style="left: 6%; bottom: 12%; width: 100px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-4" style="right: 4%; top: 12%; width: 120px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-5" style="right: 2%; top: 38%; width: 85px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-6" style="right: 7%; bottom: 15%; width: 105px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-7" style="left: 20%; top: -2%; width: 90px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-8" style="right: 20%; top: 1%; width: 95px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-9" style="left: 15%; bottom: -2%; width: 85px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-10" style="right: 15%; bottom: 1%; width: 90px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-11" style="left: -2%; top: 60%; width: 70px;" alt="">
+        <img src="assets/cvety.webp" class="heart heart-12" style="right: -2%; top: 65%; width: 75px;" alt="">
     </div>
 
-    <!-- Background 3: Notes (Page 3) - Scattered -->
     <div id="bg-notes" class="floating-hearts" style="position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 1s ease;">
-        <img src="assets/nota.webp" class="heart" style="left: 10%; top: 15%; width: 60px; animation-delay: -1s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="left: 25%; top: 5%; width: 45px; animation-delay: -3s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="right: 15%; top: 20%; width: 70px; animation-delay: -2s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="right: 5%; top: 50%; width: 55px; animation-delay: -5s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="left: 5%; top: 60%; width: 65px; animation-delay: -4s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="left: 30%; bottom: 10%; width: 50px; animation-delay: -6s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="right: 25%; bottom: 15%; width: 60px; animation-delay: -1.5s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="left: 50%; top: 5%; width: 40px; animation-delay: -2.5s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="right: 40%; top: 85%; width: 55px; animation-delay: -3.5s;" alt="">
-        <img src="assets/nota.webp" class="heart" style="left: 15%; bottom: 40%; width: 45px; animation-delay: -0.5s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 10%; top: 15%; width: 60px; animation-delay: -1s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 25%; top: 5%; width: 45px; animation-delay: -3s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="right: 15%; top: 20%; width: 70px; animation-delay: -2s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="right: 5%; top: 50%; width: 55px; animation-delay: -5s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 5%; top: 60%; width: 65px; animation-delay: -4s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 30%; bottom: 10%; width: 50px; animation-delay: -6s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="right: 25%; bottom: 15%; width: 60px; animation-delay: -1.5s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 50%; top: 5%; width: 40px; animation-delay: -2.5s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="right: 40%; top: 85%; width: 55px; animation-delay: -3.5s;" alt="">
+        <img src="assets/heart.webp" class="heart" style="left: 15%; bottom: 40%; width: 45px; animation-delay: -0.5s;" alt="">
     </div>
 
     <section id="page1" class="page page-hero">
+        <div class="hero-date-badge">
+            <span class="hero-date">14.02.2026</span>
+            <span class="hero-love">love</span>
+        </div>
         <div class="hero-bg-gradient"></div>
         
-        <div class="hero-sparkles">
-            <div class="sparkle s1"></div>
-            <div class="sparkle s2"></div>
-            <div class="sparkle s3"></div>
-            <div class="sparkle s4"></div>
-            <div class="sparkle s5"></div>
-            <div class="sparkle s6"></div>
-            <div class="sparkle s7"></div>
-            <div class="sparkle s8"></div>
-        </div>
 
         <div class="hero-content">
             <div class="hero-title-wrapper">
-                <h1 class="hero-title-main">МУЗЫКАЛЬНОЕ</h1>
-                <h1 class="hero-title-sub">БИНГО</h1>
+                <img src="assets/kupidon.webp" class="hero-cupid hero-cupid-left" alt="Купидон">
+                <img src="assets/kupidon.webp" class="hero-cupid hero-cupid-right" alt="Купидон">
+                <div class="hero-titles">
+                    <h1 class="hero-title-main">МУЗЫКАЛЬНОЕ</h1>
+                    <h1 class="hero-title-sub">БИНГО</h1>
+                </div>
             </div>
             <div class="hero-cta">
                 <button id="startGame" class="primary-btn-pink"><span>ИГРАТЬ</span></button>
@@ -131,18 +103,19 @@
     </section>
 
     <section id="page2" class="page page-grid hidden">
-        
-        <!-- Flowers -->
+        <img src="assets/kupidon.webp" class="page2-cupid page2-cupid-left" alt="Купидон">
+        <img src="assets/kupidon.webp" class="page2-cupid page2-cupid-right" alt="Купидон">
         <img src="assets/cvety.webp" class="side-flower flower-left" alt="">
         <img src="assets/cvety.webp" class="side-flower flower-right" alt="">
         
         <div class="song-background-effects">
             <div class="floating-particles"></div>
-            <div class="sparkles-container"></div>
         </div>
-        <audio id="bingoVictoryAudio" src="audio/100.mp3" preload="auto"></audio>
         <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
-            <div id="bingoConfettiContainer" class="bingo-confetti-container"></div>
+            <div id="bingoConfettiContainer" style="position:absolute;inset:0;pointer-events:none;z-index:50"></div>
+            <video id="bingoVideo" class="bingo-video" playsinline preload="auto" muted>
+                <source src="assets/ferverk.mp4" type="video/mp4">
+            </video>
             <div class="bingo-text-page2">
                 <div class="letter-wrapper" style="--i: 0">
                     <img src="assets/korony.webp" class="letter-crown" alt="">
@@ -168,7 +141,7 @@
         </div>
         <div class="top-bar">
             <h1 class="page2-title">МУЗЫКАЛЬНОЕ БИНГО</h1>
-            <p class="page2-progress">Сыграно бочонков: <span id="selectedCount">0</span>/90</p>
+            <p class="page2-progress">Сыграно сердечек: <span id="selectedCount">0</span>/90</p>
         </div>
         <div id="barrelGrid" class="barrel-grid"></div>
     </section>
@@ -177,17 +150,16 @@
         <div class="song-background-effects">
             <div class="spotlight spotlight-left"></div>
             <div class="spotlight spotlight-right"></div>
-            <div class="floating-particles"></div>
-            <div class="sparkles-container"></div>
-            <div class="music-notes"></div>
         </div>
         <div class="song-card">
+            <img src="assets/kupidon.webp" class="song-card-cupid song-card-cupid-left" alt="">
+            <img src="assets/kupidon.webp" class="song-card-cupid song-card-cupid-right" alt="">
             <div class="cover-wrap">
                 <img id="songCover" src="" alt="Обложка трека" />
             </div>
 
             <div class="song-meta">
-                <div class="song-number" id="songNumber">Бочонок</div>
+                <div class="song-number" id="songNumber">Сердечко</div>
                 <h2 id="songTitle">Название песни</h2>
                 <p id="songArtist">Автор</p>
             </div>
