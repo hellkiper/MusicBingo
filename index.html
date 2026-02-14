@@ -112,31 +112,39 @@
             <div class="floating-particles"></div>
         </div>
         <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
+            <audio id="bingoBgAudio" src="audio/100.mp3" preload="auto"></audio>
             <div id="bingoConfettiContainer" style="position:absolute;inset:0;pointer-events:none;z-index:50"></div>
             <video id="bingoVideo" class="bingo-video" playsinline preload="auto" muted>
                 <source src="assets/ferverk.mp4" type="video/mp4">
             </video>
-            <div class="bingo-text-page2">
-                <div class="letter-wrapper" style="--i: 0">
-                    <img src="assets/korony.webp" class="letter-crown" alt="">
-                    <span>Б</span>
-                </div>
-                <div class="letter-wrapper" style="--i: 1">
-                    <img src="assets/korony.webp" class="letter-crown" alt="">
-                    <span>И</span>
-                </div>
-                <div class="letter-wrapper" style="--i: 2">
-                    <img src="assets/korony.webp" class="letter-crown" alt="">
-                    <span>Н</span>
-                </div>
-                <div class="letter-wrapper" style="--i: 3">
-                    <img src="assets/korony.webp" class="letter-crown" alt="">
-                    <span>Г</span>
-                </div>
-                <div class="letter-wrapper" style="--i: 4">
-                    <img src="assets/korony.webp" class="letter-crown" alt="">
-                    <span>О</span>
-                </div>
+            <div class="bingo-hearts-bg">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+                <img src="assets/heart.webp" class="bingo-heart" alt="">
+            </div>
+            <img src="assets/kupidon.webp" class="bingo-cupid bingo-cupid-left" alt="">
+            <img src="assets/kupidon.webp" class="bingo-cupid bingo-cupid-right" alt="">
+            <div class="bingo-text-page2 bingo-text-arrow-path">
+                <div class="letter-wrapper letter-along-arrow" style="--i: 0"><span>Б</span></div>
+                <div class="letter-wrapper letter-along-arrow" style="--i: 1"><span>И</span></div>
+                <div class="letter-wrapper letter-along-arrow" style="--i: 2"><span>Н</span></div>
+                <div class="letter-wrapper letter-along-arrow" style="--i: 3"><span>Г</span></div>
+                <div class="letter-wrapper letter-along-arrow" style="--i: 4"><span>О</span></div>
             </div>
         </div>
         <div class="top-bar">
@@ -154,8 +162,9 @@
         <div class="song-card">
             <img src="assets/kupidon.webp" class="song-card-cupid song-card-cupid-left" alt="">
             <img src="assets/kupidon.webp" class="song-card-cupid song-card-cupid-right" alt="">
-            <div class="cover-wrap">
-                <img id="songCover" src="" alt="Обложка трека" />
+            <div class="cover-wrap" oncontextmenu="return false;">
+                <div id="songCover" class="song-cover-bg"></div>
+                <div class="cover-block-overlay" aria-hidden="true"></div>
             </div>
 
             <div class="song-meta">

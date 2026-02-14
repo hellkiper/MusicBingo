@@ -181,8 +181,7 @@ function openSongPage(track) {
     document.body.classList.add('song-open');
 
     if (songCover) {
-        songCover.src = `images/${String(track.number).padStart(2, '0')}.jpg`;
-        songCover.alt = `Обложка ${track.title}`;
+        songCover.style.backgroundImage = `url(images/${String(track.number).padStart(2, '0')}.jpg)`;
     }
 
     songTitle.textContent = track.title;
@@ -349,7 +348,7 @@ function stopBingoConfetti() {
 
 function showBingoAnimationPage2() {
     const bingoAnimation = document.getElementById('bingoAnimationPage2');
-    const bingoVictoryAudio = document.getElementById('bingoVictoryAudio');
+    const bingoBgAudio = document.getElementById('bingoBgAudio');
     if (!bingoAnimation) return;
     
     const isHidden = bingoAnimation.classList.contains('hidden');
@@ -362,39 +361,47 @@ function showBingoAnimationPage2() {
         letterWrappers.forEach(wrapper => {
             wrapper.style.animation = 'none';
             wrapper.style.opacity = '0';
-            wrapper.style.transform = 'translateY(200px) scale(0.3)';
+            wrapper.style.transform = 'translateX(calc((2 - var(--i)) * 90px)) scale(0.3)';
         });
-        const crowns = bingoAnimation.querySelectorAll('.letter-crown');
-        crowns.forEach(crown => {
-            crown.style.animation = 'none';
-            crown.style.opacity = '0';
-            crown.style.transform = 'translateX(-50%) scale(0)';
-        });
-        if (bingoVictoryAudio) {
-            bingoVictoryAudio.currentTime = 0;
-            bingoVictoryAudio.play().catch(() => {});
+        if (bingoBgAudio) {
+            bingoBgAudio.currentTime = 0;
+            bingoBgAudio.play().catch(() => {});
         }
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 letterWrappers.forEach(wrapper => { wrapper.style.animation = ''; });
-                crowns.forEach(crown => { crown.style.animation = ''; });
                 bingoAnimation.classList.add('active');
                 bingoAnimation.style.opacity = '1';
-                startBingoConfetti();
             });
         });
     } else {
-        if (bingoVictoryAudio) {
-            bingoVictoryAudio.pause();
-            bingoVictoryAudio.currentTime = 0;
+        if (bingoBgAudio) {
+            const fadeOut = (el, duration = 700) => {
+                const startVol = el.volume;
+                const startTime = performance.now();
+                const tick = () => {
+                    const elapsed = performance.now() - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    el.volume = Math.max(0, startVol * (1 - progress));
+                    if (progress < 1) {
+                        requestAnimationFrame(tick);
+                    } else {
+                        el.pause();
+                        el.currentTime = 0;
+                        el.volume = 1;
+                    }
+                };
+                requestAnimationFrame(tick);
+            };
+            fadeOut(bingoBgAudio);
         }
         bingoAnimation.style.opacity = '0';
-        stopBingoConfetti();
+        const confettiContainer = document.getElementById('bingoConfettiContainer');
+        if (confettiContainer) confettiContainer.innerHTML = '';
         setTimeout(() => {
             bingoAnimation.classList.remove('active');
             bingoAnimation.classList.add('hidden');
             bingoAnimation.querySelectorAll('.letter-wrapper').forEach(w => { w.style.animation = 'none'; });
-            bingoAnimation.querySelectorAll('.letter-crown').forEach(c => { c.style.animation = 'none'; });
         }, 500);
     }
 }
