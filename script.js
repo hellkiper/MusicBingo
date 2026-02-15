@@ -1,6 +1,14 @@
 const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
 
+function preloadAllAudio() {
+    tracks.forEach(track => {
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = track.src;
+    });
+}
+
 const tracks = [
     { number: 1, title: "Небеса", artist: "Валерий Меладзе", src: "audio/01.mp3" },
     { number: 2, title: "Случайная", artist: "Лобода", src: "audio/02.mp3" },
@@ -191,7 +199,7 @@ function openSongPage(track) {
         songTitle.classList.remove('long-title');
     }
     songArtist.textContent = track.artist;
-    songNumber.textContent = `Сердечко ${track.number}`;
+    songNumber.textContent = `Бочонок ${track.number}`;
 
     songAudio.src = track.src;
     songAudio.currentTime = 0;
@@ -200,7 +208,12 @@ function openSongPage(track) {
     updatePlayPauseIcon();
 
     const tryPlay = () => songAudio.play().catch(() => {});
-    setTimeout(tryPlay, 80);
+
+    songAudio.addEventListener('canplay', tryPlay, { once: true });
+    songAudio.addEventListener('canplaythrough', tryPlay, { once: true });
+    setTimeout(tryPlay, 50);
+    setTimeout(tryPlay, 150);
+    setTimeout(tryPlay, 400);
 }
 function closeSongPage() {
     songAudio.pause();
@@ -531,6 +544,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     renderBarrels();
+    preloadAllAudio();
 
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {
