@@ -1,3 +1,29 @@
+function createPetals() {
+    const container = document.getElementById('heroPetals');
+    if (!container) return;
+    function spawnPetal() {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        const size = Math.random() * 12 + 10;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 6 + 5;
+        const delay = Math.random() * 2;
+        const sway = (Math.random() - 0.5) * 120;
+        petal.style.width = size + 'px';
+        petal.style.height = size * 1.4 + 'px';
+        petal.style.left = left + '%';
+        petal.style.top = '-30px';
+        petal.style.animationDuration = duration + 's';
+        petal.style.animationDelay = delay + 's';
+        petal.style.setProperty('--sway', sway + 'px');
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), (duration + delay) * 1000);
+    }
+    for (let i = 0; i < 8; i++) spawnPetal();
+    setInterval(() => { spawnPetal(); if (Math.random() > 0.5) spawnPetal(); }, 800);
+}
+document.addEventListener('DOMContentLoaded', createPetals);
+
 const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
 
@@ -179,14 +205,10 @@ function openSongPage(track) {
     page2.classList.add('hidden');
     stopPage2Effects(); 
     
-    const bgBouquets = document.getElementById('bg-bouquets');
-    const bgNotes = document.getElementById('bg-notes');
-    
-    if (bgBouquets) bgBouquets.style.opacity = '0';
-    if (bgNotes) bgNotes.style.opacity = '1';
-
     page3.classList.remove('hidden');
     document.body.classList.add('song-open');
+    const p3tulip = document.getElementById('page3TulipRight');
+    if (p3tulip) p3tulip.style.display = '';
 
     if (songCover) {
         songCover.style.backgroundImage = `url(images/${String(track.number).padStart(2, '0')}.jpg)`;
@@ -220,13 +242,9 @@ function closeSongPage() {
     songAudio.currentTime = 0;
     page3.classList.add('hidden');
     page2.classList.remove('hidden');
+    const p3tulip = document.getElementById('page3TulipRight');
+    if (p3tulip) p3tulip.style.display = 'none';
     
-    const bgBouquets = document.getElementById('bg-bouquets');
-    const bgNotes = document.getElementById('bg-notes');
-    
-    if (bgBouquets) bgBouquets.style.opacity = '1';
-    if (bgNotes) bgNotes.style.opacity = '0';
-
     document.body.classList.remove('song-open');
     page2.scrollIntoView({ behavior: 'smooth', block: 'start' });
     startPage2Effects(); 
@@ -257,13 +275,11 @@ function stopPage2Effects() {
 let transitionConfettiInterval = null;
 
 function createSingleConfetti(container) {
-    const imgs = ['assets/heart.webp', 'assets/kupidon.webp'];
-    const img = document.createElement('img');
-    img.className = 'victory-confetti victory-heart-cupid';
-    img.src = imgs[Math.floor(Math.random() * imgs.length)];
-    img.alt = '';
+    const colors = ['#7a9a6d', '#ffffff', '#ffd700', '#a8d5a2', '#5c8a4d'];
+    const el = document.createElement('div');
+    el.className = 'victory-confetti';
     
-    const size = Math.random() * 32 + 24;
+    const size = Math.random() * 12 + 6;
     const startX = Math.random() * window.innerWidth;
     const startY = -30;
     const endY = window.innerHeight + 50;
@@ -271,15 +287,17 @@ function createSingleConfetti(container) {
     const rotation = Math.random() * 720;
     const duration = Math.random() * 2 + 3;
     
-    img.style.width = size + 'px';
-    img.style.height = size + 'px';
-    img.style.left = startX + 'px';
-    img.style.top = startY + 'px';
-    img.style.objectFit = 'contain';
+    el.style.width = size + 'px';
+    el.style.height = size * (Math.random() > 0.5 ? 1 : 2.5) + 'px';
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.position = 'absolute';
     
-    container.appendChild(img);
+    container.appendChild(el);
     
-    const animation = img.animate([
+    const animation = el.animate([
         { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
         { transform: `translate(${horizontalDrift}px, ${endY}px) rotate(${rotation}deg)`, opacity: 0 }
     ], {
@@ -287,7 +305,7 @@ function createSingleConfetti(container) {
         easing: 'linear'
     });
     
-    animation.onfinish = () => img.remove();
+    animation.onfinish = () => el.remove();
 }
 
 function startTransitionConfetti(container) {
@@ -309,13 +327,11 @@ function stopTransitionConfetti() {
 let bingoConfettiInterval = null;
 
 function createBingoConfettiPiece(container) {
-    const imgs = ['assets/heart.webp', 'assets/kupidon.webp'];
-    const img = document.createElement('img');
-    img.className = 'victory-star victory-heart-cupid';
-    img.src = imgs[Math.floor(Math.random() * imgs.length)];
-    img.alt = '';
+    const colors = ['#7a9a6d', '#ffffff', '#ffd700', '#a8d5a2', '#5c8a4d'];
+    const el = document.createElement('div');
+    el.className = 'victory-star';
     
-    const size = Math.random() * 36 + 28;
+    const size = Math.random() * 14 + 8;
     const startX = Math.random() * window.innerWidth;
     const startY = -30;
     const endY = window.innerHeight + 50;
@@ -323,20 +339,22 @@ function createBingoConfettiPiece(container) {
     const rotation = Math.random() * 720;
     const duration = Math.random() * 2.5 + 2.5;
     
-    img.style.width = size + 'px';
-    img.style.height = size + 'px';
-    img.style.left = startX + 'px';
-    img.style.top = startY + 'px';
-    img.style.objectFit = 'contain';
+    el.style.width = size + 'px';
+    el.style.height = size * (Math.random() > 0.5 ? 1 : 2.5) + 'px';
+    el.style.left = startX + 'px';
+    el.style.top = startY + 'px';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+    el.style.position = 'absolute';
     
-    container.appendChild(img);
-    img.animate([
+    container.appendChild(el);
+    el.animate([
         { transform: `translate(-50%, -50%) translate(0, 0) rotate(0deg)`, opacity: 1 },
         { transform: `translate(-50%, -50%) translate(${horizontalDrift}px, ${endY}px) rotate(${rotation}deg)`, opacity: 0.2 }
     ], {
         duration: duration * 1000,
         easing: 'cubic-bezier(0.3, 0, 0.5, 1)'
-    }).onfinish = () => img.remove();
+    }).onfinish = () => el.remove();
 }
 
 function startBingoConfetti() {
@@ -566,10 +584,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (page1) page1.classList.add('hidden');
                 
-                const bgBouquets = document.getElementById('bg-bouquets');
-                if (bgBouquets) bgBouquets.style.opacity = '1';
-
                 document.body.classList.add('blurred-bg');
+                document.querySelectorAll('.hero-tulip, .hero-center-bouquet').forEach(el => el.style.display = 'none');
                 
                 if (page2) {
                     page2.classList.remove('hidden');
