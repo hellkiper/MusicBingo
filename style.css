@@ -754,35 +754,18 @@ body::after {
 }
 .page3-note {
     position: absolute;
-    opacity: 0.35;
-    filter: blur(2px);
+    width: 100px;
+    height: auto;
+    opacity: 0.15;
     pointer-events: none;
-    background-image: url('assets/noti.webp');
-    background-repeat: no-repeat;
-    background-size: 300% 100%;
 }
-.note-treble { background-position: 0% center; }
-.note-single { background-position: 50% center; }
-.note-double { background-position: 100% center; }
 
-.note-1 { width: 100px; height: 160px; top: 3%; left: 2%; transform: rotate(-10deg); }
-.note-2 { width: 90px; height: 140px; top: 55%; left: 4%; transform: rotate(15deg); }
-.note-3 { width: 110px; height: 130px; top: 25%; left: 8%; transform: rotate(-5deg); }
-.note-4 { width: 95px; height: 150px; top: 5%; right: 3%; transform: rotate(20deg); }
-.note-5 { width: 85px; height: 135px; top: 45%; right: 4%; transform: rotate(-15deg); }
-.note-6 { width: 105px; height: 125px; top: 78%; right: 8%; transform: rotate(8deg); }
-.note-7 { width: 90px; height: 145px; bottom: 5%; left: 18%; transform: rotate(-12deg); }
-.note-8 { width: 80px; height: 130px; top: 35%; right: 15%; transform: rotate(25deg); }
-.note-9 { width: 100px; height: 120px; bottom: 10%; right: 22%; transform: rotate(-8deg); }
-.note-10 { width: 75px; height: 120px; top: 82%; left: 2%; transform: rotate(18deg); }
-.note-11 { width: 95px; height: 155px; top: 15%; left: 22%; transform: rotate(-20deg); }
-.note-12 { width: 85px; height: 115px; top: 70%; left: 15%; transform: rotate(12deg); }
-.note-13 { width: 70px; height: 110px; top: 30%; right: 2%; transform: rotate(-8deg); }
-.note-14 { width: 90px; height: 145px; top: 72%; right: 20%; transform: rotate(22deg); }
-.note-15 { width: 80px; height: 105px; bottom: 3%; right: 2%; transform: rotate(-18deg); }
-.note-16 { width: 65px; height: 100px; top: 10%; left: 35%; transform: rotate(10deg); }
-.note-17 { width: 85px; height: 140px; top: 42%; left: 1%; transform: rotate(-25deg); }
-.note-18 { width: 75px; height: 110px; bottom: 20%; left: 30%; transform: rotate(15deg); }
+.note-1 { top: 5%; left: 3%; transform: rotate(-10deg); }
+.note-2 { top: 40%; left: 5%; transform: rotate(15deg); }
+.note-3 { top: 5%; right: 3%; transform: rotate(12deg); }
+.note-4 { top: 42%; right: 4%; transform: rotate(-18deg); }
+.note-5 { top: 15%; left: 12%; transform: rotate(-20deg); }
+.note-6 { top: 20%; right: 11%; transform: rotate(8deg); }
 
 .page3-tulip-fixed {
     position: fixed;
