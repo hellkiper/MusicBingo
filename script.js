@@ -27,7 +27,27 @@ document.addEventListener('DOMContentLoaded', createPetals);
 const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
 
+const audioCache = {};
+
 function preloadAllAudio() {
+    let i = 0;
+    function loadNext() {
+        if (i >= tracks.length) return;
+        const track = tracks[i];
+        i++;
+        const audio = new Audio();
+        audio.preload = 'auto';
+        audio.src = track.src;
+        audioCache[track.number] = audio;
+        audio.addEventListener('canplaythrough', () => {
+            setTimeout(loadNext, 200);
+        }, { once: true });
+        audio.addEventListener('error', () => {
+            setTimeout(loadNext, 200);
+        }, { once: true });
+        setTimeout(() => loadNext(), 8000);
+    }
+    loadNext();
 }
 
 const tracks = [
@@ -218,19 +238,27 @@ function openSongPage(track) {
     songArtist.textContent = track.artist;
     songNumber.textContent = `Бочонок ${track.number}`;
 
-    songAudio.src = track.src;
+    const cached = audioCache[track.number];
+    if (cached && cached.readyState >= 3) {
+        songAudio.src = cached.src;
+    } else {
+        songAudio.src = track.src;
+    }
     songAudio.currentTime = 0;
-    
+
     updateTimeDisplay();
     updatePlayPauseIcon();
 
     const tryPlay = () => songAudio.play().catch(() => {});
 
-    songAudio.addEventListener('canplay', tryPlay, { once: true });
-    songAudio.addEventListener('canplaythrough', tryPlay, { once: true });
-    setTimeout(tryPlay, 50);
-    setTimeout(tryPlay, 150);
-    setTimeout(tryPlay, 400);
+    if (songAudio.readyState >= 3) {
+        tryPlay();
+    } else {
+        songAudio.addEventListener('canplay', tryPlay, { once: true });
+        songAudio.addEventListener('canplaythrough', tryPlay, { once: true });
+        setTimeout(tryPlay, 150);
+        setTimeout(tryPlay, 500);
+    }
 }
 function closeSongPage() {
     songAudio.pause();
