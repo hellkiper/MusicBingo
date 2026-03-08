@@ -28,11 +28,6 @@ const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
 
 function preloadAllAudio() {
-    tracks.forEach(track => {
-        const audio = new Audio();
-        audio.preload = 'auto';
-        audio.src = track.src;
-    });
 }
 
 const tracks = [
@@ -377,6 +372,46 @@ function stopBingoConfetti() {
     if (container) container.innerHTML = '';
 }
 
+let bingoPetalsInterval = null;
+
+function startBingoPetals() {
+    const container = document.getElementById('bingoPetalsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const createPetal = () => {
+        const petal = document.createElement('div');
+        petal.className = 'bingo-falling-petal';
+        const left = Math.random() * 100;
+        const size = 14 + Math.random() * 18;
+        const duration = 4 + Math.random() * 5;
+        const drift = -100 + Math.random() * 200;
+        const delay = Math.random() * 0.5;
+        petal.style.left = left + '%';
+        petal.style.width = size + 'px';
+        petal.style.height = (size * 1.3) + 'px';
+        petal.style.setProperty('--drift', drift + 'px');
+        petal.style.animationDuration = duration + 's';
+        petal.style.animationDelay = delay + 's';
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), (duration + delay) * 1000 + 200);
+    };
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => createPetal(), i * 200);
+    }
+    bingoPetalsInterval = setInterval(() => {
+        createPetal();
+    }, 300);
+}
+
+function stopBingoPetals() {
+    if (bingoPetalsInterval) {
+        clearInterval(bingoPetalsInterval);
+        bingoPetalsInterval = null;
+    }
+    const container = document.getElementById('bingoPetalsContainer');
+    if (container) container.innerHTML = '';
+}
+
 function showBingoAnimationPage2() {
     const bingoAnimation = document.getElementById('bingoAnimationPage2');
     const bingoBgAudio = document.getElementById('bingoBgAudio');
@@ -398,6 +433,7 @@ function showBingoAnimationPage2() {
             bingoBgAudio.currentTime = 0;
             bingoBgAudio.play().catch(() => {});
         }
+        startBingoPetals();
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 letterWrappers.forEach(wrapper => { wrapper.style.animation = ''; });
@@ -426,6 +462,7 @@ function showBingoAnimationPage2() {
             };
             fadeOut(bingoBgAudio);
         }
+        stopBingoPetals();
         bingoAnimation.style.opacity = '0';
         const confettiContainer = document.getElementById('bingoConfettiContainer');
         if (confettiContainer) confettiContainer.innerHTML = '';

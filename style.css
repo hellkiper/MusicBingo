@@ -989,7 +989,7 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background.jpg') no-repeat center center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background1.jpg') no-repeat center center;
     background-size: cover;
     opacity: 0;
     pointer-events: none;
@@ -999,6 +999,50 @@ body::after {
 .bingo-animation-page2.active {
     opacity: 1;
     pointer-events: auto;
+}
+
+.bingo-petals-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.bingo-falling-petal {
+    position: absolute;
+    top: -60px;
+    width: 20px;
+    height: 26px;
+    background: radial-gradient(ellipse at 30% 30%, #f5a0b8, #e8739a 60%, #d4507a);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    opacity: 0.8;
+    animation: bingo-petal-fall linear forwards;
+    filter: blur(0.5px);
+    box-shadow: inset -2px -2px 4px rgba(0,0,0,0.15), 0 0 6px rgba(245,160,184,0.3);
+}
+
+.bingo-falling-petal:nth-child(odd) {
+    background: radial-gradient(ellipse at 30% 30%, #ffc4d6, #f5a0b8 60%, #e8739a);
+}
+
+.bingo-falling-petal:nth-child(3n) {
+    background: radial-gradient(ellipse at 30% 30%, #c8e6b0, #8cbf6e 60%, #6b8f5b);
+}
+
+@keyframes bingo-petal-fall {
+    0% {
+        transform: rotate(45deg) translateY(0) translateX(0);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.85;
+    }
+    100% {
+        transform: rotate(45deg) translateY(110vh) translateX(var(--drift, 80px));
+        opacity: 0;
+    }
 }
 
 .bingo-hearts-bg {
@@ -1845,7 +1889,7 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background.jpg') no-repeat center center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background1.jpg') no-repeat center center;
     background-size: cover;
     opacity: 0;
     pointer-events: none;
@@ -1855,6 +1899,50 @@ body::after {
 .bingo-animation-page2.active {
     opacity: 1;
     pointer-events: auto;
+}
+
+.bingo-petals-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.bingo-falling-petal {
+    position: absolute;
+    top: -60px;
+    width: 20px;
+    height: 26px;
+    background: radial-gradient(ellipse at 30% 30%, #f5a0b8, #e8739a 60%, #d4507a);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    opacity: 0.8;
+    animation: bingo-petal-fall linear forwards;
+    filter: blur(0.5px);
+    box-shadow: inset -2px -2px 4px rgba(0,0,0,0.15), 0 0 6px rgba(245,160,184,0.3);
+}
+
+.bingo-falling-petal:nth-child(odd) {
+    background: radial-gradient(ellipse at 30% 30%, #ffc4d6, #f5a0b8 60%, #e8739a);
+}
+
+.bingo-falling-petal:nth-child(3n) {
+    background: radial-gradient(ellipse at 30% 30%, #c8e6b0, #8cbf6e 60%, #6b8f5b);
+}
+
+@keyframes bingo-petal-fall {
+    0% {
+        transform: rotate(45deg) translateY(0) translateX(0);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.85;
+    }
+    100% {
+        transform: rotate(45deg) translateY(110vh) translateX(var(--drift, 80px));
+        opacity: 0;
+    }
 }
 
 .bingo-hearts-bg {
@@ -2727,7 +2815,7 @@ body::after {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background.jpg') no-repeat center center;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.5)), url('assets/background1.jpg') no-repeat center center;
     background-size: cover;
     opacity: 0;
     pointer-events: none;
@@ -2737,6 +2825,50 @@ body::after {
 .bingo-animation-page2.active {
     opacity: 1;
     pointer-events: auto;
+}
+
+.bingo-petals-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.bingo-falling-petal {
+    position: absolute;
+    top: -60px;
+    width: 20px;
+    height: 26px;
+    background: radial-gradient(ellipse at 30% 30%, #f5a0b8, #e8739a 60%, #d4507a);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(45deg);
+    opacity: 0.8;
+    animation: bingo-petal-fall linear forwards;
+    filter: blur(0.5px);
+    box-shadow: inset -2px -2px 4px rgba(0,0,0,0.15), 0 0 6px rgba(245,160,184,0.3);
+}
+
+.bingo-falling-petal:nth-child(odd) {
+    background: radial-gradient(ellipse at 30% 30%, #ffc4d6, #f5a0b8 60%, #e8739a);
+}
+
+.bingo-falling-petal:nth-child(3n) {
+    background: radial-gradient(ellipse at 30% 30%, #c8e6b0, #8cbf6e 60%, #6b8f5b);
+}
+
+@keyframes bingo-petal-fall {
+    0% {
+        transform: rotate(45deg) translateY(0) translateX(0);
+        opacity: 0;
+    }
+    5% {
+        opacity: 0.85;
+    }
+    100% {
+        transform: rotate(45deg) translateY(110vh) translateX(var(--drift, 80px));
+        opacity: 0;
+    }
 }
 
 .bingo-hearts-bg {
