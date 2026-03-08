@@ -6,7 +6,7 @@
     <title>Музыкальное бинго</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Marck+Script&family=Great+Vibes&family=Neucha&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -47,22 +47,24 @@
     <div class="bg-overlay"></div>
     
 
-    <img src="assets/Tulpani.webp" class="hero-tulip hero-tulip-left" id="tulipLeft" alt="">
-    <img src="assets/Tulpani.webp" class="hero-tulip hero-tulip-right" id="tulipRight" alt="">
     <img src="assets/Tulpani.webp" class="page3-tulip-fixed" id="page3TulipRight" style="display:none;" alt="">
 
     <section id="page1" class="page page-hero">
-        <div class="hero-petals" id="heroPetals"></div>
-        <img src="assets/Tulpani.webp" class="hero-center-bouquet" alt="">
-        <div class="hero-8marta">
-            <img src="assets/8.webp" class="hero-8-img" alt="8">
-            <span class="hero-marta-text">МАРТА</span>
-        </div>
+        <img src="assets/note1.webp" class="hero-note hero-note-1" alt="">
+        <img src="assets/note2.webp" class="hero-note hero-note-2" alt="">
+        <img src="assets/note3.webp" class="hero-note hero-note-3" alt="">
+        <img src="assets/note1.webp" class="hero-note hero-note-4" alt="">
+        <img src="assets/note2.webp" class="hero-note hero-note-5" alt="">
+        <img src="assets/note3.webp" class="hero-note hero-note-6" alt="">
+        <img src="assets/proigrivatel.webp" class="hero-player" alt="">
+        <img src="assets/tulpani.webp" class="hero-player-tulpani" alt="">
+        <img src="assets/8marta.webp" class="hero-8marta-img" alt="8 марта">
+
         <div class="hero-content">
             <div class="hero-title-wrapper">
                 <div class="hero-titles">
-                    <h1 class="hero-title-main">МУЗЫКАЛЬНОЕ</h1>
-                    <h1 class="hero-title-sub">БИНГО</h1>
+                    <h1 class="hero-title-main">Музыкальное</h1>
+                    <h1 class="hero-title-sub">Бинго</h1>
                 </div>
             </div>
             <div class="hero-cta">
@@ -77,8 +79,6 @@
         </div>
         <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
             <audio id="bingoBgAudio" src="audio/100.mp3" preload="auto"></audio>
-            <div id="bingoConfettiContainer" style="position:absolute;inset:0;pointer-events:none;z-index:50"></div>
-            <div id="bingoPetalsContainer" class="bingo-petals-container"></div>
             <video id="bingoVideo" class="bingo-video" playsinline preload="auto" muted>
                 <source src="assets/ferverk.mp4" type="video/mp4">
             </video>
@@ -99,14 +99,6 @@
 
     <section id="page3" class="page page-song hidden">
         <img src="assets/Tulpani.webp" class="page3-tulip page3-tulip-left" alt="">
-        <div class="page3-notes-bg">
-            <img src="assets/note_1.webp" class="page3-note note-1" alt="">
-            <img src="assets/note_1.webp" class="page3-note note-2" alt="">
-            <img src="assets/note_1.webp" class="page3-note note-3" alt="">
-            <img src="assets/note_1.webp" class="page3-note note-4" alt="">
-            <img src="assets/note_1.webp" class="page3-note note-5" alt="">
-            <img src="assets/note_1.webp" class="page3-note note-6" alt="">
-        </div>
         <div class="song-background-effects">
             <div class="spotlight spotlight-left"></div>
             <div class="spotlight spotlight-right"></div>

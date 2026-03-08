@@ -1,28 +1,3 @@
-function createPetals() {
-    const container = document.getElementById('heroPetals');
-    if (!container) return;
-    function spawnPetal() {
-        const petal = document.createElement('div');
-        petal.className = 'petal';
-        const size = Math.random() * 12 + 10;
-        const left = Math.random() * 100;
-        const duration = Math.random() * 6 + 5;
-        const delay = Math.random() * 2;
-        const sway = (Math.random() - 0.5) * 120;
-        petal.style.width = size + 'px';
-        petal.style.height = size * 1.4 + 'px';
-        petal.style.left = left + '%';
-        petal.style.top = '-30px';
-        petal.style.animationDuration = duration + 's';
-        petal.style.animationDelay = delay + 's';
-        petal.style.setProperty('--sway', sway + 'px');
-        container.appendChild(petal);
-        setTimeout(() => petal.remove(), (duration + delay) * 1000);
-    }
-    for (let i = 0; i < 8; i++) spawnPetal();
-    setInterval(() => { spawnPetal(); if (Math.random() > 0.5) spawnPetal(); }, 800);
-}
-document.addEventListener('DOMContentLoaded', createPetals);
 
 const TOTAL_BARRELS = 90;
 const selectedSet = new Set();
@@ -461,7 +436,6 @@ function showBingoAnimationPage2() {
             bingoBgAudio.currentTime = 0;
             bingoBgAudio.play().catch(() => {});
         }
-        startBingoPetals();
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 letterWrappers.forEach(wrapper => { wrapper.style.animation = ''; });
@@ -490,10 +464,7 @@ function showBingoAnimationPage2() {
             };
             fadeOut(bingoBgAudio);
         }
-        stopBingoPetals();
         bingoAnimation.style.opacity = '0';
-        const confettiContainer = document.getElementById('bingoConfettiContainer');
-        if (confettiContainer) confettiContainer.innerHTML = '';
         setTimeout(() => {
             bingoAnimation.classList.remove('active');
             bingoAnimation.classList.add('hidden');
@@ -635,7 +606,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (transitionOverlay) {
                 transitionOverlay.classList.remove('hidden');
-                startTransitionConfetti(transitionOverlay);
                 requestAnimationFrame(() => {
                     transitionOverlay.classList.add('active');
                 });
@@ -643,7 +613,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setTimeout(() => {
                 stopHeroEffects();
-                stopTransitionConfetti();
                 const page1 = document.getElementById('page1');
                 const page2 = document.getElementById('page2');
                 
