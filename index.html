@@ -23,6 +23,7 @@
 </head>
 <body>
     <div id="bingoTransition" class="bingo-transition hidden">
+        <div id="transitionPetalsContainer" class="transition-petals-container" aria-hidden="true"></div>
         <div class="spotlight spotlight-left"></div>
         <div class="spotlight spotlight-right"></div>
         
@@ -50,15 +51,9 @@
     <img src="assets/Tulpani.webp" class="page3-tulip-fixed" id="page3TulipRight" style="display:none;" alt="">
 
     <section id="page1" class="page page-hero">
-        <img src="assets/note1.webp" class="hero-note hero-note-1" alt="">
-        <img src="assets/note2.webp" class="hero-note hero-note-2" alt="">
-        <img src="assets/note3.webp" class="hero-note hero-note-3" alt="">
-        <img src="assets/note1.webp" class="hero-note hero-note-4" alt="">
-        <img src="assets/note2.webp" class="hero-note hero-note-5" alt="">
-        <img src="assets/note3.webp" class="hero-note hero-note-6" alt="">
+        <div id="heroPetalsContainer" class="hero-petals-container" aria-hidden="true"></div>
         <img src="assets/proigrivatel.webp" class="hero-player" alt="">
         <img src="assets/tulpani.webp" class="hero-player-tulpani" alt="">
-        <img src="assets/8marta.webp" class="hero-8marta-img" alt="8 марта">
 
         <div class="hero-content">
             <div class="hero-title-wrapper">
@@ -78,6 +73,7 @@
             <div class="floating-particles"></div>
         </div>
         <div id="bingoAnimationPage2" class="bingo-animation-page2 hidden">
+            <div id="bingoPetalsContainer" class="bingo-petals-container" aria-hidden="true"></div>
             <audio id="bingoBgAudio" src="audio/100.mp3" preload="auto"></audio>
             <video id="bingoVideo" class="bingo-video" playsinline preload="auto" muted>
                 <source src="assets/ferverk.mp4" type="video/mp4">
@@ -98,6 +94,7 @@
     </section>
 
     <section id="page3" class="page page-song hidden">
+        <div id="page3PetalsContainer" class="page3-petals-container" aria-hidden="true"></div>
         <img src="assets/Tulpani.webp" class="page3-tulip page3-tulip-left" alt="">
         <div class="song-background-effects">
             <div class="spotlight spotlight-left"></div>

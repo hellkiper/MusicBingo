@@ -193,9 +193,10 @@ function markBarrelUsed(number) {
 
 function openSongPage(track) {
     page2.classList.add('hidden');
-    stopPage2Effects(); 
-    
+    stopPage2Effects();
+
     page3.classList.remove('hidden');
+    startPage3Petals();
     document.body.classList.add('song-open');
     const p3tulip = document.getElementById('page3TulipRight');
     if (p3tulip) p3tulip.style.display = '';
@@ -236,6 +237,7 @@ function openSongPage(track) {
     }
 }
 function closeSongPage() {
+    stopPage3Petals();
     songAudio.pause();
     songAudio.currentTime = 0;
     page3.classList.add('hidden');
@@ -255,6 +257,7 @@ function closeSongPage() {
 }
 
 function stopHeroEffects() {
+    stopHeroPetals();
     const particlesContainer = document.querySelector('#page1 .floating-particles');
     const sparklesContainer = document.querySelector('#page1 .sparkles-container');
     if (particlesContainer) particlesContainer.innerHTML = '';
@@ -376,34 +379,99 @@ function stopBingoConfetti() {
 }
 
 let bingoPetalsInterval = null;
+let transitionPetalsInterval = null;
+let page3PetalsInterval = null;
+
+function createPetalEl(container, baseClass) {
+    const petal = document.createElement('img');
+    petal.src = 'assets/lepestok.webp';
+    petal.alt = '';
+    petal.className = baseClass;
+    const left = Math.random() * 100;
+    const size = 18 + Math.random() * 22;
+    const duration = 4 + Math.random() * 5;
+    const drift = -80 + Math.random() * 160;
+    const delay = Math.random() * 0.5;
+    petal.style.left = left + '%';
+    petal.style.width = size + 'px';
+    petal.style.setProperty('--drift', drift + 'px');
+    petal.style.animationDuration = duration + 's';
+    petal.style.animationDelay = delay + 's';
+    container.appendChild(petal);
+    setTimeout(() => petal.remove(), (duration + delay) * 1000 + 200);
+}
+
+let heroPetalsInterval = null;
+
+function startHeroPetals() {
+    const container = document.getElementById('heroPetalsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const spawn = () => createPetalEl(container, 'hero-falling-petal');
+    for (let i = 0; i < 12; i++) {
+        setTimeout(spawn, i * 250);
+    }
+    heroPetalsInterval = setInterval(spawn, 400);
+}
+
+function stopHeroPetals() {
+    if (heroPetalsInterval) {
+        clearInterval(heroPetalsInterval);
+        heroPetalsInterval = null;
+    }
+    const container = document.getElementById('heroPetalsContainer');
+    if (container) container.innerHTML = '';
+}
+
+function startTransitionPetals() {
+    const container = document.getElementById('transitionPetalsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const spawn = () => createPetalEl(container, 'transition-falling-petal');
+    for (let i = 0; i < 12; i++) {
+        setTimeout(spawn, i * 200);
+    }
+    transitionPetalsInterval = setInterval(spawn, 350);
+}
+
+function stopTransitionPetals() {
+    if (transitionPetalsInterval) {
+        clearInterval(transitionPetalsInterval);
+        transitionPetalsInterval = null;
+    }
+    const container = document.getElementById('transitionPetalsContainer');
+    if (container) container.innerHTML = '';
+}
+
+function startPage3Petals() {
+    const container = document.getElementById('page3PetalsContainer');
+    if (!container) return;
+    container.innerHTML = '';
+    const spawn = () => createPetalEl(container, 'page3-falling-petal');
+    for (let i = 0; i < 12; i++) {
+        setTimeout(spawn, i * 220);
+    }
+    page3PetalsInterval = setInterval(spawn, 380);
+}
+
+function stopPage3Petals() {
+    if (page3PetalsInterval) {
+        clearInterval(page3PetalsInterval);
+        page3PetalsInterval = null;
+    }
+    const container = document.getElementById('page3PetalsContainer');
+    if (container) container.innerHTML = '';
+}
 
 function startBingoPetals() {
     const container = document.getElementById('bingoPetalsContainer');
     if (!container) return;
     container.innerHTML = '';
-    const createPetal = () => {
-        const petal = document.createElement('div');
-        petal.className = 'bingo-falling-petal';
-        const left = Math.random() * 100;
-        const size = 14 + Math.random() * 18;
-        const duration = 4 + Math.random() * 5;
-        const drift = -100 + Math.random() * 200;
-        const delay = Math.random() * 0.5;
-        petal.style.left = left + '%';
-        petal.style.width = size + 'px';
-        petal.style.height = (size * 1.3) + 'px';
-        petal.style.setProperty('--drift', drift + 'px');
-        petal.style.animationDuration = duration + 's';
-        petal.style.animationDelay = delay + 's';
-        container.appendChild(petal);
-        setTimeout(() => petal.remove(), (duration + delay) * 1000 + 200);
-    };
+    const spawn = () => createPetalEl(container, 'bingo-falling-petal');
     for (let i = 0; i < 15; i++) {
-        setTimeout(() => createPetal(), i * 200);
+        setTimeout(spawn, i * 200);
     }
-    bingoPetalsInterval = setInterval(() => {
-        createPetal();
-    }, 300);
+    bingoPetalsInterval = setInterval(spawn, 300);
 }
 
 function stopBingoPetals() {
@@ -424,6 +492,7 @@ function showBingoAnimationPage2() {
     const isActive = bingoAnimation.classList.contains('active');
     
     if (isHidden || !isActive) {
+        startBingoPetals();
         bingoAnimation.classList.remove('hidden');
         bingoAnimation.style.opacity = '0';
         const letterWrappers = bingoAnimation.querySelectorAll('.letter-wrapper');
@@ -464,6 +533,7 @@ function showBingoAnimationPage2() {
             };
             fadeOut(bingoBgAudio);
         }
+        stopBingoPetals();
         bingoAnimation.style.opacity = '0';
         setTimeout(() => {
             bingoAnimation.classList.remove('active');
@@ -599,6 +669,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     renderBarrels();
     preloadAllAudio();
+    startHeroPetals();
 
     if (startBtnElement) {
         startBtnElement.addEventListener('click', () => {
@@ -606,12 +677,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (transitionOverlay) {
                 transitionOverlay.classList.remove('hidden');
+                startTransitionPetals();
                 requestAnimationFrame(() => {
                     transitionOverlay.classList.add('active');
                 });
             }
 
             setTimeout(() => {
+                stopTransitionPetals();
                 stopHeroEffects();
                 const page1 = document.getElementById('page1');
                 const page2 = document.getElementById('page2');
