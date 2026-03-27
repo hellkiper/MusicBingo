@@ -6,7 +6,7 @@
     <title>Музыкальное бинго</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Marck+Script&family=Great+Vibes&family=Neucha&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Cormorant+Garamond:wght@400;600;700&family=Montserrat:wght@400;700;900&family=Pacifico&family=Comfortaa:wght@400;700&family=Bebas+Neue&family=Playfair+Display:wght@400;700;900&family=Marck+Script&family=Great+Vibes&family=Neucha&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -18,6 +18,10 @@
             if (video && video.readyState === 0) {
                 video.load();
             }
+            requestAnimationFrame(function() {
+                const hero = document.getElementById('heroContent');
+                if (hero) hero.classList.add('shine-sync');
+            });
         });
     </script>
 </head>
@@ -55,11 +59,11 @@
         <img src="assets/proigrivatel.webp" class="hero-player" alt="">
         <img src="assets/tulpani.webp" class="hero-player-tulpani" alt="">
 
-        <div class="hero-content">
+        <div class="hero-content" id="heroContent">
             <div class="hero-title-wrapper">
                 <div class="hero-titles">
-                    <h1 class="hero-title-main">Музыкальное</h1>
-                    <h1 class="hero-title-sub">Бинго</h1>
+                    <h1 class="hero-title-main"><span class="hl">М</span><span class="hl">у</span><span class="hl">з</span><span class="hl">ы</span><span class="hl">к</span><span class="hl">а</span><span class="hl">л</span><span class="hl">ь</span><span class="hl">н</span><span class="hl">о</span><span class="hl">е</span></h1>
+                    <h1 class="hero-title-sub"><span class="hl">Б</span><span class="hl">и</span><span class="hl">н</span><span class="hl">г</span><span class="hl">о</span></h1>
                 </div>
             </div>
             <div class="hero-cta">
@@ -131,6 +135,25 @@
                             <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
                         </svg>
                     </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="page4" class="page page-qr hidden">
+        <div class="qr-page-content">
+            <div class="qr-codes">
+                <div class="qr-item">
+                    <img src="assets/vk.png" alt="ВКонтакте" class="qr-img">
+                    <span class="qr-label">ВКонтакте</span>
+                </div>
+                <div class="qr-item">
+                    <img src="assets/forma.png" alt="Вопросики" class="qr-img">
+                    <span class="qr-label">Вопросики</span>
+                </div>
+                <div class="qr-item">
+                    <img src="assets/tg.png" alt="Telegram" class="qr-img">
+                    <span class="qr-label">Telegram</span>
                 </div>
             </div>
         </div>

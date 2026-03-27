@@ -26,96 +26,96 @@ function preloadAllAudio() {
 }
 
 const tracks = [
-    { number: 1, title: "Перелетная Птица", artist: "Кристина Орбакайте", src: "audio/01.mp3" },
-    { number: 2, title: "Heartbreak", artist: "Sofie", src: "audio/02.mp3" },
-    { number: 3, title: "Bara Bere", artist: "Alex Ferrari", src: "audio/03.mp3" },
-    { number: 4, title: "Снов Осколки", artist: "Алексеев", src: "audio/04.mp3" },
-    { number: 5, title: "До рассвета", artist: "Казанова", src: "audio/05.mp3" },
-    { number: 6, title: "Чистый лист", artist: "Нэнси", src: "audio/06.mp3" },
-    { number: 7, title: "Девчонка-девчоночка", artist: "Женя Белоусов", src: "audio/07.mp3" },
-    { number: 8, title: "Женщина не танцую", artist: "Стас Костюшкин", src: "audio/08.mp3" },
-    { number: 9, title: "Одиночество", artist: "Слава", src: "audio/09.mp3" },
-    { number: 10, title: "Пошлю его на", artist: "Лолита", src: "audio/10.mp3" },
-    { number: 11, title: "Вика", artist: "Корни", src: "audio/11.mp3" },
-    { number: 12, title: "Угонщица", artist: "Ирина Аллегрова", src: "audio/12.mp3" },
-    { number: 13, title: "Императрица", artist: "Ирина Аллегрова", src: "audio/13.mp3" },
-    { number: 14, title: "Бухгалтер", artist: "Комбинация", src: "audio/14.mp3" },
-    { number: 15, title: "Это все она", artist: "Сергей Лазарев", src: "audio/15.mp3" },
-    { number: 16, title: "Параллельные", artist: "Валерий Меладзе", src: "audio/16.mp3" },
-    { number: 17, title: "Ты так красива", artist: "Qwest Pistols Show", src: "audio/17.mp3" },
-    { number: 18, title: "Вокруг шум", artist: "Каста", src: "audio/18.mp3" },
-    { number: 19, title: "Кислотный DJ", artist: "Оксана Почепа", src: "audio/19.mp3" },
-    { number: 20, title: "Случайная", artist: "Loboda", src: "audio/20.mp3" },
-    { number: 21, title: "У меня появился другой", artist: "ВИА ГРА", src: "audio/21.mp3" },
-    { number: 22, title: "В клубе", artist: "Тимати", src: "audio/22.mp3" },
-    { number: 23, title: "Я назову планету", artist: "Ротару", src: "audio/23.mp3" },
-    { number: 24, title: "Просто подари", artist: "Филипп Киркоров", src: "audio/24.mp3" },
-    { number: 25, title: "Курю", artist: "Ваенга", src: "audio/25.mp3" },
-    { number: 26, title: "Крошка моя", artist: "Руки Вверх!", src: "audio/26.mp3" },
-    { number: 27, title: "Течет ручей", artist: "Надежда Кадышева", src: "audio/27.mp3" },
-    { number: 28, title: "Ориентация Север", artist: "Лолита", src: "audio/28.mp3" },
-    { number: 29, title: "А я все", artist: "Блестящие", src: "audio/29.mp3" },
-    { number: 30, title: "Все что касается", artist: "Звери", src: "audio/30.mp3" },
-    { number: 31, title: "Она вернется", artist: "Mband", src: "audio/31.mp3" },
-    { number: 32, title: "Черный бумер", artist: "Серега", src: "audio/32.mp3" },
-    { number: 33, title: "Low", artist: "Flo Rida", src: "audio/33.mp3" },
-    { number: 34, title: "Gangnam Style", artist: "PSY", src: "audio/34.mp3" },
-    { number: 35, title: "Девушки как звезды", artist: "Андрей Губин", src: "audio/35.mp3" },
-    { number: 36, title: "Электричка", artist: "Алина Апина", src: "audio/36.mp3" },
-    { number: 37, title: "Люби меня люби", artist: "Отпетые мошенники", src: "audio/37.mp3" },
-    { number: 38, title: "Весна", artist: "Краски", src: "audio/38.mp3" },
-    { number: 39, title: "Пьяная вишня", artist: "Кристина Орбакайте", src: "audio/39.mp3" },
-    { number: 40, title: "Всего 15 лет", artist: "Краски", src: "audio/40.mp3" },
-    { number: 41, title: "Это не женщина", artist: "Те100стерон", src: "audio/41.mp3" },
-    { number: 42, title: "Мама я танцую", artist: "2Маши", src: "audio/42.mp3" },
-    { number: 43, title: "О боже какой мужчина", artist: "Натали", src: "audio/43.mp3" },
-    { number: 44, title: "Just A Lil Bit", artist: "50 Cent", src: "audio/44.mp3" },
-    { number: 45, title: "Вера", artist: "Меладзе", src: "audio/45.mp3" },
-    { number: 46, title: "Плачу на техно", artist: "Crem Soda", src: "audio/46.mp3" },
-    { number: 47, title: "Ты уйдешь", artist: "Комиссар", src: "audio/47.mp3" },
-    { number: 48, title: "Режиссер", artist: "Градусы", src: "audio/48.mp3" },
-    { number: 49, title: "Мама Люба", artist: "Serebro", src: "audio/49.mp3" },
-    { number: 50, title: "Девочка рыжая", artist: "Воровайки", src: "audio/50.mp3" },
-    { number: 51, title: "Это нормально", artist: "T-Killah", src: "audio/51.mp3" },
-    { number: 52, title: "Самая-Самая", artist: "Егор Крид", src: "audio/52.mp3" },
-    { number: 53, title: "Попытка №5", artist: "ВИА ГРА", src: "audio/53.mp3" },
-    { number: 54, title: "Любовь спасет мир", artist: "Вера Брежнева", src: "audio/54.mp3" },
-    { number: 55, title: "Улыбайся", artist: "IOWA", src: "audio/55.mp3" },
-    { number: 56, title: "Bobi-Boba", artist: "Bobi&Boba", src: "audio/56.mp3" },
-    { number: 57, title: "Районы-Кварталы", artist: "Звери", src: "audio/57.mp3" },
-    { number: 58, title: "Марджанджа", artist: "Шуфутинский", src: "audio/58.mp3" },
-    { number: 59, title: "Все для тебя", artist: "Стас Михайлов", src: "audio/59.mp3" },
-    { number: 60, title: "Золотое сердце", artist: "Стас Михайлов", src: "audio/60.mp3" },
-    { number: 61, title: "Королева танцпола", artist: "Джаро&Ханза", src: "audio/61.mp3" },
-    { number: 62, title: "Желаю", artist: "Елена Ваенга", src: "audio/62.mp3" },
-    { number: 63, title: "Девочка в тренде", artist: "MIKO", src: "audio/63.mp3" },
-    { number: 64, title: "Банк", artist: "Iceberg&Zivert", src: "audio/64.mp3" },
-    { number: 65, title: "За деньги да", artist: "Instasamka", src: "audio/65.mp3" },
-    { number: 66, title: "Патимэйкер", artist: "Пика", src: "audio/66.mp3" },
-    { number: 67, title: "Black", artist: "Gazirovka", src: "audio/67.mp3" },
-    { number: 68, title: "Двигаться", artist: "Raim", src: "audio/68.mp3" },
-    { number: 69, title: "Ой мама не женюсь", artist: "Влад Порфиров", src: "audio/69.mp3" },
-    { number: 70, title: "Рваные джинсы", artist: "Элджей", src: "audio/70.mp3" },
-    { number: 71, title: "Думала", artist: "Руки Вверх!", src: "audio/71.mp3" },
-    { number: 72, title: "Царица", artist: "Anna Asti", src: "audio/72.mp3" },
-    { number: 73, title: "По барам", artist: "Anna Asti", src: "audio/73.mp3" },
-    { number: 74, title: "One Desire", artist: "Jakarta", src: "audio/74.mp3" },
-    { number: 75, title: "Невозможное Возможно", artist: "Дима Билан", src: "audio/75.mp3" },
-    { number: 76, title: "Возле дома твоего", artist: "Серега", src: "audio/76.mp3" },
-    { number: 77, title: "Пьяные танцы", artist: "WallClan", src: "audio/77.mp3" },
-    { number: 78, title: "Я буду", artist: "5sta Family", src: "audio/78.mp3" },
-    { number: 79, title: "Знак водолея", artist: "Винтаж", src: "audio/79.mp3" },
-    { number: 80, title: "Горячая гремучая", artist: "Султан Лагучев", src: "audio/80.mp3" },
-    { number: 81, title: "Каблучки", artist: "Артур Теекев", src: "audio/81.mp3" },
-    { number: 82, title: "Ах какая женщина", artist: "Фристайл", src: "audio/82.mp3" },
-    { number: 83, title: "Танцуй пока молодая", artist: "Подиум", src: "audio/83.mp3" },
-    { number: 84, title: "Седая ночь", artist: "Юрий Шатунов", src: "audio/84.mp3" },
-    { number: 85, title: "Зараза", artist: "Лепс", src: "audio/85.mp3" },
-    { number: 86, title: "Ева", artist: "Винтаж", src: "audio/86.mp3" },
-    { number: 87, title: "Touch The Sky", artist: "Ollane&Miyagi", src: "audio/87.mp3" },
-    { number: 88, title: "Любовь-Морковь", artist: "Оля Полякова", src: "audio/88.mp3" },
-    { number: 89, title: "Восточные сказки", artist: "Блестящие", src: "audio/89.mp3" },
-    { number: 90, title: "Наступит ночь", artist: "Бьянка", src: "audio/90.mp3" }
+    { number: 1, title: "Черная Смородина", artist: "Sevenrose", src: "audio/01.mp3" },
+    { number: 2, title: "На дискотеку!", artist: "Мурат Тхагалегов", src: "audio/02.mp3" },
+    { number: 3, title: "Преданный бывший", artist: "Anna Asti", src: "audio/03.mp3" },
+    { number: 4, title: "Одинокая ветка сирени", artist: "Валерий Залкин", src: "audio/04.mp3" },
+    { number: 5, title: "Тает лед", artist: "Грибы", src: "audio/05.mp3" },
+    { number: 6, title: "Белая стрекоза любви", artist: "Qwest Pistols Show", src: "audio/06.mp3" },
+    { number: 7, title: "Отпусти меня", artist: "Serebro", src: "audio/07.mp3" },
+    { number: 8, title: "Малиновый свет", artist: "ЛешаСвик", src: "audio/08.mp3" },
+    { number: 9, title: "Люди", artist: "Дайте танк", src: "audio/09.mp3" },
+    { number: 10, title: "NOBODY", artist: "Aarne, Toxis, BBT", src: "audio/10.mp3" },
+    { number: 11, title: "Базовый минимум", artist: "Мия Бойко", src: "audio/11.mp3" },
+    { number: 12, title: "Я твой номер один", artist: "Билан", src: "audio/12.mp3" },
+    { number: 13, title: "Тучи", artist: "Иванушки", src: "audio/13.mp3" },
+    { number: 14, title: "Увезите меня на Дип хаус", artist: "Gayazov Brothers", src: "audio/14.mp3" },
+    { number: 15, title: "Ты не такой", artist: "Карнаулова", src: "audio/15.mp3" },
+    { number: 16, title: "Часики", artist: "Валерия", src: "audio/16.mp3" },
+    { number: 17, title: "Это все она", artist: "Лазарев", src: "audio/17.mp3" },
+    { number: 18, title: "Beverly Hils", artist: "Zivert", src: "audio/18.mp3" },
+    { number: 19, title: "Если в сердце живет любовь", artist: "Савичева", src: "audio/19.mp3" },
+    { number: 20, title: "Прованс", artist: "Елка", src: "audio/20.mp3" },
+    { number: 21, title: "Были танцы", artist: "Бьянка", src: "audio/21.mp3" },
+    { number: 22, title: "Кайф ты поймала", artist: "Konfuz", src: "audio/22.mp3" },
+    { number: 23, title: "Другая причина", artist: "НЕПАРА", src: "audio/23.mp3" },
+    { number: 24, title: "Мой мир", artist: "Кристина Орбакайте", src: "audio/24.mp3" },
+    { number: 25, title: "Знаешь ли ты", artist: "Максим", src: "audio/25.mp3" },
+    { number: 26, title: "Лондон Париж", artist: "Иракли", src: "audio/26.mp3" },
+    { number: 27, title: "Весна", artist: "Бутырка", src: "audio/27.mp3" },
+    { number: 28, title: "Малополовин", artist: "Бузова", src: "audio/28.mp3" },
+    { number: 29, title: "Выпьем за любовь", artist: "Игорь Николаев", src: "audio/29.mp3" },
+    { number: 30, title: "Самба белого мотылька", artist: "Валерий Меладзе", src: "audio/30.mp3" },
+    { number: 31, title: "Серцеедка", artist: "Егор Крид", src: "audio/31.mp3" },
+    { number: 32, title: "Чумачечая весна", artist: "Потап и Настя", src: "audio/32.mp3" },
+    { number: 33, title: "Хоп Хэй", artist: "Леонид Агутин", src: "audio/33.mp3" },
+    { number: 34, title: "Малинки", artist: "Жанна Фриске, Дискотека авария", src: "audio/34.mp3" },
+    { number: 35, title: "В клубе", artist: "Тимати", src: "audio/35.mp3" },
+    { number: 36, title: "Quanto Costa", artist: "Пропаганда", src: "audio/36.mp3" },
+    { number: 37, title: "Девочка рыжая", artist: "Воровайки", src: "audio/37.mp3" },
+    { number: 38, title: "Это нормально", artist: "T-Killah", src: "audio/38.mp3" },
+    { number: 39, title: "Водка пиво", artist: "Вахбет Абедов", src: "audio/39.mp3" },
+    { number: 40, title: "Каблучки", artist: "Артур Текеев", src: "audio/40.mp3" },
+    { number: 41, title: "Вокруг шум", artist: "Каста", src: "audio/41.mp3" },
+    { number: 42, title: "Течет Ручей", artist: "Надежда Кадышева", src: "audio/42.mp3" },
+    { number: 43, title: "American boy", artist: "Комбинация", src: "audio/43.mp3" },
+    { number: 44, title: "Клен", artist: "ВИА Синяя птица", src: "audio/44.mp3" },
+    { number: 45, title: "От Волги до Енисея", artist: "Любэ", src: "audio/45.mp3" },
+    { number: 46, title: "Ладошки", artist: "Светлана Рерих", src: "audio/46.mp3" },
+    { number: 47, title: "Думала", artist: "Руки Вверх!", src: "audio/47.mp3" },
+    { number: 48, title: "Ой мам не женюсь", artist: "Влад Порфиров", src: "audio/48.mp3" },
+    { number: 49, title: "Bara Bere", artist: "Alex Ferrari", src: "audio/49.mp3" },
+    { number: 50, title: "Кукла колдуна", artist: "Король и Шут", src: "audio/50.mp3" },
+    { number: 51, title: "Царица", artist: "Anna Asti", src: "audio/51.mp3" },
+    { number: 52, title: "One desire", artist: "Jakarta", src: "audio/52.mp3" },
+    { number: 53, title: "Она вернется", artist: "MBAND", src: "audio/53.mp3" },
+    { number: 54, title: "Danza Kuduro", artist: "Lucenzo", src: "audio/54.mp3" },
+    { number: 55, title: "Знак водолея", artist: "Винтаж", src: "audio/55.mp3" },
+    { number: 56, title: "Самая красивая", artist: "Алексей Воробьев", src: "audio/56.mp3" },
+    { number: 57, title: "Блеск шик", artist: "BoValigura", src: "audio/57.mp3" },
+    { number: 58, title: "Black", artist: "Gazirovka", src: "audio/58.mp3" },
+    { number: 59, title: "Черный бумер", artist: "Серега", src: "audio/59.mp3" },
+    { number: 60, title: "Катя Катерина", artist: "Андрей Державин", src: "audio/60.mp3" },
+    { number: 61, title: "Девушки", artist: "Отпетые Мошенники", src: "audio/61.mp3" },
+    { number: 62, title: "Для тебя", artist: "Ани Лорак", src: "audio/62.mp3" },
+    { number: 63, title: "Красавица", artist: "Фактор 2", src: "audio/63.mp3" },
+    { number: 64, title: "Любовь моя", artist: "Хамелеон", src: "audio/64.mp3" },
+    { number: 65, title: "Самая Любимая", artist: "Челси", src: "audio/65.mp3" },
+    { number: 66, title: "Купер", artist: "SQWQZ BAB", src: "audio/66.mp3" },
+    { number: 67, title: "Горький вкус", artist: "Султан Лагучев", src: "audio/67.mp3" },
+    { number: 68, title: "Горячая гремучая", artist: "Султан Лагучев", src: "audio/68.mp3" },
+    { number: 69, title: "Non stop", artist: "Reflex", src: "audio/69.mp3" },
+    { number: 70, title: "Черные глаза", artist: "Айдамир Мугу", src: "audio/70.mp3" },
+    { number: 71, title: "До рассвета", artist: "Сати Казанова", src: "audio/71.mp3" },
+    { number: 72, title: "Про красивую жизнь", artist: "Бандерос", src: "audio/72.mp3" },
+    { number: 73, title: "Седьмой лепесток", artist: "HI FI", src: "audio/73.mp3" },
+    { number: 74, title: "7 Этаж", artist: "Лера Массква", src: "audio/74.mp3" },
+    { number: 75, title: "Задыхаюсь", artist: "Дима Билан", src: "audio/75.mp3" },
+    { number: 76, title: "Обстановка по кайфу", artist: "Олег Кинзов", src: "audio/76.mp3" },
+    { number: 77, title: "Бобр", artist: "Slava Skripka", src: "audio/77.mp3" },
+    { number: 78, title: "Морячка", artist: "Олег Газманов", src: "audio/78.mp3" },
+    { number: 79, title: "Научится бы не париться", artist: "Градусы", src: "audio/79.mp3" },
+    { number: 80, title: "Районы кварталы", artist: "Звери", src: "audio/80.mp3" },
+    { number: 81, title: "Угонщица", artist: "Ирина Аллегрова", src: "audio/81.mp3" },
+    { number: 82, title: "Вахтерам", artist: "Бумбокс", src: "audio/82.mp3" },
+    { number: 83, title: "Императрица", artist: "Ирина Аллегрова", src: "audio/83.mp3" },
+    { number: 84, title: "Попрошу тебя", artist: "Вирус", src: "audio/84.mp3" },
+    { number: 85, title: "Хали гали", artist: "Леприконсы", src: "audio/85.mp3" },
+    { number: 86, title: "Фары", artist: "Пицца", src: "audio/86.mp3" },
+    { number: 87, title: "Macarena", artist: "Carlito", src: "audio/87.mp3" },
+    { number: 88, title: "Дикий танец", artist: "El Rico", src: "audio/88.mp3" },
+    { number: 89, title: "Танцы", artist: "NLO", src: "audio/89.mp3" },
+    { number: 90, title: "Худи", artist: "Джиган", src: "audio/90.mp3" }
 ];
 
 function renderBarrels() {
@@ -155,12 +155,19 @@ function handleBarrelClick(track) {
     const rect = button.getBoundingClientRect();
     const clone = button.cloneNode(true);
     
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const flyX = cx - rect.left - rect.width / 2;
+    const flyY = cy - rect.top - rect.height / 2;
+    
     clone.className = 'barrel flying-barrel';
     clone.style.left = rect.left + 'px';
     clone.style.top = rect.top + 'px';
     clone.style.width = rect.width + 'px';
     clone.style.height = rect.height + 'px';
     clone.style.margin = '0';
+    clone.style.setProperty('--fly-x', flyX + 'px');
+    clone.style.setProperty('--fly-y', flyY + 'px');
     
     document.body.appendChild(clone);
 
@@ -544,8 +551,30 @@ function showBingoAnimationPage2() {
 }
 
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !page3.classList.contains('hidden')) {
-        closeSongPage();
+    if (event.key === 'Escape') {
+        const page4 = document.getElementById('page4');
+        if (page4 && !page4.classList.contains('hidden')) {
+            page4.classList.add('hidden');
+            return;
+        }
+        if (!page3.classList.contains('hidden')) {
+            closeSongPage();
+        }
+    }
+    if (event.key === 'Enter' && !event.repeat) {
+        const page4 = document.getElementById('page4');
+        const page2 = document.getElementById('page2');
+        const page3 = document.getElementById('page3');
+        if (page4 && page2 && page3) {
+            const isHidden = page4.classList.contains('hidden');
+            if (isHidden && (!page2.classList.contains('hidden') || !page3.classList.contains('hidden'))) {
+                event.preventDefault();
+                page4.classList.remove('hidden');
+            } else if (!isHidden) {
+                event.preventDefault();
+                page4.classList.add('hidden');
+            }
+        }
     }
     if (event.key === ' ' || event.code === 'Space') {
         event.preventDefault();
